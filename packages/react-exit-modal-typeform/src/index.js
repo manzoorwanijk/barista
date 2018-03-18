@@ -104,9 +104,9 @@ ExitModal.defaultProps = {
         overlay: ''
     },
     typeFormUrl: '',
-    introText: "We're sorry to see you go! Will you share feedback through a short survey to help us improve Event Smart?"
-    skipButtonText: "Sure I'll help!",
-    doSurveyButtonText: "Skip"
+    introText: "We're sorry to see you go! Will you share feedback through a short survey to help us improve our product?",
+    doSurveyButtonText: "Sure I'll help!",
+    skipButtonText: "Skip"
 };
 
 ExitModal.propTypes = {
