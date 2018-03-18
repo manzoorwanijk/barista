@@ -58,7 +58,7 @@ $('.some-dom-element-trigger-container').on('click', '.element-clicked', functio
    );
    
    //set listener
-   formContainer.el.addEventListener(
+   modalComponent.el.addEventListener(
        CLOSE_MODAL_EVENT,
        closeModalCallback,
        false
