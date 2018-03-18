@@ -1,0 +1,39 @@
+{
+  "name": "@eventespresso/react-exit-modal-typeform",
+  "version": "1.0.0",
+  "description": "React component that allows the triggering of an typeform form via modal",
+  "author": "EventEspresso",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "typeform",
+    "modal",
+    "exit-survery"
+  ],
+  "homepage": "https://github.com/eventespresso/packages/tree/master/packages/exit-modal-typeform/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eventespresso/packages.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eventespresso/packages/issues"
+  },
+  "main": "build/index.js",
+  "module": "build-module/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "@wordpress/babel-preset-default": "^1.1.2"
+  },
+  "dependencies": {
+    "@typeform/embed": "^0.5.6",
+    "prop-types": "^15.6.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-modal": "^3.3.1"
+  },
+  "babel": {
+    "presets": "@wordpress/default"
+  }
+}
