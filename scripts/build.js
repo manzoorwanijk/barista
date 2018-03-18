@@ -32,7 +32,7 @@ const DONE = chalk.reset.inverse.bold.green( ' DONE ' );
 /**
  * Babel Configuration
  */
-const babelDefaultConfig = require( '../packages/babel-preset-default' );
+const babelDefaultConfig = require( '@wordpress/babel-preset-default' );
 babelDefaultConfig.babelrc = false;
 const presetEnvConfig = babelDefaultConfig.presets[ 0 ][ 1 ];
 const babelConfigs = {
