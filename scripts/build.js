@@ -9,7 +9,7 @@
  */
 
 /**
- * External Dependenceis
+ * External Dependencies
  */
 const fs = require( 'fs' );
 const path = require( 'path' );
@@ -17,11 +17,13 @@ const glob = require( 'glob' );
 const babel = require( 'babel-core' );
 const chalk = require( 'chalk' );
 const mkdirp = require( 'mkdirp' );
+const babelTransform = require( 'babel-plugin-transform-react-jsx' );
 
 /**
  * Module Constants
  */
 const PACKAGES_DIR = path.resolve( __dirname, '../packages' );
+const WORDPRESS_PACKAGES_DIR = path.resolve( __dirname, '../wordpress-packages');
 const SRC_DIR = 'src';
 const BUILD_DIR = {
     main: 'build',
@@ -35,7 +37,7 @@ const DONE = chalk.reset.inverse.bold.green( ' DONE ' );
 const babelDefaultConfig = require( '@wordpress/babel-preset-default' );
 babelDefaultConfig.babelrc = false;
 const presetEnvConfig = babelDefaultConfig.presets[ 0 ][ 1 ];
-const babelConfigs = {
+const WordPressBabelConfigs = {
     main: Object.assign(
         {},
         babelDefaultConfig,
@@ -49,16 +51,20 @@ const babelConfigs = {
     ),
     module: babelDefaultConfig,
 };
+const defaultBabelConfigs = filterOutWPSpecifics(WordPressBabelConfigs);
+
+let directoryBeingProcessed;
 
 /**
- * Returns the absolute path of all WordPress packages
+ * Returns the absolute path of all packages
  *
  * @return {Array} Package paths
  */
-function getAllPackages() {
+function getAllPackages(pathToProcess) {
+    directoryBeingProcessed = pathToProcess;
     return fs
-        .readdirSync( PACKAGES_DIR )
-        .map( ( file ) => path.resolve( PACKAGES_DIR, file ) )
+        .readdirSync( pathToProcess )
+        .map( ( file ) => path.resolve( pathToProcess, file ) )
 .filter( ( f ) => fs.lstatSync( path.resolve( f ) ).isDirectory() );
 }
 
@@ -69,7 +75,7 @@ function getAllPackages() {
  * @return {String}      Package name
  */
 function getPackageName( file ) {
-    return path.relative( PACKAGES_DIR, file ).split( path.sep )[ 0 ];
+    return path.relative( directoryBeingProcessed, file ).split( path.sep )[ 0 ];
 }
 
 /**
@@ -81,8 +87,8 @@ function getPackageName( file ) {
  */
 function getBuildPath( file, buildFolder ) {
     const pkgName = getPackageName( file );
-    const pkgSrcPath = path.resolve( PACKAGES_DIR, pkgName, SRC_DIR );
-    const pkgBuildPath = path.resolve( PACKAGES_DIR, pkgName, buildFolder );
+    const pkgSrcPath = path.resolve( directoryBeingProcessed, pkgName, SRC_DIR );
+    const pkgBuildPath = path.resolve( directoryBeingProcessed, pkgName, buildFolder );
     const relativeToSrcPath = path.relative( pkgSrcPath, file );
     return path.resolve( pkgBuildPath, relativeToSrcPath );
 }
@@ -108,20 +114,34 @@ function buildFile( file, silent ) {
 function buildFileFor( file, silent, environment ) {
     const buildDir = BUILD_DIR[ environment ];
     const destPath = getBuildPath( file, buildDir );
-    const babelOptions = babelConfigs[ environment ];
-
+    const babelOptions = getBabelConfig(environment);
     mkdirp.sync( path.dirname( destPath ) );
     const transformed = babel.transformFileSync( file, babelOptions ).code;
     fs.writeFileSync( destPath, transformed );
     if ( ! silent ) {
         process.stdout.write(
             chalk.green( '  \u2022 ' ) +
-            path.relative( PACKAGES_DIR, file ) +
+            path.relative( directoryBeingProcessed, file ) +
             chalk.green( ' \u21D2 ' ) +
-            path.relative( PACKAGES_DIR, destPath ) +
+            path.relative( directoryBeingProcessed, destPath ) +
             '\n'
         );
     }
+}
+
+
+/**
+ * For the given file the path is read and if the file is located in wordpress-packages then the WordPressBabelConfigs
+ * are used. Otherwise, default babel configs are used.
+ *
+ * @param environment
+ * @param file
+ */
+function getBabelConfig(environment) {
+    const sourcedir = path.relative(path.dirname(directoryBeingProcessed), directoryBeingProcessed);
+    return sourcedir === 'packages'
+        ? defaultBabelConfigs[ environment ]
+        : WordPressBabelConfigs[ environment ];
 }
 
 /**
@@ -140,7 +160,19 @@ function buildPackage( packagePath ) {
     process.stdout.write( `${ DONE }\n` );
 }
 
+
+/**
+ * Filter out WP specific transforms from babel config that we want on non wp specific packages
+ */
+function filterOutWPSpecifics(babelConfig) {
+    babelConfig.main.plugins[1] = babelTransform;
+    babelConfig.module.plugins[1] = babelTransform;
+    return babelConfig;
+}
+
 process.stdout.write( chalk.inverse( '>> Building packages \n' ) );
-getAllPackages()
+getAllPackages(PACKAGES_DIR)
+    .forEach( buildPackage );
+getAllPackages(WORDPRESS_PACKAGES_DIR)
     .forEach( buildPackage );
 process.stdout.write( '\n' );
