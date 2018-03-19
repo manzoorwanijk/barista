@@ -52,6 +52,8 @@ export default class ExitModal extends React.Component {
                 onClose={() => this.handleCloseModal()}
                 onDoSurvey={() => this.onDoSurvey()}
                 introText={this.props.introText}
+                doSurveyButtonText={this.props.doSurveyButtonText}
+                skipButtonText={this.props.skipButtonText}
                 />
             : <TypeFormEmbed
                 onSubmit={() => this.handleCloseModal()}
