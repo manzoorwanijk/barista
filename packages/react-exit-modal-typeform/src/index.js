@@ -59,6 +59,7 @@ export default class ExitModal extends React.Component {
                 onSubmit={() => this.handleCloseModal()}
                 url={this.props.typeFormUrl}
                 popup={false}
+                typeFormStyle={this.props.styles.typeFormStyle}
             />;
         return (
             <div ref={el => this.el = el}>
@@ -99,6 +100,10 @@ ExitModal.defaultProps = {
             borderRadius: '4px',
             outline: 'none',
             padding: '20px'
+        },
+        typeFormStyle: {
+            width: '600px',
+            height: '400px',
         }
     },
     modalClassName: {
@@ -116,11 +121,13 @@ ExitModal.propTypes = {
     showTypeForm: PropTypes.bool,
     styles: PropTypes.shape({
         overlay: PropTypes.object,
-        content: PropTypes.object
+        content: PropTypes.object,
+        typeFormStyle: PropTypes.object
     }),
     modalClassName: PropTypes.shape({
         overlay: PropTypes.string,
-        content: PropTypes.string
+        content: PropTypes.string,
+        typeFormStyle: PropTypes.string
     }),
     typeFormUrl: PropTypes.string.isRequired,
     introText: PropTypes.string,

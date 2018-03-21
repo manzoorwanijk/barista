@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import * as tfEmbed from '@typeform/embed';
 
 export default class TypeFormEmbed extends Component {
+
     componentDidMount() {
         const {
             url,
@@ -39,14 +40,14 @@ export default class TypeFormEmbed extends Component {
 
     render() {
         return (
-            <div className="react-typeform-embed" ref={tf => this.typeformEl = tf} style={this.props.style} />
+            <div className="react-typeform-embed" ref={tf => this.typeformEl = tf} style={this.props.typeFormStyle} />
         )
     }
 }
 
 
 TypeFormEmbed.propTypes = {
-    style: PropTypes.object,
+    typeFormStyle: PropTypes.object,
     url: PropTypes.string.isRequired,
     popup: PropTypes.bool,
     hideHeaders: PropTypes.bool,
@@ -64,7 +65,7 @@ TypeFormEmbed.propTypes = {
 };
 
 TypeFormEmbed.defaultProps = {
-    style: {},
+    typeFormStyle: {},
     url: '',
     popup:false,
     hideHeaders: false,
