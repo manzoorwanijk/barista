@@ -12,7 +12,7 @@ The modal that opens has an initial "options" view where the user is presented w
 Install the module
 
 ```bash
-npm install @eventespresso/react-exit-modal-typeform
+npm install @eventespresso/react-exit-modal-typeform --save
 ``` 
 
 ## Usage
