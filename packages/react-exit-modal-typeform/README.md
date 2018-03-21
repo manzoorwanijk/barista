@@ -76,6 +76,10 @@ There are a number of properties you can use to control the ExitModal.  The only
 | `styles` | object | You set inline styles for the modal via this property.
 | `styles.overlay` | object | Inline styles for the overlay when the modal is open.  Use javascript DOM style notation for the keys.<br>**Note:** It's recommended you use `modalClassName` and style via css class instead.  However inline styles are provided for cases where style attributes may be dynamically calculated. |
 | `styles.content` | object | Inline styles for the modal content container.
+| `styles.typeFormStyle` | object | Inline styles for the container holding the embedded typeform (defaults to 600x400). |
+| `buttonClass` | object | Provde css class for button styles.
+| `buttonClass.doSurvey` | string | CSS classname for the button triggering doing the survey.
+| `buttonClass.closeModal` | string | CSS classname for the button triggering closing the modal. 
 | `modalClassName` | object | Provide css class to use with styling.
 | `modalClassName.content` | string | CSS classname to use for the modal content container.
 | `modalClassName.overlay` | string | CSS classname to use for the modal overlay.

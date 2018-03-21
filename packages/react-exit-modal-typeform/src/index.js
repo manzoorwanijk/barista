@@ -54,6 +54,8 @@ export default class ExitModal extends React.Component {
                 introText={this.props.introText}
                 doSurveyButtonText={this.props.doSurveyButtonText}
                 skipButtonText={this.props.skipButtonText}
+                doSurveyButtonClass={this.props.buttonClass.doSurvey}
+                closeModalButtonClass={this.props.buttonClass.closeModal}
                 />
             : <TypeFormEmbed
                 onSubmit={() => this.handleCloseModal()}
@@ -106,6 +108,10 @@ ExitModal.defaultProps = {
             height: '400px',
         }
     },
+    buttonClass: {
+        doSurvey: '',
+        closeModal: ''
+    },
     modalClassName: {
         content: '',
         overlay: ''
@@ -128,6 +134,10 @@ ExitModal.propTypes = {
         overlay: PropTypes.string,
         content: PropTypes.string,
         typeFormStyle: PropTypes.string
+    }),
+    buttonClass: PropTypes.shape({
+        doSurvey: PropTypes.string,
+        closeModal: PropTypes.string
     }),
     typeFormUrl: PropTypes.string.isRequired,
     introText: PropTypes.string,

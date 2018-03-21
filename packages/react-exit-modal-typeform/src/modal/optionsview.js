@@ -3,15 +3,18 @@
  */
 import React from 'react';
 import Button from './button';
+import classNames from 'classnames';
 
 export default function ExitModalOptions({
         onClose,
         onDoSurvey,
         introText,
         doSurveyButtonText,
-        skipButtonText
+        skipButtonText,
+        doSurveyButtonClass,
+        closeModalButtonClass
     }) {
-    const buttonClass = "ee-saas-cancel-prompt-button";
+    const buttonClass = "ee-cancel-prompt-button";
     return (
         <div className={'exit-modal-choices'}>
             <p>{introText}</p>
@@ -19,13 +22,13 @@ export default function ExitModalOptions({
                 key={'do survey'}
                 handleOnClick={onDoSurvey}
                 buttonText={doSurveyButtonText}
-                buttonClass={buttonClass + ' do-survey'}
+                buttonClass={classNames(buttonClass, 'do-survey', doSurveyButtonClass)}
             />
             <Button
                 key='close-modal-and-cancel'
                 handleOnClick={onClose}
                 buttonText={skipButtonText}
-                buttonClass={buttonClass + ' close-modal-and-cancel'}
+                buttonClass={classNames(buttonClass, 'close-modal-and-cancel', closeModalButtonClass)}
             />
         </div>
     );
