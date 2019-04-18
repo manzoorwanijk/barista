@@ -1,8 +1,4 @@
 {
-  "lerna": "2.9.0",
-  "packages": [
-    "packages/*",
-    "wordpress-packages/*"
-  ],
+  "packages": [ "packages/*" ],
   "version": "independent"
 }
