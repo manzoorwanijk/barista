@@ -42,5 +42,6 @@
   },
   "babel": {
     "presets": "@wordpress/default"
-  }
+  },
+  "gitHead": "63d8f58a883a38a91e7840a7443296c313141e23"
 }

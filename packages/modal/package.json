@@ -1,12 +1,12 @@
 {
   "name": "@eventespresso/modal",
   "version": "0.10.4",
-  "description": "Screen-reader-friendly alert messages.",
-  "author": "React Training <hello@reacttraining.com>",
+  "description": "Event Espresso core js and css.",
+  "author": "Event Espresso",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reach/reach-ui.git",
+    "url": "git+https://github.com/eventespresso/packages.git",
     "directory": "packages/alert"
   },
   "scripts": {
@@ -30,5 +30,6 @@
   "files": [
     "README.md",
     "dist"
-  ]
+  ],
+  "gitHead": "63d8f58a883a38a91e7840a7443296c313141e23"
 }
