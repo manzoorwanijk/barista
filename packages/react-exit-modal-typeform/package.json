@@ -1,6 +1,6 @@
 {
   "name": "@eventespresso/react-exit-modal-typeform",
-  "version": "0.10.4",
+  "version": "0.10.5",
   "description": "React component that allows the triggering of an typeform form via modal",
   "author": "EventEspresso",
   "license": "GPL-2.0-or-later",
