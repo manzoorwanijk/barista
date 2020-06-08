@@ -18,9 +18,7 @@ import PropTypes from 'prop-types';
 import { ExitModalOptions, TypeFormEmbed } from './modal/index';
 export var CLOSE_MODAL_EVENT = 'closeModalEvent';
 
-var ExitModal =
-/*#__PURE__*/
-function (_React$Component) {
+var ExitModal = /*#__PURE__*/function (_React$Component) {
   _inherits(ExitModal, _React$Component);
 
   function ExitModal() {

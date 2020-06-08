@@ -12,9 +12,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as tfEmbed from '@typeform/embed';
 
-var TypeFormEmbed =
-/*#__PURE__*/
-function (_Component) {
+var TypeFormEmbed = /*#__PURE__*/function (_Component) {
   _inherits(TypeFormEmbed, _Component);
 
   function TypeFormEmbed() {
