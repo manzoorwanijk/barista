@@ -1,7 +1,6 @@
 import React from "react";
 
 import { InputWithLabel as InputWithLabelAdapter } from "@infraUI/inputs";
-import "./style.scss";
 
 interface InputWithLabel {
   label: React.ReactNode;

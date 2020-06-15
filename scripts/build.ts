@@ -12,7 +12,6 @@ import babelPlugin from "rollup-plugin-babel";
 import sourceMaps from "rollup-plugin-sourcemaps";
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
-import scss from "rollup-plugin-scss";
 
 import { paths } from "./constants";
 import {
@@ -172,7 +171,6 @@ export async function createRollupConfig(
           toplevel: opts.format === "cjs",
           warnings: true,
         }),
-      scss(), // will output compiled styles to output.css
     ],
   };
 }
