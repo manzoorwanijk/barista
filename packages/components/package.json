@@ -1,4 +1,5 @@
 {
+  "author": "Event Espresso",
   "name": "@eventespresso/components",
   "version": "0.10.9",
   "description": "Components related to selecting items from a list",
@@ -70,7 +71,6 @@
     "typeahead",
     "ui"
   ],
-  "author": "Palantir Technologies",
   "license": "Apache-2.0",
-  "gitHead": "aa653572eb5721986f9d43955d0c3c5bc7386e26"
+  "gitHead": "842f68d069a0a0205e702c1cca4a098afd01eca5"
 }
