@@ -1,6 +1,7 @@
 {
+  "author": "Event Espresso",
   "name": "@eventespresso/components",
-  "version": "0.10.9",
+  "version": "0.10.10",
   "description": "Components related to selecting items from a list",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -55,7 +56,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:palantir/blueprint.git",
+    "url": "git+https://github.com/eventespresso/packages.git",
     "directory": "packages/select"
   },
   "keywords": [
@@ -70,7 +71,6 @@
     "typeahead",
     "ui"
   ],
-  "author": "Palantir Technologies",
   "license": "Apache-2.0",
-  "gitHead": "aa653572eb5721986f9d43955d0c3c5bc7386e26"
+  "gitHead": "31509f3655b8f494ad0142721926a27e0a69263f"
 }

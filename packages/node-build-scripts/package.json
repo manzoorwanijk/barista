@@ -1,6 +1,7 @@
 {
+  "author": "Event Espresso",
   "name": "@eventespresso/node-build-scripts",
-  "version": "0.10.9",
+  "version": "0.10.10",
   "description": "Node.js build scripts for @blueprintjs packages",
   "scripts": {
     "test": "exit 0"
@@ -33,10 +34,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:palantir/blueprint.git",
+    "url": "git+https://github.com/eventespresso/packages.git",
     "directory": "packages/node-build-scripts"
   },
-  "author": "Palantir Technologies",
   "license": "Apache-2.0",
-  "gitHead": "aa653572eb5721986f9d43955d0c3c5bc7386e26"
+  "gitHead": "31509f3655b8f494ad0142721926a27e0a69263f"
 }

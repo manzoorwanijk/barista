@@ -1,13 +1,13 @@
 {
   "name": "@eventespresso/modal",
-  "version": "0.10.9",
+  "version": "0.10.10",
   "description": "Event Espresso core js and css.",
   "author": "Event Espresso",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eventespresso/packages.git",
-    "directory": "packages/alert"
+    "directory": "packages/modal"
   },
   "scripts": {
     "build": "ts-node ../../scripts/build"
@@ -32,7 +32,7 @@
     "README.md",
     "dist"
   ],
-  "gitHead": "aa653572eb5721986f9d43955d0c3c5bc7386e26",
+  "gitHead": "31509f3655b8f494ad0142721926a27e0a69263f",
   "devDependencies": {
     "rollup-plugin-scss": "^2.5.0"
   }
