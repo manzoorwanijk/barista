@@ -1,7 +1,7 @@
 {
-  "name": "@eventespresso/modal",
+  "name": "@eventespresso/components",
   "version": "0.10.5",
-  "description": "Event Espresso core js and css.",
+  "description": "Event Espresso components.",
   "author": "Event Espresso",
   "license": "MIT",
   "repository": {
@@ -14,11 +14,8 @@
   },
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
-    "@reach/utils": "^0.10.3",
-    "@reach/visually-hidden": "^0.10.2",
     "@types/classnames": "^2.2.10",
     "classnames": "^2.2.6",
-    "prop-types": "^15.7.2",
     "tslib": "^1.11.2"
   },
   "peerDependencies": {
@@ -29,7 +26,6 @@
   "module": "dist/alert.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "README.md",
     "dist"
   ],
   "gitHead": "63d8f58a883a38a91e7840a7443296c313141e23"
