@@ -3,6 +3,10 @@
   "name": "@eventespresso/storybook-typescript",
   "version": "1.0.4",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eventespresso/packages.git"
+  },
   "scripts": {
     "storybook": "start-storybook -p 9009",
     "build-storybook": "build-storybook"

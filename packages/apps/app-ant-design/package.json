@@ -4,6 +4,10 @@
   "version": "1.0.4",
   "homepage": "https://react-workspaces.github.io/react-workspaces-playground",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eventespresso/packages.git"
+  },
   "scripts": {
     "start": "react-app-rewired start --scripts-version @react-workspaces/react-scripts",
     "build": "react-scripts build",

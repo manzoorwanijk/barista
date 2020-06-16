@@ -3,6 +3,10 @@
   "name": "@eventespresso/app-multi-comps",
   "version": "1.0.4",
   "homepage": "https://react-workspaces.github.io/react-workspaces-playground",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eventespresso/packages.git"
+  },
   "private": true,
   "scripts": {
     "start": "react-scripts start",

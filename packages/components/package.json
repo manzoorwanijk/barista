@@ -3,6 +3,10 @@
   "name": "@eventespresso/components",
   "version": "1.0.4",
   "homepage": "https://react-workspaces.github.io/react-workspaces-playground",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eventespresso/packages.git"
+  },
   "main": "src/index.js",
   "main:src": "src/index.js",
   "scripts": {
@@ -47,5 +51,5 @@
     }
   },
   "license": "MIT",
-  "gitHead": "3405c5e0304b8e0ba2adf4265a144ed8b8f31221"
+  "gitHead": "66fae0230a22c100153cb05f5a624305efc5a8d9"
 }

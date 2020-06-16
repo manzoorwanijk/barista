@@ -3,6 +3,10 @@
   "name": "@eventespresso/app-typescript",
   "version": "1.0.4",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eventespresso/packages.git"
+  },
   "dependencies": {
     "@project/components-typescript": "^1.0.1",
     "@react-workspaces/react-scripts": "^3.3.0-alpha-08",

@@ -1,6 +1,10 @@
 {
   "author": "Event Espresso",
   "name": "@eventespresso/components-typescript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eventespresso/packages.git"
+  },
   "version": "1.0.4",
   "main": "src/index.tsx",
   "main:src": "src/index.tsx",
@@ -51,5 +55,5 @@
     }
   },
   "license": "MIT",
-  "gitHead": "3405c5e0304b8e0ba2adf4265a144ed8b8f31221"
+  "gitHead": "66fae0230a22c100153cb05f5a624305efc5a8d9"
 }
