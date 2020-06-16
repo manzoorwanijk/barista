@@ -58,7 +58,7 @@ typings/
 .next
 
 .DS_Store
-
+.vscode/
 #composer
 /vendor/
 
