@@ -3,7 +3,7 @@ import ReactLogo from './ReactLogo.svg';
 import YarnCat from './YarnCat.svg';
 import './App.css';
 
-import { CompOne } from '@project/components';
+import { CompOne } from '@eventespresso/components';
 
 class App extends Component {
   render() {

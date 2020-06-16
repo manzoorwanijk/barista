@@ -5,7 +5,7 @@ import './App.css';
 
 import { DatePicker } from 'antd';
 
-import { CompOne, CompTwo } from '@project/components';
+import { CompOne, CompTwo } from '@eventespresso/components';
 
 class App extends Component {
   render() {
