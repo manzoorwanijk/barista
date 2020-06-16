@@ -1,5 +1,6 @@
 {
-  "name": "@project/storybook",
+  "author": "Event Espresso",
+  "name": "@eventespresso/storybook",
   "version": "1.0.1",
   "private": true,
   "scripts": {

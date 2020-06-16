@@ -1,5 +1,6 @@
 {
-  "name": "@project/components-typescript",
+  "author": "Event Espresso",
+  "name": "@eventespresso/components-typescript",
   "version": "1.0.1",
   "main": "src/index.tsx",
   "main:src": "src/index.tsx",

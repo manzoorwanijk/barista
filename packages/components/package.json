@@ -1,5 +1,6 @@
 {
-  "name": "@project/components",
+  "author": "Event Espresso",
+  "name": "@eventespresso/components",
   "version": "1.0.1",
   "homepage": "https://react-workspaces.github.io/react-workspaces-playground",
   "main": "src/index.js",

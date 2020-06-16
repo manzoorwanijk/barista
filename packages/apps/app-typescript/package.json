@@ -1,5 +1,6 @@
 {
-  "name": "@project/app-typescript",
+  "author": "Event Espresso",
+  "name": "@eventespresso/app-typescript",
   "version": "1.0.1",
   "private": true,
   "dependencies": {
