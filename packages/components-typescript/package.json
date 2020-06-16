@@ -1,6 +1,7 @@
 {
-  "name": "@project/components-typescript",
-  "version": "1.0.0",
+  "author": "Event Espresso",
+  "name": "@eventespresso/components-typescript",
+  "version": "1.0.3",
   "main": "src/index.tsx",
   "main:src": "src/index.tsx",
   "scripts": {
@@ -49,5 +50,6 @@
       }
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "3405c5e0304b8e0ba2adf4265a144ed8b8f31221"
 }
