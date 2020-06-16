@@ -1,7 +1,9 @@
 {
   "useWorkspaces": true,
-  "packages": ["packages/*/*"],
-  "version": "1.0.2",
+  "packages": [
+    "packages/*/*"
+  ],
+  "version": "1.0.3",
   "command": {
     "publish": {
       "registry": "https://npm.pkg.github.com"

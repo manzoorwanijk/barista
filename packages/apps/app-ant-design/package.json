@@ -1,7 +1,7 @@
 {
   "author": "Event Espresso",
   "name": "@eventespresso/app-ant-design-rewired",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://react-workspaces.github.io/react-workspaces-playground",
   "private": true,
   "scripts": {
