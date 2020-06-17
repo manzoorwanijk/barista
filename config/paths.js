@@ -3,9 +3,12 @@
 const path = require('path');
 const fs = require('fs');
 const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
+const { getCommandArgs } = require('./utils');
 
 const PACKAGES_FOLDER = 'packages';
 const DOMAINS_FOLDER = 'domains';
+
+const isEnvDevelopment = process.env.NODE_ENV === 'development';
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
@@ -19,7 +22,7 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
 const publicUrlOrPath = getPublicUrlOrPath(
-  process.env.NODE_ENV === 'development',
+  isEnvDevelopment,
   require(resolveApp('package.json')).homepage,
   process.env.PUBLIC_URL,
 );
@@ -61,11 +64,36 @@ packages.forEach(packageName => {
   packagePaths.push(packagePath);
 });
 
-const domains = ['eventEditor'];
+const allDomains = ['eventEditor' /* ,'wpPluginsPage', 'blocks' */];
+
+/**
+ * Get args from CLI to watch only the domains specified during dev
+ * All domains in prouction and all packages are watched by default
+ * Domain names should match their corresponding directory names
+ * Example commands:
+ * - `yarn dev --domains "eventEditor,wpPluginsPage"`
+ * - `yarn dev --domains "eventEditor"` - default
+ * - `yarn dev --domains "all"`
+ */
+let { domains: suppliedDomains } = getCommandArgs();
+// if not in dev, we will build all domains
+if (!isEnvDevelopment) {
+  suppliedDomains = 'all';
+}
+// set "eventEditor" as the default domain to watch
+let domainsToWatch = ['eventEditor'];
+if (suppliedDomains && typeof suppliedDomains === 'string') {
+  domainsToWatch = suppliedDomains === 'all' ? allDomains : suppliedDomains.split(',');
+}
+if (domainsToWatch.some(domain => !allDomains.includes(domain))) {
+  throw 'Unknown domain';
+}
+
+
 const domainPaths = [];
 const domainEntries = {};
 
-domains.forEach(domain => {
+domainsToWatch.forEach(domain => {
   const domainEntry = resolveModule(resolveApp, DOMAINS_FOLDER + `/${domain}/src/index`);
   const domainPath = resolveApp(DOMAINS_FOLDER + `/${domain}/src/`);
 

@@ -1,7 +1,9 @@
+'use strict';
+
 /**
  * Gets CLI args as object.
  */
-export function getCommandArgs() {
+module.exports.getCommandArgs = () => {
 	const argList = process.argv;
 
 	const arg = {};
