@@ -53,9 +53,16 @@ const resolveModule = (resolveFn, filePath) => {
 const packages = ['components-typescript'];
 const packagePaths = [];
 const packageEntries = {};
+
 packages.forEach(packageName => {
-  packageEntries[packageName] = [resolveModule(resolveApp, PACKAGES_FOLDER + `/${packageName}/index`)];
-  packagePaths.push(resolveApp(PACKAGES_FOLDER + `/${packageName}`));
+  const packageEntry = resolveModule(
+    resolveApp,
+    PACKAGES_FOLDER + (isLinux ? `/../../../packages/${packageName}/index` : `/${packageName}/index`),
+  );
+  const packagePath = resolveApp(PACKAGES_FOLDER + (isLinux ? `/../../../packages/${packageName}` : `/${packageName}`));
+
+  packageEntries[packageName] = [packageEntry];
+  packagePaths.push(packagePath);
 });
 
 const domains = ['eventEditor'];
@@ -64,7 +71,7 @@ const domainEntries = {};
 
 domains.forEach(domain => {
   const domainEntry = resolveModule(resolveApp, DOMAINS_FOLDER + (isLinux ? '/../src/index' : `/${domain}/src/index`));
-  const domainPath = resolveApp(DOMAINS_FOLDER + (isLinux ? '/../src/index' : `/${domain}/src/`));
+  const domainPath = resolveApp(DOMAINS_FOLDER + (isLinux ? '/../src/' : `/${domain}/src/`));
 
   domainEntries[domain] = [domainEntry];
   domainPaths.push(domainPath);
