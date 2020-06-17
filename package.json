@@ -15,10 +15,7 @@
   "workspaces": {
     "packages": [
       "domains/*",
-      "packages/components",
-      "packages/components-typescript",
-      "packages/storybook",
-      "packages/storybook-typescript"
+      "packages/*"
     ],
     "nohoist": [
       "domains/**/webpack-dev-server",
