@@ -68,7 +68,7 @@ const allDomains = ['eventEditor' /* ,'wpPluginsPage', 'blocks' */];
 
 /**
  * Get args from CLI to watch only the domains specified during dev
- * All domains in prouction and all packages are watched by default
+ * All domains in production and all packages are watched by default
  * Domain names should match their corresponding directory names
  * Example commands:
  * - `yarn dev --domains "eventEditor,wpPluginsPage"`
