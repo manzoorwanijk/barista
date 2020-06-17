@@ -1,11 +1,11 @@
 {
   "name": "eventespresso/packages",
   "type": "wordpress-plugin",
-  "license": "GPL-2.0-or-later",
+  "license": "GPL-3",
   "description": "Event Espresso packages",
   "authors": [
     {
-      "name": "Event Espresso Teem",
+      "name": "Event Espresso tEEm",
       "email": "developers@eventspresso.com",
       "homepage": "http://developer.eventespresso.com"
     }
