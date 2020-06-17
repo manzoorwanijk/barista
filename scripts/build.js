@@ -1,155 +1,211 @@
-/**
- * script to build Event Espresso packages into `build/` directory.
- *
- * @see https://github.com/WordPress/packages where original script came from.
- *
- *
- * Example:
- *  node ./scripts/build.js
- */
+'use strict';
 
-/**
- * External Dependencies
- */
-const fs = require( 'fs' );
-const path = require( 'path' );
-const glob = require( 'glob' );
-const babel = require( '@babel/core' );
-const chalk = require( 'chalk' );
-const mkdirp = require( 'mkdirp' );
+// Do this as the first thing so that any code reading it knows the right env.
+process.env.BABEL_ENV = 'production';
+process.env.NODE_ENV = 'production';
 
-/**
- * Internal dependencies
- */
-const getPackages = require( './get-packages' );
-const getBabelConfig = require( './get-babel-config' );
+// Makes the script crash on unhandled rejections instead of silently
+// ignoring them. In the future, promise rejections that are not handled will
+// terminate the Node.js process with a non-zero exit code.
+process.on('unhandledRejection', err => {
+  throw err;
+});
 
-/**
- * Module Constants
- */
-const PACKAGES_DIR = path.resolve( __dirname, '../../packages' );
-const SRC_DIR = 'src';
-const BUILD_DIR = {
-	main: 'build',
-	module: 'build-module'
-};
-const DONE = chalk.reset.inverse.bold.green( ' DONE ' );
+// Ensure environment variables are read.
+require('../config/env');
 
-/**
- * Get the package name for a specified file
- *
- * @param  {string} file File name
- * @return {string}      Package name
- */
-function getPackageName( file ) {
-	return path.relative( PACKAGES_DIR, file ).split( path.sep )[ 0 ];
+
+const path = require('path');
+const chalk = require('react-dev-utils/chalk');
+const fs = require('fs-extra');
+const webpack = require('webpack');
+const configFactory = require('../config/webpack.config');
+const paths = require('../config/paths');
+// const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
+const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
+const printHostingInstructions = require('react-dev-utils/printHostingInstructions');
+const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
+const printBuildError = require('react-dev-utils/printBuildError');
+
+const measureFileSizesBeforeBuild =
+  FileSizeReporter.measureFileSizesBeforeBuild;
+const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
+const useYarn = fs.existsSync(paths.yarnLockFile);
+
+// These sizes are pretty large. We'll warn for bundles exceeding them.
+const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
+const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
+
+const isInteractive = process.stdout.isTTY;
+
+// Warn and crash if required files are missing
+/* if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+  process.exit(1);
+} */
+
+// Generate configuration
+const config = configFactory('production');
+
+// We require that you explicitly set browsers and do not fall back to
+// browserslist defaults.
+const { checkBrowsers } = require('react-dev-utils/browsersHelper');
+checkBrowsers(paths.appPath, isInteractive)
+  .then(() => {
+    // First, read the current file sizes in build directory.
+    // This lets us display how much they changed later.
+    return measureFileSizesBeforeBuild(paths.appBuild);
+  })
+  .then(previousFileSizes => {
+    // Remove all content but keep the directory so that
+    // if you're in it, you don't end up in Trash
+    fs.emptyDirSync(paths.appBuild);
+    // Merge with the public folder
+    copyPublicFolder();
+    // Start the webpack build
+    return build(previousFileSizes);
+  })
+  .then(
+    ({ stats, previousFileSizes, warnings }) => {
+      if (warnings.length) {
+        console.log(chalk.yellow('Compiled with warnings.\n'));
+        console.log(warnings.join('\n\n'));
+        console.log(
+          '\nSearch for the ' +
+            chalk.underline(chalk.yellow('keywords')) +
+            ' to learn more about each warning.'
+        );
+        console.log(
+          'To ignore, add ' +
+            chalk.cyan('// eslint-disable-next-line') +
+            ' to the line before.\n'
+        );
+      } else {
+        console.log(chalk.green('Compiled successfully.\n'));
+      }
+
+      console.log('File sizes after gzip:\n');
+      printFileSizesAfterBuild(
+        stats,
+        previousFileSizes,
+        paths.appBuild,
+        WARN_AFTER_BUNDLE_GZIP_SIZE,
+        WARN_AFTER_CHUNK_GZIP_SIZE
+      );
+      console.log();
+
+      const appPackage = require(paths.appPackageJson);
+      const publicUrl = paths.publicUrlOrPath;
+      const publicPath = config.output.publicPath;
+      const buildFolder = path.relative(process.cwd(), paths.appBuild);
+      printHostingInstructions(
+        appPackage,
+        publicUrl,
+        publicPath,
+        buildFolder,
+        useYarn
+      );
+    },
+    err => {
+      const tscCompileOnError = process.env.TSC_COMPILE_ON_ERROR === 'true';
+      if (tscCompileOnError) {
+        console.log(
+          chalk.yellow(
+            'Compiled with the following type errors (you may want to check these before deploying your app):\n'
+          )
+        );
+        printBuildError(err);
+      } else {
+        console.log(chalk.red('Failed to compile.\n'));
+        printBuildError(err);
+        process.exit(1);
+      }
+    }
+  )
+  .catch(err => {
+    if (err && err.message) {
+      console.log(err.message);
+    }
+    process.exit(1);
+  });
+
+// Create the production build and print the deployment instructions.
+function build(previousFileSizes) {
+  // We used to support resolving modules according to `NODE_PATH`.
+  // This now has been deprecated in favor of jsconfig/tsconfig.json
+  // This lets you use absolute paths in imports inside large monorepos:
+  if (process.env.NODE_PATH) {
+    console.log(
+      chalk.yellow(
+        'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed in a future major release of create-react-app.'
+      )
+    );
+    console.log();
+  }
+
+  console.log('Creating an optimized production build...');
+
+  const compiler = webpack(config);
+  return new Promise((resolve, reject) => {
+    compiler.run((err, stats) => {
+      let messages;
+      if (err) {
+        if (!err.message) {
+          return reject(err);
+        }
+
+        let errMessage = err.message;
+
+        // Add additional information for postcss errors
+        if (Object.prototype.hasOwnProperty.call(err, 'postcssNode')) {
+          errMessage +=
+            '\nCompileError: Begins at CSS selector ' +
+            err['postcssNode'].selector;
+        }
+
+        messages = formatWebpackMessages({
+          errors: [errMessage],
+          warnings: [],
+        });
+      } else {
+        messages = formatWebpackMessages(
+          stats.toJson({ all: false, warnings: true, errors: true })
+        );
+      }
+      if (messages.errors.length) {
+        // Only keep the first error. Others are often indicative
+        // of the same problem, but confuse the reader with noise.
+        if (messages.errors.length > 1) {
+          messages.errors.length = 1;
+        }
+        return reject(new Error(messages.errors.join('\n\n')));
+      }
+      if (
+        process.env.CI &&
+        (typeof process.env.CI !== 'string' ||
+          process.env.CI.toLowerCase() !== 'false') &&
+        messages.warnings.length
+      ) {
+        console.log(
+          chalk.yellow(
+            '\nTreating warnings as errors because process.env.CI = true.\n' +
+              'Most CI servers set it automatically.\n'
+          )
+        );
+        return reject(new Error(messages.warnings.join('\n\n')));
+      }
+
+      return resolve({
+        stats,
+        previousFileSizes,
+        warnings: messages.warnings,
+      });
+    });
+  });
 }
 
-const isJsFile = ( filepath ) => {
-	return /.\.js$/.test( filepath );
-};
-
-/**
- * Get Build Path for a specified file
- *
- * @param  {string} file        File to build
- * @param  {string} buildFolder Output folder
- * @return {string}             Build path
- */
-function getBuildPath( file, buildFolder ) {
-	const pkgName = getPackageName( file );
-	const pkgSrcPath = path.resolve( PACKAGES_DIR, pkgName, SRC_DIR );
-	const pkgBuildPath = path.resolve( PACKAGES_DIR, pkgName, buildFolder );
-	const relativeToSrcPath = path.relative( pkgSrcPath, file );
-	return path.resolve( pkgBuildPath, relativeToSrcPath );
-}
-
-/**
- * Given a list of scss and js filepaths, divide them into sets them and rebuild.
- *
- * @param {Array} files list of files to rebuild
- */
-function buildFiles( files ) {
-	// Reduce files into a unique sets of javaScript files and scss packages.
-	const buildPaths = files.reduce( ( accumulator, filePath ) => {
-		if ( isJsFile( filePath ) ) {
-			accumulator.jsFiles.add( filePath );
-		}
-		return accumulator;
-	}, { jsFiles: new Set() } );
-
-	buildPaths.jsFiles.forEach( buildJsFile );
-}
-
-/**
- * Build a javaScript file for the required environments (node and ES5)
- *
- * @param {string} file    File path to build
- * @param {boolean} silent Show logs
- */
-function buildJsFile( file, silent ) {
-	buildJsFileFor( file, silent, 'main' );
-	buildJsFileFor( file, silent, 'module' );
-}
-
-/**
- * Build a file for a specific environment
- *
- * @param {string}  file        File path to build
- * @param {boolean} silent      Show logs
- * @param {string}  environment Dist environment (node or es5)
- */
-function buildJsFileFor( file, silent, environment ) {
-	const buildDir = BUILD_DIR[ environment ];
-	const destPath = getBuildPath( file, buildDir );
-	const babelOptions = getBabelConfig( environment, file.replace( PACKAGES_DIR, '@eventespresso' ) );
-
-	mkdirp.sync( path.dirname( destPath ) );
-	const transformed = babel.transformFileSync( file, babelOptions );
-	fs.writeFileSync( destPath + '.map', JSON.stringify( transformed.map ) );
-	fs.writeFileSync( destPath, transformed.code + '\n//# sourceMappingURL=' + path.basename( destPath ) + '.map' );
-
-	if ( ! silent ) {
-		process.stdout.write(
-			chalk.green( '  \u2022 ' ) +
-			path.relative( PACKAGES_DIR, file ) +
-			chalk.green( ' \u21D2 ' ) +
-			path.relative( PACKAGES_DIR, destPath ) +
-			'\n'
-		);
-	}
-}
-
-/**
- * Build the provided package path
- *
- * @param {string} packagePath absolute package path
- */
-function buildPackage( packagePath ) {
-	const srcDir = path.resolve( packagePath, SRC_DIR );
-	const jsFiles = glob.sync( `${ srcDir }/**/*.js`, {
-		ignore: [
-			`${ srcDir }/**/test/**/*.js`,
-			`${ srcDir }/**/__mocks__/**/*.js`,
-		],
-		nodir: true,
-	} );
-
-	process.stdout.write( `${ path.basename( packagePath ) }\n` );
-
-	// Build js files individually.
-	jsFiles.forEach( ( file ) => buildJsFile( file, true ) );
-
-	process.stdout.write( `${ DONE }\n` );
-}
-
-const files = process.argv.slice( 2 );
-
-if ( files.length ) {
-	buildFiles( files );
-} else {
-	process.stdout.write( chalk.inverse( '>> Building packages \n' ) );
-	getPackages()
-		.forEach( buildPackage );
-	process.stdout.write( '\n' );
+function copyPublicFolder() {
+  fs.copySync(paths.appPublic, paths.appBuild, {
+    dereference: true,
+    filter: file => file !== paths.appHtml,
+  });
 }

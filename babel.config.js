@@ -1,7 +1,15 @@
-module.exports = function( api ) {
-	api.cache( true );
+module.exports = function (api) {
+	api.cache(true);
+
+	const presets = ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'];
+
+	const plugins = [
+		'@babel/plugin-proposal-class-properties',
+		'@babel/plugin-transform-runtime',
+	];
 
 	return {
-		presets: [ '@wordpress/babel-preset-default' ],
+		presets,
+		plugins,
 	};
 };
