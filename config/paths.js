@@ -52,17 +52,25 @@ const resolveModule = (resolveFn, filePath) => {
 const packages = ['components-typescript'];
 const packagePaths = [];
 const packageEntries = {};
+
 packages.forEach(packageName => {
-  packageEntries[packageName] = [resolveModule(resolveApp, PACKAGES_FOLDER + `/${packageName}/index`)];
-  packagePaths.push(resolveApp(PACKAGES_FOLDER + `/${packageName}`));
+  const packageEntry = resolveModule(resolveApp, PACKAGES_FOLDER + `/${packageName}/index`);
+  const packagePath = resolveApp(PACKAGES_FOLDER + `/${packageName}`);
+
+  packageEntries[packageName] = [packageEntry];
+  packagePaths.push(packagePath);
 });
 
 const domains = ['eventEditor'];
 const domainPaths = [];
 const domainEntries = {};
+
 domains.forEach(domain => {
-  domainEntries[domain] = [resolveModule(resolveApp, DOMAINS_FOLDER + `/${domain}/src/index`)];
-  domainPaths.push(resolveApp(DOMAINS_FOLDER + `/${domain}/src/`));
+  const domainEntry = resolveModule(resolveApp, DOMAINS_FOLDER + `/${domain}/src/index`);
+  const domainPath = resolveApp(DOMAINS_FOLDER + `/${domain}/src/`);
+
+  domainEntries[domain] = [domainEntry];
+  domainPaths.push(domainPath);
 });
 
 // config after eject: we're in ./config/
