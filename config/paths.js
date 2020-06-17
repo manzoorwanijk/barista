@@ -11,6 +11,7 @@ const DOMAINS_FOLDER = 'domains';
 // https://github.com/facebook/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+const isLinux = process.platform === 'linux';
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -49,7 +50,7 @@ const resolveModule = (resolveFn, filePath) => {
   return resolveFn(`${filePath}.js`);
 };
 
-const packages = ['components-typescript'];
+const packages = ['components-typescript', 'infrastructure'];
 const packagePaths = [];
 const packageEntries = {};
 packages.forEach(packageName => {
@@ -60,9 +61,13 @@ packages.forEach(packageName => {
 const domains = ['eventEditor'];
 const domainPaths = [];
 const domainEntries = {};
+
 domains.forEach(domain => {
-  domainEntries[domain] = [resolveModule(resolveApp, DOMAINS_FOLDER + `/${domain}/src/index`)];
-  domainPaths.push(resolveApp(DOMAINS_FOLDER + `/${domain}/src/`));
+  const domainEntry = resolveModule(resolveApp, DOMAINS_FOLDER + (isLinux ? '/../src/index' : `/${domain}/src/index`));
+  const domainPath = resolveApp(DOMAINS_FOLDER + (isLinux ? '/../src/index' : `/${domain}/src/`));
+
+  domainEntries[domain] = [domainEntry];
+  domainPaths.push(domainPath);
 });
 
 // config after eject: we're in ./config/
