@@ -50,7 +50,7 @@ const resolveModule = (resolveFn, filePath) => {
   return resolveFn(`${filePath}.js`);
 };
 
-const packages = ['components-typescript', 'infrastructure'];
+const packages = ['components-typescript'];
 const packagePaths = [];
 const packageEntries = {};
 packages.forEach(packageName => {
