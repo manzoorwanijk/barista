@@ -3226,9 +3226,9 @@
     core-js "^3.0.1"
 
 "@storybook/preset-create-react-app@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@storybook/preset-create-react-app/-/preset-create-react-app-3.1.1.tgz#223ea4880f424731e44a68ecb2c685ca011942d3"
-  integrity sha512-8evUu/30dUZhH62KCjqLoUEnKzE/VVxXYs1/akK3rGaf1b1b1ShpTi79w/dFAzGzQ43gZ7jGw8Rcj3O4+7GgMQ==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@storybook/preset-create-react-app/-/preset-create-react-app-3.1.2.tgz#7413186cf2843fc2a49cd65e59c4380a72ad93ce"
+  integrity sha512-MjOus6mH/F/TikTPR3lWiuaR6hhhray2Yr2jV++Qg1/fS3yyADTyNZQZyc+TOc+SdKNTZ706H8+zn7RcjD9vGg==
   dependencies:
     "@storybook/node-logger" "*"
     "@types/babel__core" "^7.1.7"
@@ -3569,6 +3569,22 @@
     "@svgr/babel-plugin-transform-react-native-svg" "^5.4.0"
     "@svgr/babel-plugin-transform-svg-component" "^5.4.0"
 
+"@svgr/cli@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@svgr/cli/-/cli-5.4.0.tgz#6eb153ff460a67f82fb833959d38e59749c38188"
+  integrity sha512-Wc2GtpQzk+drx8D5ZIC9cDd/dkdrhK2OwyqvBanWMc92perDmdCDwf4scMWrO/T9I5fMMg8BFRs9ifUvFIl6JA==
+  dependencies:
+    "@svgr/core" "^5.4.0"
+    "@svgr/plugin-jsx" "^5.4.0"
+    "@svgr/plugin-prettier" "^5.4.0"
+    "@svgr/plugin-svgo" "^5.4.0"
+    camelcase "^6.0.0"
+    chalk "^4.0.0"
+    commander "^5.1.0"
+    dashify "^2.0.0"
+    glob "^7.1.4"
+    output-file-sync "^2.0.1"
+
 "@svgr/core@^4.3.3":
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/@svgr/core/-/core-4.3.3.tgz#b37b89d5b757dc66e8c74156d00c368338d24293"
@@ -3620,6 +3636,14 @@
     "@svgr/babel-preset" "^5.4.0"
     "@svgr/hast-util-to-babel-ast" "^5.4.0"
     svg-parser "^2.0.2"
+
+"@svgr/plugin-prettier@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@svgr/plugin-prettier/-/plugin-prettier-5.4.0.tgz#64039e118e3cc026e7754e943f3d044d81611561"
+  integrity sha512-Ml/NdLHy4hLhPSNNABTduRvex7r8v08fmv1FbcB6dMUMHfsPNkOFJUmGbv/c/6KOvEX06Pnh+R8BHBJlH13v/w==
+  dependencies:
+    merge-deep "^3.0.2"
+    prettier "^2.0.5"
 
 "@svgr/plugin-svgo@^4.3.1":
   version "4.3.1"
@@ -3717,7 +3741,7 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/react@^10.3.0":
+"@testing-library/react@^10.2.1", "@testing-library/react@^10.3.0":
   version "10.3.0"
   resolved "https://registry.yarnpkg.com/@testing-library/react/-/react-10.3.0.tgz#d615385b8d86ef4d76142a423755d471b3673295"
   integrity sha512-Rhn5uJK6lYHWzlGVbK6uAvheAW8AUoFYxTLGdDxgsJDaK/PYy5drWfW/6YpMMOKMw+u6jHHl4MNHlt5qLHnm0Q==
@@ -3725,7 +3749,7 @@
     "@babel/runtime" "^7.10.2"
     "@testing-library/dom" "^7.14.2"
 
-"@testing-library/user-event@^12.0.2":
+"@testing-library/user-event@^12.0.1", "@testing-library/user-event@^12.0.2":
   version "12.0.2"
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-12.0.2.tgz#66fa2c64a50b47726c008eacecb9a42b43cd9a2b"
   integrity sha512-hJLv9saOJ7WJsRINPPTMmgEya85+L55FRRf1xgFO8HznaUO58YOf+cj+yf/POkhls9pVIPLRoGjzxgvmAsptYg==
@@ -3983,7 +4007,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.8.10", "@types/react@^16.9.38":
+"@types/react@*", "@types/react@^16.8.10", "@types/react@^16.9.36", "@types/react@^16.9.38":
   version "16.9.38"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.38.tgz#868405dace93a4095d3e054f4c4a1de7a1ac0680"
   integrity sha512-pHAeZbjjNRa/hxyNuLrvbxhhnKyKNiLC6I5fRF2Zr/t/S6zS41MiyzH4+c+1I9vVfvuRt1VS2Lodjr4ZWnxrdA==
@@ -6761,6 +6785,11 @@ commander@^4.0.1, commander@^4.1.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
   integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
 
+commander@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
+  integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
+
 common-tags@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/common-tags/-/common-tags-1.8.0.tgz#8e3153e542d4a39e9b10554434afaaf98956a937"
@@ -7519,6 +7548,11 @@ dashdash@^1.12.0:
   integrity sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA=
   dependencies:
     assert-plus "^1.0.0"
+
+dashify@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dashify/-/dashify-2.0.0.tgz#fff270ca2868ca427fee571de35691d6e437a648"
+  integrity sha512-hpA5C/YrPjucXypHPPc0oJ1l9Hf6wWbiOL7Ik42cxnsUOhWiCB/fylKbKqqJalW9FgkNQCw16YO8uW9Hs0Iy1A==
 
 data-urls@^1.0.0, data-urls@^1.1.0:
   version "1.1.0"
@@ -13915,6 +13949,15 @@ osenv@0, osenv@^0.1.4, osenv@^0.1.5:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
+output-file-sync@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/output-file-sync/-/output-file-sync-2.0.1.tgz#f53118282f5f553c2799541792b723a4c71430c0"
+  integrity sha512-mDho4qm7WgIXIGf4eYU1RHN2UU5tPfVYVSRwDJw0uTmj35DQUt/eNp19N7v6T3SrR0ESTEf2up2CGO73qI35zQ==
+  dependencies:
+    graceful-fs "^4.1.11"
+    is-plain-obj "^1.1.0"
+    mkdirp "^0.5.1"
+
 p-defer@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"
@@ -15622,9 +15665,9 @@ raw-loader@^3.1.0:
     schema-utils "^2.0.1"
 
 rc-pagination@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/rc-pagination/-/rc-pagination-2.3.0.tgz#7746b370eafca36c0339189ce2303870d436492a"
-  integrity sha512-yupODpAF0BKaZnr+99eLKoAYjRAtpxUSRyq6s4R1mSQnnQmUyf3Uigb92EP4vLyUW4q0UJSLLtLwoDmawGQ83A==
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/rc-pagination/-/rc-pagination-2.4.0.tgz#015ef6dcf2041b687f324f6c12e63737dc71e5f1"
+  integrity sha512-GeWR9kSrfop6I5tTSgT4MIDw7Yk4n+/AfHaw0/OI2+IQTjMbmaDGcmtwISrIGkWyuvIGP/bS6QBIWoaCKrSUoA==
   dependencies:
     "@babel/runtime" "^7.10.1"
     classnames "^2.2.1"
