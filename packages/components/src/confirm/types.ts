@@ -1,0 +1,13 @@
+import { ButtonProps } from '../Button';
+
+export interface ConfirmProps {
+	message?: string;
+	noButtonText?: string;
+	onConfirm?: VoidFunction;
+	title?: string;
+	yesButtonText?: string;
+}
+
+export interface ConfirmPropsWithButton extends ConfirmProps {
+	buttonProps: ButtonProps;
+}
