@@ -1,11 +1,5 @@
-/**
- * External dependencies
- */
 import { omit } from 'ramda';
 
-/**
- * Internal dependencies
- */
 import {
 	entityDbId,
 	entityGuId,
@@ -16,9 +10,9 @@ import {
 	entitiesWithDbIdInArray,
 	entitiesWithGuIdInArray,
 } from './index';
-import { nodes as datetimes } from '../../../../eventEditor/services/apollo/queries/datetimes/test/data';
-import { nodes as tickets } from '../../../../eventEditor/services/apollo/queries/tickets/test/data';
-import { getGuids } from '@appServices/predicates';
+import { nodes as datetimes } from '@eventespresso/edtr-services/src/apollo/queries/datetimes/test/data';
+import { nodes as tickets } from '@eventespresso/edtr-services/src/apollo/queries/tickets/test/data';
+import { getGuids } from '@eventespresso/predicates';
 
 describe('entityDbId', () => {
 	it('should return dbId for each entity', () => {
