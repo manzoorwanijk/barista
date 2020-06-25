@@ -2,8 +2,10 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { Button as ButtonAdapter } from '@eventespresso/adapters';
-import { ButtonProps, ButtonSize, ButtonType } from './types';
-import { withLabel, withTooltip } from '../../';
+import type { ButtonProps } from './types';
+import { ButtonSize, ButtonType } from './types';
+import { withLabel } from '../withLabel';
+import { withTooltip } from '../withTooltip';
 
 import './style.scss';
 

@@ -1,7 +1,8 @@
-import { QueryHookOptions } from '@apollo/react-hooks';
-import { DocumentNode } from 'graphql';
-import { OperationVariables } from 'apollo-client';
-import { DataProxy } from 'apollo-cache';
+import type { QueryHookOptions } from '@apollo/react-hooks';
+import type { DocumentNode } from 'graphql';
+import type { OperationVariables } from 'apollo-client';
+import type { DataProxy } from 'apollo-cache';
+import type { QueryResult } from '@apollo/react-common';
 
 export interface EntityQueryArgs<WhereArgs> {
 	after?: string;
@@ -25,11 +26,7 @@ type EntityQueryOrderByItem<Field> = {
 
 export type EntityQueryOrderBy<Field> = Array<EntityQueryOrderByItem<Field>>;
 
-export interface FetchQueryResult<Data> {
-	data: Data;
-	error: Error;
-	loading: boolean;
-}
+export interface FetchQueryResult<Data, TVariables = OperationVariables> extends QueryResult<Data, TVariables> {}
 
 export type CacheUpdaterFn<TData = any> = (writeOptions?: WriteQueryOptions<TData>) => void;
 

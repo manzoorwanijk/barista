@@ -1,16 +1,23 @@
 import React from 'react';
 
-import { withApollo } from '@eventespresso/data';
-import { ConfigProvider, RelationsProvider, StatusProvider, ThemeProvider } from '@eventespresso/services';
+import { DataProvider } from '@eventespresso/data';
+import { ThemeProvider } from '@eventespresso/adapters';
+import { ConfigProvider, RelationsProvider, StatusProvider } from '@eventespresso/services';
 
-export const CommonProvider: React.FC = ({ children }) => (
-	<ThemeProvider>
-		<StatusProvider>
-			<ConfigProvider>
-				<RelationsProvider>{children}</RelationsProvider>
-			</ConfigProvider>
-		</StatusProvider>
-	</ThemeProvider>
+export const ServiceProvider: React.FC = ({ children }) => {
+	return (
+		<ThemeProvider>
+			<StatusProvider>
+				<ConfigProvider>
+					<RelationsProvider>{children}</RelationsProvider>
+				</ConfigProvider>
+			</StatusProvider>
+		</ThemeProvider>
+	);
+};
+
+export const ContextProvider: React.FC = ({ children }) => (
+	<DataProvider>
+		<ServiceProvider>{children}</ServiceProvider>
+	</DataProvider>
 );
-
-export const ContextProvider = withApollo(CommonProvider);

@@ -1,9 +1,9 @@
 import React from 'react';
-import { FormSpy } from 'react-final-form';
+import { FormSpy } from '@eventespresso/form';
 
 import { Datetime, Ticket } from '@eventespresso/edtr-services';
 import { useMemoStringify, useTimeZoneTime, useMemoLazy } from '@eventespresso/services';
-import { BaseProps } from '@eventespresso/components';
+import type { BaseProps } from '@eventespresso/components';
 import { processDateAndTime } from '@eventespresso/edtr-services';
 
 /**

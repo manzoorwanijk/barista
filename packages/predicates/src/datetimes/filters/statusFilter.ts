@@ -1,5 +1,4 @@
 import type { Datetime } from '@eventespresso/edtr-services';
-import { DatetimeStatus } from '../types';
 
 import activeOnly from './activeOnly';
 import activeUpcoming from './activeUpcoming';
@@ -10,7 +9,8 @@ import soldOutOnly from './soldOutOnly';
 import upcomingOnly from './upcomingOnly';
 import { notTrashed, trashedOnly } from '../../common';
 
-import { DatesStatusFilter } from './types';
+import type { DatesStatusFilter } from './types';
+import { DatetimeStatus } from '../types';
 
 /**
  * reduces dates array based on value of the "status" filter

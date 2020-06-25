@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@eventespresso/data';
 import gql from 'graphql-tag';
 import { clone } from 'ramda';
 import { useDebouncedCallback } from 'use-debounce';
@@ -7,7 +7,7 @@ import { MutationResult } from '@apollo/react-common';
 
 import { EntityId } from '@eventespresso/data';
 import { getGuids } from '@eventespresso/predicates';
-import { Datetime, Ticket } from '../types';
+import type { Datetime, Ticket } from '../types';
 
 type Entity = Datetime | Ticket;
 

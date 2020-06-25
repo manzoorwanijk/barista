@@ -2,11 +2,11 @@ import React from 'react';
 import { pick } from 'ramda';
 import { FormSpy } from 'react-final-form';
 
-import { FormRendererProps } from '../types';
+import type { FormRendererProps } from '../types';
 import Submit from '../Submit';
 import RenderFields from '../RenderFields';
 import RenderSections from '../RenderSections';
-import { DebugInfo } from '@eventespresso/components';
+import { DebugInfo } from '../../../components'; // to avoid circular dependency, also since it's used only in dev
 import { reactFinalFormState } from '@eventespresso/services';
 
 const FormRenderer: React.FC<FormRendererProps> = (props) => {

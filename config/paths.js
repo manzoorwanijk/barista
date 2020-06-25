@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
-const { getCommandArgs } = require('./utils');
+const { getCommandArgs, camelCaseDash } = require('./utils');
 
 const PACKAGES_FOLDER = 'packages';
 const DOMAINS_FOLDER = 'domains';
@@ -63,6 +63,7 @@ const packages = [
 	'registry',
 	'services',
 	'styles',
+	'toaster',
 ];
 
 const packagePaths = [];
@@ -71,8 +72,10 @@ const packageEntries = {};
 packages.forEach((packageName) => {
 	const packageEntry = resolveModule(resolveApp, PACKAGES_FOLDER + `/${packageName}/index`);
 	const packagePath = resolveApp(PACKAGES_FOLDER + `/${packageName}`);
+	// "edtr-services" becomes "edtrServices"
+	const name = camelCaseDash(packageName);
 
-	packageEntries[packageName] = [packageEntry];
+	packageEntries[name] = [packageEntry];
 	packagePaths.push(packagePath);
 });
 

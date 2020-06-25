@@ -6,14 +6,15 @@ import { renderDomElement } from '@eventespresso/services';
 import '../interfaces/types';
 import EventEditor from './EventEditor';
 
-import '@eventespresso/styles/src/themes/default/index.scss';
+import '../../../../packages/styles/src/themes/default/index.scss'; // to bundle it
+
+const Editor: React.FC = () => (
+	<ContextProviders>
+		<EventEditor />
+	</ContextProviders>
+);
 
 const setupEditor = (): void => {
-	const Editor: React.FC = () => (
-		<ContextProviders>
-			<EventEditor />
-		</ContextProviders>
-	);
 	renderDomElement({
 		appendToTarget: false,
 		domElementToRender: <Editor />,

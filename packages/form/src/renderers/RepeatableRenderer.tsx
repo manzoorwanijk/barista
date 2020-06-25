@@ -1,9 +1,9 @@
 import React from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 
-import { Button } from '@eventespresso/components';
+import { Button } from '@eventespresso/adapters';
 import { CloseOutlined } from '@eventespresso/icons';
-import { RepeatableRendererProps } from '../types';
+import type { RepeatableRendererProps } from '../types';
 import { Field, Group } from '../fields';
 
 const RepeatableRenderer: React.FC<Omit<RepeatableRendererProps, 'component'>> = ({

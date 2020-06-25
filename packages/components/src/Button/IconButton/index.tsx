@@ -2,8 +2,9 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { IconButton as IconButtonAdapter } from '@eventespresso/adapters';
-import { IconButtonProps } from './types';
-import { withLabel, withTooltip } from '../../../';
+import type { IconButtonProps } from './types';
+import { withLabel } from '../../withLabel';
+import { withTooltip } from '../../withTooltip';
 
 import './style.scss';
 
