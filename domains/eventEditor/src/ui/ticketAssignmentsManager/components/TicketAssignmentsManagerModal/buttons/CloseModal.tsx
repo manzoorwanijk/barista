@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { Button, ConfirmClose} from '@eventespresso/components';
+import { Button, ConfirmClose } from '@eventespresso/components';
 import { modalCloseButtonProps } from '@eventespresso/adapters';
 import { useTAMContext } from '../../../context';
 
