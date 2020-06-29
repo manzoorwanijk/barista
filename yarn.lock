@@ -1318,6 +1318,11 @@
     toasted-notes "3.2.0"
     use-dark-mode "2.3.1"
 
+"@chakra-ui/css-reset@^1.0.0-next.3":
+  version "1.0.0-next.3"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/css-reset/-/css-reset-1.0.0-next.3.tgz#bf13b8fe68e86811a318d1355f0a0ef3d57cbb2d"
+  integrity sha512-8E3QNNWOTgY05S9MQY3v3r3GkIOjD0CG2vjaEzOGipdldULLxIb2LDN46FfvGjoXnR9B9QBv6ihk3w8JKyL6+Q==
+
 "@chakra-ui/hooks@^1.0.0-next.2":
   version "1.0.0-next.3"
   resolved "https://registry.yarnpkg.com/@chakra-ui/hooks/-/hooks-1.0.0-next.3.tgz#bc183d5ddf3bb6c760f5820a87fa8a33a6d5925b"
@@ -1329,6 +1334,22 @@
     body-scroll-lock "^3.0.2"
     compute-scroll-into-view "1.0.11"
     copy-to-clipboard "3.3.1"
+
+"@chakra-ui/theme-tools@^1.0.0-next.3":
+  version "1.0.0-next.3"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-1.0.0-next.3.tgz#604b03a616d3703a94e2bbaf764547c9f69c5657"
+  integrity sha512-5W8MH1L+3Q4dcCb4urjtcCQXtUUxCPTwvbJmlw6OhypiUj+4AvgYBhCjSGPSvF/eK23CH2cBg8SddweE31VfHw==
+  dependencies:
+    "@chakra-ui/utils" "^1.0.0-next.3"
+    "@types/tinycolor2" "1.4.2"
+    tinycolor2 "1.4.1"
+
+"@chakra-ui/theme@^1.0.0-next.3":
+  version "1.0.0-next.3"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/theme/-/theme-1.0.0-next.3.tgz#e652154ce77bb8505df2b634a1bc3be7ee409ee0"
+  integrity sha512-ndQCzUwnohx+HZG/mlaMnoRyGd3VIKvb01fDimpRQqH5xibPvC8tGo8vPce7KNohW0HHsATj5GZr7z/FgckRMw==
+  dependencies:
+    "@chakra-ui/theme-tools" "^1.0.0-next.3"
 
 "@chakra-ui/utils@^1.0.0-next.3":
   version "1.0.0-next.3"
@@ -4197,6 +4218,11 @@
   dependencies:
     "@types/react" "*"
     "@types/react-test-renderer" "*"
+
+"@types/tinycolor2@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@types/tinycolor2/-/tinycolor2-1.4.2.tgz#721ca5c5d1a2988b4a886e35c2ffc5735b6afbdf"
+  integrity sha512-PeHg/AtdW6aaIO2a+98Xj7rWY4KC1E6yOy7AFknJQ7VXUGNrMlyxDFxJo7HqLtjQms/ZhhQX52mLVW/EX3JGOw==
 
 "@types/uglify-js@*":
   version "3.9.2"
@@ -19784,7 +19810,7 @@ tiny-invariant@^1.0.6:
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.1.0.tgz#634c5f8efdc27714b7f386c35e6760991d230875"
   integrity sha512-ytxQvrb1cPc9WBEI/HSeYYoGD0kWnGEOR8RY6KomWLBVhqz0RgTwVO9dLrGz7dC+nN9llyI7OKAgRq8Vq4ZBSw==
 
-tinycolor2@^1.4.1:
+tinycolor2@1.4.1, tinycolor2@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
   integrity sha1-9PrTM0R7wLB9TcjpIJ2POaisd+g=
@@ -21063,9 +21089,9 @@ whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3, whatwg-encoding@^1.0.5:
     iconv-lite "0.4.24"
 
 whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
-  integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.1.0.tgz#49d630cdfa308dba7f2819d49d09364f540dbcc6"
+  integrity sha512-pgmbsVWKpH9GxLXZmtdowDIqtb/rvPyjjQv3z9wLcmgWKFHilKnZD3ldgrOlwJoPGOUluQsRPWd52yVkPfmI1A==
 
 whatwg-mimetype@^2.1.0, whatwg-mimetype@^2.2.0, whatwg-mimetype@^2.3.0:
   version "2.3.0"
