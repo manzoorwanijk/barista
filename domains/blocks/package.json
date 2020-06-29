@@ -1,19 +1,20 @@
 {
 	"author": "Event Espresso",
-	"name": "@eventespresso/event-editor",
+	"name": "@eventespresso/blocks",
 	"version": "1.0.0",
 	"private": true,
-	"main": "src/index.ts",
-	"main:src": "src/index.ts",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/eventespresso/barista.git"
 	},
 	"dependencies": {
-		"@wordpress/url": "^2.16.0",
-		"final-form": "^4.20.0",
-		"react-final-form": "^6.5.0",
-		"yup": "^0.29.1"
+		"@wordpress/block-library": "^2.19.0",
+		"@wordpress/blocks": "^6.17.0",
+		"@wordpress/components": "^9.7.0",
+		"@wordpress/compose": "^3.16.0",
+		"@wordpress/editor": "^9.17.0",
+		"@wordpress/i18n": "^3.13.0",
+		"@wordpress/url": "^2.16.0"
 	},
 	"devDependencies": {
 		"@react-workspaces/react-scripts": "^3.4.0-alpha-01",
@@ -25,6 +26,9 @@
 		"@types/node": "^14.0.14",
 		"@types/react": "^16.9.41",
 		"@types/react-dom": "^16.9.8",
+		"@types/wordpress__block-editor": "^2.2.7",
+		"@types/wordpress__components": "^8.5.3",
+		"@types/wordpress__i18n": "^3.11.0",
 		"typescript": "~3.9.5"
 	},
 	"peerDependencies": {
