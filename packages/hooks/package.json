@@ -1,6 +1,6 @@
 {
 	"author": "Event Espresso",
-	"name": "@eventespresso/helpers",
+	"name": "@eventespresso/hooks",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/eventespresso/barista.git"
@@ -12,6 +12,9 @@
 	"scripts": {
 		"test": "react-scripts test",
 		"lint": "eslint ./src/**/*.{ts,tsx} --max-warnings=0 --format=codeframe"
+	},
+	"dependencies": {
+		"ramda": "^0.27.0"
 	},
 	"devDependencies": {
 		"@react-workspaces/react-scripts": "3.4.0-alpha-01",
