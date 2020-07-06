@@ -7,7 +7,8 @@ export const RECURRENCE_ATTRIBUTES: any = gql`
 		cacheId
 		exDates
 		exRule
-		patternHash
+		gDates
+		name
 		rDates
 		rRule
 		salesEndOffset
