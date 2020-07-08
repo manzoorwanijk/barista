@@ -6,7 +6,7 @@
 		"url": "git+https://github.com/eventespresso/barista.git"
 	},
 	"private": true,
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"main": "src/index.ts",
 	"main:src": "src/index.ts",
 	"scripts": {
