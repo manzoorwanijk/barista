@@ -11,8 +11,9 @@
 	"main:src": "src/index.ts",
 	"scripts": {
 		"test": "react-scripts test",
-		"lint": "eslint ./src/**/*.{ts,tsx} --max-warnings=0 --format=codeframe"
+		"lint": "eslint ./src/**/*.{ts,tsx} --format=codeframe"
 	},
+	"sideEffects": false,
 	"dependencies": {
 		"@chakra-ui/core": "^0.8.0",
 		"final-form-arrays": "^3.0.2",
