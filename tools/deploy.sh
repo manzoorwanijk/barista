@@ -73,6 +73,9 @@ cd $CLONE_DIR
 # clean the dist path.
 rm -rf $DIST_PATH/*
 
+# Make sure the directory exists
+mkdir -p $DIST_PATH
+
 # copy files from build folder to target dist folder
 cp -r $BASE/$BUILD_PATH/* $DIST_PATH/
 
