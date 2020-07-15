@@ -4,7 +4,7 @@ import { useDisclosure } from '@chakra-ui/hooks';
 import { IconButton } from '@eventespresso/components';
 import { Rem } from '@eventespresso/icons';
 
-import Modal from '../components/Modal';
+import Modal from './Modal';
 import { useRemInitialization } from '../hooks';
 
 const RemButton: React.FC = () => {
