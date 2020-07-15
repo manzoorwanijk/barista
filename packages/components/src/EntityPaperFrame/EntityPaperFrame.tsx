@@ -24,6 +24,7 @@ const EntityPaperFrame: React.FC<EntityPaperFrameProps> = ({ children, entity, .
 	return (
 		<div id={`ee-entity-paper-frame-${entity.id}`} className={className}>
 			<EntityIDs dbid={entity.dbId} guid={entity.id} />
+
 			<div className='ee-entity-paper-frame'>
 				<div className='ee-entity-inner-wrapper'>{children}</div>
 			</div>

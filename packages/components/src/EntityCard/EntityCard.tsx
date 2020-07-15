@@ -1,25 +1,24 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { EntityPaperFrame } from '../EntityPaperFrame';
 import type { EntityCardProps } from './types';
 import { getPropsAreEqual } from '@eventespresso/services';
 import './styles.scss';
 
-const EntityCard: React.FC<EntityCardProps> = ({ actionsMenu, cacheId, details, entity, sidebar, reverse = false }) => {
-	const layout = reverse ? 'entity-card entity-card--reverse-layout' : 'entity-card';
+const EntityCard: React.FC<EntityCardProps> = ({ actionsMenu, cacheId, details, entity, reverse = false, sidebar }) => {
+	const className = classNames('entity-card', reverse && 'entity-card--reverse-layout');
 
 	return (
-		<EntityPaperFrame cacheId={cacheId} className={'ee-entity-card-wrapper ee-fade-in'} entity={entity}>
-			<div className={layout}>
+		<EntityPaperFrame cacheId={cacheId} className='ee-entity-card-wrapper ee-fade-in' entity={entity}>
+			<div className={className}>
 				<div className={'entity-card__sidebar'}>{sidebar}</div>
 
-				{details && (
-					<div className={'entity-card__details-wrapper'}>
-						<div className={'entity-card__details'}>{details}</div>
-					</div>
-				)}
+				<div className={'entity-card__details-wrapper'}>
+					<div className={'entity-card__details'}>{details}</div>
+				</div>
 
-				{actionsMenu && <div className={'entity-card__menu'}>{actionsMenu}</div>}
+				<div className={'entity-card__menu'}>{actionsMenu}</div>
 			</div>
 		</EntityPaperFrame>
 	);
