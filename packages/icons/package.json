@@ -12,7 +12,8 @@
 	"scripts": {
 		"generate": "./scripts/generate.sh",
 		"test": "react-scripts test",
-		"lint": "eslint ./src/**/*.{ts,tsx} --format=codeframe"
+		"lint": "eslint ./src/**/*.{ts,tsx} --format=codeframe",
+		"lint-fix": "eslint ./src/**/*.{ts,tsx} --fix"
 	},
 	"sideEffects": false,
 	"devDependencies": {
@@ -34,9 +35,6 @@
 	"peerDependencies": {
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1"
-	},
-	"eslintConfig": {
-		"extends": "react-app"
 	},
 	"browserslist": [
 		">0.2%",
