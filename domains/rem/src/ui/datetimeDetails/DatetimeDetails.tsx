@@ -14,7 +14,8 @@ const DatetimeDetails: React.FC<DatetimeDetailsProps> = () => {
 	const { dateDetails } = useFormState();
 	const formConfig = useDatetimeFormConfig(templateDate, { initialValues: dateDetails });
 
-	// i
+	// if date details have not been set already
+	// and we have no template date set
 	if (isEmpty(dateDetails) && !templateDate) {
 		return <DateTemplate setTemplate={setTemplateDate} />;
 	}
