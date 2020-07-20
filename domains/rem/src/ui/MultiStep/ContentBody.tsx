@@ -1,7 +1,4 @@
 import React from 'react';
-import { __ } from '@wordpress/i18n';
-
-import { Button } from '@eventespresso/components';
 
 import { ExclusionPattern, RecurrencePattern } from '../recurrence';
 import { DatetimeDetails } from '../datetimeDetails';
@@ -10,14 +7,8 @@ import Steps from './Steps';
 import Tickets from '../Tickets';
 import { useStepsState } from '../../context';
 
-import type { ContentBodyProps } from './types';
-
-const ContentBody: React.FC<ContentBodyProps> = ({ isRecurrenceOpen, onRecurrenceOpen }) => {
+const ContentBody: React.FC = () => {
 	const { current } = useStepsState();
-
-	if (!isRecurrenceOpen) {
-		return <Button buttonText={__('Convert date')} onClick={onRecurrenceOpen} />;
-	}
 
 	return (
 		<div>
