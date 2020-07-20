@@ -1,16 +1,17 @@
 import React from 'react';
 
-import { useNewEntitySubscription, useNewEntityOptionsRegistry } from '@eventespresso/registry';
+import { NewEntitySubscription, NewEntityOptionsRegistry } from '@eventespresso/registry';
 import { domain } from '@eventespresso/edtr-services';
+
+const { getSubscriptions } = new NewEntitySubscription(domain);
 
 const useNewEntityOptionItems = <T extends string>(
 	entityType: T,
 	filterByEntityType = true
 ): Array<React.ReactNode> => {
-	const registry = useNewEntityOptionsRegistry({ domain, entityType });
-	const { getSubscriptions } = useNewEntitySubscription(domain);
+	const registry = new NewEntityOptionsRegistry({ domain, entityType });
 
-	const { getElements } = registry;
+	const { generateElements } = registry;
 
 	const subscriptions = getSubscriptions({ entityType: filterByEntityType ? entityType : null });
 
@@ -18,9 +19,7 @@ const useNewEntityOptionItems = <T extends string>(
 		callback({ entityType, registry });
 	});
 
-	const optionItems = getElements();
-
-	return Object.entries(optionItems).map(([itemKey, Component], i) => <Component key={itemKey + i} />);
+	return generateElements();
 };
 
 export default useNewEntityOptionItems;

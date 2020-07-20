@@ -8,11 +8,7 @@ export interface SubscriptionServiceOptions<D extends string, S extends string> 
 	service: S;
 }
 
-export type SubscriptionServiceHook = <D extends string, S extends string, SR = ServiceRegistry>(
-	options: SubscriptionServiceOptions<D, S>
-) => SubscriptionService<SR>;
-
-export interface SubscriptionService<SR = ServiceRegistry> {
+export interface SubscriptionManagerInterface<SR extends ServiceRegistry = ServiceRegistry> {
 	addToServiceRegistry: <K extends keyof SR>(key: K, value: SR[K]) => void;
 	getServiceRegistryItem: <K extends keyof SR>(key: K, defaultValue?: any) => SR[K];
 	getSubscriptions: <CbArgs = AnyObject, Options = AnyObject, CbReturn = void>() => Subscriptions<
@@ -120,19 +116,21 @@ export interface UIRegistryOptions<D extends string, S extends string> extends S
 	path: Path;
 }
 
-export type UIRegistryHook = <ElementProps, D extends string, S extends string>(
-	options: UIRegistryOptions<D, S>
-) => UIRegistry<ElementProps>;
-
-export interface UIRegistry<ElementProps = any> {
-	registerElement: (key: string, component: React.FC<ElementProps>, priority?: number) => void;
+export interface UIRegistryInterface<EP extends ElementProps> {
+	registerElement: (key: string, component: React.ComponentType<EP>, priority?: number) => void;
 	unRegisterElement: (key: string, priority?: number) => void;
-	getElements: () => UIElements<ElementProps>;
+	getElements: () => UIElements<EP>;
+	generateElements: (props?: Partial<EP>) => Array<React.ReactNode>;
+}
+
+export interface ElementProps {
+	totalCount: number;
+	key: string;
 }
 /**
  * List of UI elements registered for a service type
  * e.g. List of entityActionsMenu items
  */
-export type UIElements<ElementProps> = {
-	[key: string]: React.FC<ElementProps>;
+export type UIElements<EP extends ElementProps> = {
+	[key: string]: React.ComponentType<EP>;
 };

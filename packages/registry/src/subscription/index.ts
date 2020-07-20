@@ -1,6 +1,6 @@
-export { default as useSubscriptionService } from './useSubscriptionService';
+export { default as SubscriptionManager } from './SubscriptionManager';
 
-export { default as useUIRegistry } from './useUIRegistry';
+export { default as UIRegistry } from './UIRegistry';
 
 export * from './types';
 export * from './utils';
