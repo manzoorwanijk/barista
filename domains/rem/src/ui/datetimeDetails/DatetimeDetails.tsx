@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { isEmpty } from 'ramda';
 
 import { EspressoForm } from '@eventespresso/form';
+import { Datetime } from '@eventespresso/edtr-services';
 import useDatetimeFormConfig from './useDateFormConfig';
 import type { DatetimeDetailsProps } from './types';
 import FormWrapper from './FormWrapper';
+import DateTemplate from './DateTemplate';
+import { useFormState } from '../../data';
 
 const DatetimeDetails: React.FC<DatetimeDetailsProps> = () => {
-	const formConfig = useDatetimeFormConfig();
+	const [templateDate, setTemplateDate] = useState<Datetime>();
+	const { dateDetails } = useFormState();
+	const formConfig = useDatetimeFormConfig(templateDate, { initialValues: dateDetails });
+
+	// i
+	if (isEmpty(dateDetails) && !templateDate) {
+		return <DateTemplate setTemplate={setTemplateDate} />;
+	}
 
 	return <EspressoForm {...formConfig} formWrapper={FormWrapper} />;
 };
