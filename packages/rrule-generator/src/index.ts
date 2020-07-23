@@ -1,7 +1,5 @@
-import './style.scss';
+import ReactRRuleGenerator from './components/ReactRRuleGenerator';
+import translations from './translations';
 
-export { default as initToaster } from './initToaster';
-
-export { default as useSystemNotifications } from './useSystemNotifications';
-
-export * from './types';
+export default ReactRRuleGenerator;
+export { translations };
