@@ -1,5 +1,5 @@
-import ReactRRuleGenerator from './components/ReactRRuleGenerator';
-import translations from './translations';
+import RRuleGenerator from './components/RRuleGenerator';
 
-export default ReactRRuleGenerator;
-export { translations };
+export { RRuleGenerator };
+
+export default RRuleGenerator;
