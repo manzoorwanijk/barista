@@ -1,8 +1,10 @@
-import { RRuleStateReducer, StateInitializer } from './types';
 import { assocPath } from 'ramda';
+import { v4 as uuidv4 } from 'uuid';
+
+import { RRuleStateReducer, StateInitializer } from './types';
 
 const useRRuleStateReducer = (initializer: StateInitializer): RRuleStateReducer => {
-	const dataReducer: RRuleStateReducer = (state, action) => {
+	const dataReducer: RRuleStateReducer = (prevState, action) => {
 		const {
 			after,
 			data,
@@ -19,6 +21,10 @@ const useRRuleStateReducer = (initializer: StateInitializer): RRuleStateReducer 
 			type,
 			which,
 		} = action;
+
+		// dispatching 'SET_DATA' means the state didn't change as a result of user action
+		// it was set/reset, so, we won't update the hash in that case
+		const state = type === 'SET_DATA' ? prevState : { ...prevState, hash: uuidv4() };
 
 		switch (type) {
 			case 'SET_START_DATE':
