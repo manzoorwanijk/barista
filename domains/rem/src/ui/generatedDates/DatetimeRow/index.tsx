@@ -6,39 +6,41 @@ import { Rotate, PlusCircleFilled, Trash, CloseCircleFilled } from '@eventespres
 import { Button } from '@eventespresso/components';
 import { useTimeZoneTime } from '@eventespresso/services';
 
-import { DatetimeRowProps } from '../types';
+import { DatetimeRowProps, DateType } from '../types';
 
 import './styles.scss';
 import { formatDate } from '../utils';
 
-const iconMappingBy = {
-	generated: <Rotate />,
-	addition: <PlusCircleFilled />,
-	exception: <CloseCircleFilled />,
+const iconMap: { [key in DateType]: React.ReactNode } = {
+	gDate: <Rotate />,
+	rDate: <PlusCircleFilled />,
+	exDate: <CloseCircleFilled />,
 };
 
-const DatetimeRow: React.FC<DatetimeRowProps> = ({ date, number, type, toggleExDate }) => {
+const titleMap: { [key in DateType]: string } = {
+	gDate: __('Add to Exceptions'),
+	rDate: __('Remove'),
+	exDate: __('Remove from Exceptions'),
+};
+
+const DatetimeRow: React.FC<DatetimeRowProps> = ({ date, ISOStr, number, type, toggleExDate }) => {
 	const { formatForSite } = useTimeZoneTime();
 
 	const titleClassName = classNames('ee-datetime-row__title', type && `ee-datetime-row__title--${type}`);
 
 	const title = formatDate(date, formatForSite);
 
-	const onClickTrash = useCallback(() => toggleExDate(date), [toggleExDate, date]);
+	const onClickTrash = useCallback(() => toggleExDate(ISOStr), [toggleExDate, ISOStr]);
 
 	return (
 		<div>
 			<div className={titleClassName}>
-				{iconMappingBy[type]}
+				{iconMap[type]}
 				<span>{title}</span>
 			</div>
 
 			<div className='generated-datetime-trash-div'>
-				<Button
-					icon={Trash}
-					onClick={onClickTrash}
-					tooltip={type === 'exception' ? __('Remove from Exceptions.') : __('Add to Exceptions.')}
-				/>
+				<Button icon={Trash} onClick={onClickTrash} tooltip={titleMap[type]} />
 			</div>
 		</div>
 	);
