@@ -7,7 +7,7 @@ import getDatesLimit from '../../utils/getDatesLimit';
 import { GeneratedDate } from './types';
 import { sortBy, prop } from 'ramda';
 
-export const useGenerateDatetimes = (includeExDates?: boolean): Array<GeneratedDate> => {
+export const useGenerateDates = (includeExDates?: boolean): Array<GeneratedDate> => {
 	const { exRule, rRule, exDates, rDates } = useFormState();
 
 	let result: Array<GeneratedDate> = [];
@@ -58,4 +58,4 @@ export const useGenerateDatetimes = (includeExDates?: boolean): Array<GeneratedD
 	return useMemoStringify(result);
 };
 
-export default useGenerateDatetimes;
+export default useGenerateDates;
