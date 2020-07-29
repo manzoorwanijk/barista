@@ -1,4 +1,5 @@
 import type { UpdateDatetimeInput } from '@eventespresso/edtr-services';
+import type { IntervalType } from '@eventespresso/services';
 
 export interface DatetimeDetailsProps {
 	onClose?: VoidFunction;
@@ -6,5 +7,5 @@ export interface DatetimeDetailsProps {
 
 export interface DateFormShape extends UpdateDatetimeInput {
 	duration?: number;
-	unit?: 'days' | 'hours' | 'minutes';
+	unit?: IntervalType;
 }
