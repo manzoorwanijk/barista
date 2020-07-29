@@ -14,7 +14,7 @@ import {
 
 import { toInteger } from '../converters/number';
 
-type IntervalType =
+export type IntervalType =
 	| 'days'
 	| 'hours'
 	| 'ISOWeekYears'

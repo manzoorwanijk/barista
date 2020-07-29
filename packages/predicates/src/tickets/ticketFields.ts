@@ -1,4 +1,4 @@
-import type { UpdateTicketInput } from '@eventespresso/edtr-services';
+import type { UpdateTicketInput, Ticket } from '@eventespresso/edtr-services';
 
 export const TICKET_INPUT_FIELDS: Array<keyof UpdateTicketInput> = [
 	'datetimes',
@@ -24,7 +24,7 @@ export const TICKET_INPUT_FIELDS: Array<keyof UpdateTicketInput> = [
 	'wpUser',
 ];
 
-const outputOnlyFields = [
+const OUTPUT_ONLY_FIELDS: Array<keyof Omit<Ticket, keyof UpdateTicketInput> | 'id'> = [
 	'cacheId',
 	'dbId',
 	'id',
@@ -36,4 +36,4 @@ const outputOnlyFields = [
 	'registrationCount',
 ];
 
-export const TICKET_FIELDS = [...TICKET_INPUT_FIELDS, ...outputOnlyFields];
+export const TICKET_FIELDS = [...TICKET_INPUT_FIELDS, ...OUTPUT_ONLY_FIELDS];
