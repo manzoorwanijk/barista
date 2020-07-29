@@ -7,8 +7,9 @@ import type { TpcPriceModifier } from '@eventespresso/tpc';
 import type { DateFormShape } from '../ui/datetimeDetails/types';
 import type { RemTicketFields } from '../ui/Tickets/types';
 
-export interface RemTicket extends Omit<Ticket, 'prices'>, Required<RemTicketFields> {
+export interface RemTicket extends Omit<Ticket, 'prices'>, RemTicketFields {
 	prices?: Array<TpcPriceModifier>;
+	isShared: boolean;
 }
 
 export type StartAndEndDate = {
