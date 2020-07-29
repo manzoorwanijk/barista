@@ -1,17 +1,31 @@
-import type { DateAndTime } from '@eventespresso/edtr-services';
 import type { UpdateTicketInput, Datetime } from '@eventespresso/edtr-services';
+import type { IntervalType } from '@eventespresso/services';
+
 import { RemTicket } from '../../data';
 
 export interface BaseProps {
 	ticket: RemTicket;
 }
 
-export interface TicketFormShape extends Omit<UpdateTicketInput, 'prices'> {
-	dateTime?: DateAndTime;
+export interface TicketFormShape extends Omit<UpdateTicketInput, 'prices'>, RemTicketFields {}
+
+export type TicketSatesFields = {
 	position?: 'before' | 'after';
 	startOrEnd?: 'start' | 'end';
-	unit?: 'months' | 'weeks' | 'days' | 'hours' | 'minutes';
+	unit?: IntervalType;
 	unitValue?: number;
+};
+
+export type DateAndTime = {
+	date: Date;
+	time: Date;
+};
+
+export interface RemTicketFields extends Partial<TicketSatesFields>, Partial<DateAndTime> {
+	dateTimeStart?: DateAndTime;
+	dateTimeEnd?: DateAndTime;
+	ticketSalesStart?: TicketSatesFields;
+	ticketSalesEnd?: TicketSatesFields;
 	isShared?: boolean;
 }
 

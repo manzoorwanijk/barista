@@ -1,16 +1,23 @@
 import type { Reducer, ReducerState } from 'react';
 
-import type { DatetimeBaseInput, Ticket } from '@eventespresso/edtr-services';
+import type { Ticket } from '@eventespresso/edtr-services';
 import type { AnyObject } from '@eventespresso/services';
 import type { EntityId } from '@eventespresso/data';
 import type { TpcPriceModifier } from '@eventespresso/tpc';
+import type { DateFormShape } from '../ui/datetimeDetails/types';
+import type { RemTicketFields } from '../ui/Tickets/types';
 
-export interface RemTicket extends Omit<Ticket, 'prices'> {
+export interface RemTicket extends Omit<Ticket, 'prices'>, Required<RemTicketFields> {
 	prices?: Array<TpcPriceModifier>;
 }
 
+export type StartAndEndDate = {
+	startDate: Date;
+	endDate: Date;
+};
+
 export interface FormState {
-	dateDetails: DatetimeBaseInput;
+	dateDetails: DateFormShape;
 	exDates?: Array<string>;
 	exRule: string;
 	gDates?: string;
@@ -54,7 +61,7 @@ export interface FormStateManager extends FormState {
 	removeRDate: (date: string) => void;
 	addExDate: (date: string) => void;
 	removeExDate: (date: string) => void;
-	updateDateField: <K extends keyof DatetimeBaseInput>(field: K, value: DatetimeBaseInput[K]) => void;
+	updateDateField: <K extends keyof DateFormShape>(field: K, value: DateFormShape[K]) => void;
 	updateTicket: (id: string, details: DataAction['ticket']) => void;
 }
 

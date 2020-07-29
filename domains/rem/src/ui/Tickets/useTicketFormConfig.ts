@@ -2,7 +2,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { pick } from 'ramda';
 
 import { CalendarOutlined, ControlOutlined, ProfileOutlined } from '@eventespresso/icons';
-import type { EspressoFormProps } from '@eventespresso/form';
+import type { EspressoFormProps, FieldProps } from '@eventespresso/form';
 import { useMemoStringify } from '@eventespresso/hooks';
 
 import { validate } from './formValidation';
@@ -12,8 +12,106 @@ import { RemTicket } from '../../data';
 
 type TicketFormConfig = EspressoFormProps<TicketFormShape>;
 
+const TICKET_DEFAULTS: TicketFormShape = {
+	ticketSalesStart: {
+		position: 'before',
+		startOrEnd: 'start',
+		unit: 'months',
+		unitValue: 1,
+	},
+	ticketSalesEnd: {
+		position: 'before',
+		startOrEnd: 'start',
+		unit: 'days',
+		unitValue: 1,
+	},
+	isShared: false,
+};
+
+const dateTimeFields: Array<FieldProps> = [
+	{
+		name: 'date',
+		label: __('Date'),
+		fieldType: 'datepicker',
+		required: true,
+	},
+	{
+		name: 'time',
+		label: __('Time'),
+		fieldType: 'timepicker',
+		required: true,
+	},
+];
+
+const ticketSalesFields: Array<FieldProps> = [
+	{
+		label: __('Unit value'),
+		name: 'unitValue',
+		fieldType: 'number',
+		required: true,
+	},
+	{
+		name: 'unit',
+		label: __('Unit'),
+		fieldType: 'select',
+		options: [
+			{
+				label: 'month(s)',
+				value: 'months',
+			},
+			{
+				label: 'week(s)',
+				value: 'weeks',
+			},
+			{
+				label: 'day(s)',
+				value: 'days',
+			},
+			{
+				label: 'hour(s)',
+				value: 'hours',
+			},
+			{
+				label: 'minute(s)',
+				value: 'minutes',
+			},
+		],
+	},
+	{
+		name: 'position',
+		label: __('Position'),
+		fieldType: 'select',
+		options: [
+			{
+				label: 'before',
+				value: 'before',
+			},
+			{
+				label: 'after',
+				value: 'after',
+			},
+		],
+	},
+	{
+		name: 'startOrEnd',
+		label: __('Start/ end'),
+		fieldType: 'select',
+		options: [
+			{
+				label: 'start',
+				value: 'start',
+			},
+			{
+				label: 'end',
+				value: 'end',
+			},
+		],
+	},
+];
+
 const useTicketFormConfig = (ticket?: RemTicket, config?: Partial<TicketFormConfig>): TicketFormConfig => {
 	const initialValues: TicketFormShape = {
+		...TICKET_DEFAULTS,
 		...config?.initialValues,
 		...pick<Partial<RemTicket>, keyof RemTicket>(TICKET_FIELDS_TO_USE, ticket || {}),
 	};
@@ -49,79 +147,44 @@ const useTicketFormConfig = (ticket?: RemTicket, config?: Partial<TicketFormConf
 				],
 			},
 			{
-				name: 'sales',
+				name: 'salesStart',
 				icon: CalendarOutlined,
-				title: __('Ticket Sales'),
+				title: __('Ticket Sales Start'),
 				fields: [
 					{
-						name: 'dateTime',
+						name: 'dateTimeStart',
 						label: '',
 						fieldType: 'group',
-						subFields: [
-							{
-								label: __('Unit value'),
-								name: 'unitValue',
-								fieldType: 'number',
-								required: true,
-							},
-							{
-								name: 'unit',
-								label: __('Unit'),
-								fieldType: 'select',
-								options: [
-									{
-										label: 'month(s)',
-										value: 'months',
-									},
-									{
-										label: 'week(s)',
-										value: 'weeks',
-									},
-									{
-										label: 'day(s)',
-										value: 'days',
-									},
-									{
-										label: 'hour(s)',
-										value: 'hours',
-									},
-									{
-										label: 'minute(s)',
-										value: 'minutes',
-									},
-								],
-							},
-							{
-								name: 'position',
-								label: __('Position'),
-								fieldType: 'select',
-								options: [
-									{
-										label: 'before',
-										value: 'before',
-									},
-									{
-										label: 'after',
-										value: 'after',
-									},
-								],
-							},
-							{
-								name: 'startOrEnd',
-								label: __('Start/ end'),
-								fieldType: 'select',
-								options: [
-									{
-										label: 'start',
-										value: 'start',
-									},
-									{
-										label: 'end',
-										value: 'end',
-									},
-								],
-							},
-						],
+						conditions: [{ field: 'isShared', compare: '=', value: true }],
+						subFields: dateTimeFields,
+					},
+					{
+						name: 'ticketSalesStart',
+						label: '',
+						fieldType: 'group',
+						conditions: [{ field: 'isShared', compare: '=', value: false }],
+						subFields: ticketSalesFields,
+					},
+				],
+			},
+			{
+				name: 'salesEnd',
+				icon: CalendarOutlined,
+				title: __('Ticket Sales End'),
+				fields: [
+					{
+						name: 'dateTimeEnd',
+						label: '',
+						fieldType: 'group',
+						conditions: [{ field: 'isShared', compare: '=', value: true }],
+						subFields: dateTimeFields,
+					},
+					{
+						name: 'ticketSalesStart',
+						label: '',
+						fieldType: 'group',
+						conditions: [{ field: 'isShared', compare: '=', value: false }],
+						subFields: ticketSalesFields,
 					},
 				],
 			},
