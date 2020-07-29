@@ -1,9 +1,10 @@
 import React from 'react';
 import { isEmpty } from 'ramda';
 
-import { Button, ButtonRow, Next, Previous } from '@eventespresso/components';
+import { ButtonRow, Next, Previous } from '@eventespresso/components';
 
-import useCancelButtonProps from './useCancelButtonProps';
+import CancelButton from './CancelButton';
+import SubmitButton from './SubmitButton';
 import { useStepsState } from '../../context';
 import { useFormState } from '../../data';
 
@@ -30,9 +31,9 @@ const ContentFooter: React.FC<Props> = ({ onClose }) => {
 			break;
 	}
 
-	const cancelButtonProps = useCancelButtonProps(onClose);
 	return (
 		<ButtonRow rightAligned topBordered>
+			<CancelButton onClick={onClose} />
 			{
 				// hide previous on first step
 				current > 0 && <Previous onClick={prev} />
@@ -41,7 +42,10 @@ const ContentFooter: React.FC<Props> = ({ onClose }) => {
 				// hide next on last step
 				current < 3 && <Next onClick={next} isDisabled={isNextDisabled} />
 			}
-			<Button {...cancelButtonProps} />
+			{
+				// last step
+				current === 3 && <SubmitButton />
+			}
 		</ButtonRow>
 	);
 };

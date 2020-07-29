@@ -64,7 +64,7 @@ export interface FieldCondition {
 		| 'NOT_CONTAINS'
 		| 'MATCHES'
 		| 'NOT_MATCHES';
-	value?: string;
+	value?: any;
 }
 
 export type FieldConditions = Array<FieldCondition>;

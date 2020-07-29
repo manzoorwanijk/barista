@@ -5,11 +5,11 @@ import { Heading } from '@eventespresso/adapters';
 import { Legend } from '@eventespresso/components';
 
 import Datetimes from './Datetimes';
-import useGenerateDatetimes from './useGenerateDatetimes';
+import useGenerateDates from './useGenerateDates';
 import { legendConfig } from './config';
 
 const GeneratedDates: React.FC = () => {
-	const datetimes = useGenerateDatetimes(true);
+	const datetimes = useGenerateDates(true);
 
 	return (
 		<>

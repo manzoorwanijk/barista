@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { useForm } from 'react-final-form';
+import { useFormState } from 'react-final-form';
 
 import { evalFieldConditions } from '../utils';
 import type { FieldConditions } from '../types';
 
+const subscription = { values: true };
 const useShouldBeVisible = (conditions: FieldConditions, fieldName: string): boolean => {
-	const { getState } = useForm();
-	const formValues = getState().values;
+	const { values: formValues } = useFormState({ subscription });
 	return useMemo<boolean>(() => evalFieldConditions(conditions, formValues, fieldName), [
 		conditions,
 		fieldName,

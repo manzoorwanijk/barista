@@ -13,8 +13,14 @@ type DateFormConfig = EspressoFormProps<DateFormShape>;
 // required for RFF, but we don't need it.
 const onSubmit = () => null;
 
+const DATE_DEFAULTS: DateFormShape = {
+	unit: 'days',
+	duration: 1,
+};
+
 const useDateFormConfig = (datetime: Datetime, config?: Partial<EspressoFormProps>): DateFormConfig => {
 	const initialValues: DateFormShape = {
+		...DATE_DEFAULTS,
 		...config?.initialValues,
 		...pick<Partial<Datetime>, keyof Datetime>(DATE_FIELDS_TO_USE, datetime || {}),
 	};

@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { __ } from '@wordpress/i18n';
-import { assoc } from 'ramda';
 
 import { useTickets } from '@eventespresso/edtr-services';
 import { Button, SelectInput } from '@eventespresso/components';
@@ -20,7 +19,7 @@ const TicketTemplate: React.FC<Props> = ({ addTicketTemplate, ticketTemplates })
 
 	// convert Apollo tickets to REM tickets
 	// This is nothing but to make a fool of TS ¯\_(ツ)_/¯
-	const tickets = useTickets().map<RemTicket>(assoc('prices', []));
+	const tickets = useTickets().map<RemTicket>((ticket) => ({ ...ticket, prices: [], isShared: false }));
 
 	const filteredTickets = ticketTemplates.length
 		? entitiesWithGuIdNotInArray(tickets, getGuids(ticketTemplates))
