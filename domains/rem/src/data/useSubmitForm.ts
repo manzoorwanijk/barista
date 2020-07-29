@@ -16,7 +16,7 @@ type Progress = {
 
 const useSubmitForm = (formState: FormState, generatedDates: Array<GeneratedDate>): (() => Promise<void>) => {
 	const { dateDetails, tickets } = formState;
-	const [progress, setProgress] = useState<Progress>({});
+	const [progress, setProgress] = useState<Progress>({ datetimes: 0, tickets: 0 });
 	const { createEntity: createDatetime } = useDatetimeMutator();
 	const { siteTimeToUtc } = useTimeZoneTime();
 
