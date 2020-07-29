@@ -7,7 +7,7 @@ import { format as formatTz, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz'
 type DateFn = (date: Date | string | number) => Date;
 type FormatDateFn = (date: Date, options?: Intl.DateTimeFormatOptions) => string;
 
-interface TimeZoneTime {
+export interface TimeZoneTime {
 	formatDateForSite: FormatDateFn;
 	formatDateForUser: FormatDateFn;
 	formatForSite: (localDate: Date, formatStr: string) => string;
