@@ -1,5 +1,5 @@
 import { WeekdayStr } from 'rrule';
-import { ALL_WEEKDAYS } from 'rrule/dist/esm/src/weekday';
+import { ALL_WEEKDAYS, Weekday } from 'rrule/dist/esm/src/weekday';
 import { parse, getMonth } from 'date-fns';
 
 import { Which, Day, Month } from '../../../types';
@@ -28,7 +28,7 @@ export const getBySetPos = (which: Which): number => {
 	return bysetpos;
 };
 
-export const getByWeekday = (day: Day): Array<WeekdayStr> => {
+export const getByWeekday = (day: Day): Array<number> => {
 	let byweekday: Array<WeekdayStr>;
 	switch (day) {
 		case 'DAY':
@@ -47,7 +47,12 @@ export const getByWeekday = (day: Day): Array<WeekdayStr> => {
 			}
 			break;
 	}
-	return byweekday;
+	return byweekday.map(weekdayStringToNumber);
+};
+
+export const weekdayStringToNumber = (day: WeekdayStr): number => {
+	// calculate numeric weekday from string
+	return Weekday.fromStr(day).weekday;
 };
 
 export const getByMonth = (month: Month): number => {
