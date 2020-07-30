@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { __ } from '@wordpress/i18n';
 
+import PositionSelect from '../PositionSelect';
 import { MONTHS, DAYS } from '../../../constants';
 import { useRRuleState } from '../../../hooks';
 import { OnChangeSelect } from '../../types';
@@ -43,77 +44,65 @@ const OnThe: React.FC<OnProps> = ({ id, isTheOnlyMode, onChangeMode }) => {
 	);
 
 	return (
-		<div className={`form-group row d-flex align-items-sm-center ${!isActive && 'opacity-50'}`}>
-			<div className='col-sm-1 offset-sm-2'>
-				{!isTheOnlyMode && (
+		<div className='rrule-generator__on-the'>
+			{!isTheOnlyMode && (
+				<label className='rrule-generator__labelled-input'>
 					<input
+						aria-label={__('Repeat yearly on the')}
+						className='rrule-generator__input-radio'
 						id={id}
 						type='radio'
-						aria-label={__('Repeat yearly on the')}
 						name='repeat.yearly.mode'
 						checked={isActive}
 						value='ON_THE'
 						onChange={onChangeMode}
 					/>
-				)}
-			</div>
-			<div className='col-sm-1'>{__('on the')}</div>
+					<span>{__('on the')}</span>
+				</label>
+			)}
 
-			<div className='col-sm-2'>
-				<select
-					id={`${id}-which`}
-					name='repeat.yearly.onThe.which'
-					aria-label={__('Repeat yearly on the')}
-					className='form-control'
-					value={onThe.which}
-					disabled={!isActive}
-					onChange={onChangeWhich}
-				>
-					<option value='FIRST'>{__('First')}</option>
-					<option value='SECOND'>{__('Second')}</option>
-					<option value='THIRD'>{__('Third')}</option>
-					<option value='FOURTH'>{__('Fourth')}</option>
-					<option value='LAST'>{__('Last')}</option>
-				</select>
-			</div>
+			<PositionSelect
+				aria-label={__('Repeat yearly on the')}
+				id={id}
+				isActive={isActive}
+				name='repeat.yearly.onThe.which'
+				onChangeWhich={onChangeWhich}
+				value={onThe.which}
+			/>
 
-			<div className='col-sm-3'>
-				<select
-					id={`${id}-day`}
-					name='repeat.yearly.onThe.day'
-					aria-label={__('Repeat yearly on the day')}
-					className='form-control'
-					value={onThe.day}
-					disabled={!isActive}
-					onChange={onChangeDay}
-				>
-					{Object.entries(DAYS).map(([key, day]) => (
-						<option key={key} value={key}>
-							{day}
-						</option>
-					))}
-				</select>
-			</div>
+			<select
+				id={`${id}-day`}
+				name='repeat.yearly.onThe.day'
+				aria-label={__('Repeat yearly on the day')}
+				className='rrule-generator__form-control rrule-generator__select'
+				value={onThe.day}
+				disabled={!isActive}
+				onChange={onChangeDay}
+			>
+				{Object.entries(DAYS).map(([key, day]) => (
+					<option key={key} value={key}>
+						{day}
+					</option>
+				))}
+			</select>
 
-			<div className='col-sm-1'>{__('of')}</div>
+			<span>{__('of')}</span>
 
-			<div className='col-sm-2'>
-				<select
-					id={`${id}-month`}
-					name='repeat.yearly.onThe.month'
-					aria-label={__('Repeat yearly on the month')}
-					className='form-control'
-					value={onThe.month}
-					disabled={!isActive}
-					onChange={onChangeMonth}
-				>
-					{Object.entries(MONTHS).map(([key, month]) => (
-						<option key={key} value={key}>
-							{month}
-						</option>
-					))}
-				</select>
-			</div>
+			<select
+				id={`${id}-month`}
+				name='repeat.yearly.onThe.month'
+				aria-label={__('Repeat yearly on the month')}
+				className='rrule-generator__form-control rrule-generator__select rrule-generator__month'
+				value={onThe.month}
+				disabled={!isActive}
+				onChange={onChangeMonth}
+			>
+				{Object.entries(MONTHS).map(([key, month]) => (
+					<option key={key} value={key}>
+						{month}
+					</option>
+				))}
+			</select>
 		</div>
 	);
 };

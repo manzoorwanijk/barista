@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { __ } from '@wordpress/i18n';
 
 import { DAYS } from '../../../constants';
+import PositionSelect from '../PositionSelect';
 import { OnProps } from '../types';
 import { useRRuleState } from '../../../hooks';
 import { OnChangeSelect } from '../../types';
@@ -34,58 +35,49 @@ const OnThe: React.FC<OnProps> = ({ id, isTheOnlyMode, onChangeMode }) => {
 	);
 
 	return (
-		<div className={`form-group row d-flex align-items-sm-center ${!isActive && 'opacity-50'}`}>
-			<div className='col-sm-1 offset-sm-2'>
-				{!isTheOnlyMode && (
+		<div className='rrule-generator__on-the'>
+			{!isTheOnlyMode && (
+				<label className='rrule-generator__labelled-input'>
 					<input
+						aria-label={__('Repeat monthly on the')}
+						checked={isActive}
+						className='rrule-generator__input-radio'
 						id={id}
 						type='radio'
 						name={id}
-						aria-label={__('Repeat monthly on the')}
 						value='ON_THE'
-						checked={isActive}
 						onChange={onChangeMode}
 					/>
-				)}
-			</div>
-			<div className='col-sm-1'>{__('on the')}</div>
+					<span>{__('on the')}</span>
+				</label>
+			)}
 
-			<div className='col-sm-2'>
-				<select
-					id={`${id}-which`}
-					name='repeat.monthly.onThe.which'
-					aria-label={__('Repeat monthly on the which')}
-					className='form-control'
-					value={onThe.which}
-					disabled={!isActive}
-					onChange={onChangeWhich}
-				>
-					<option value='FIRST'>{__('First')}</option>
-					<option value='SECOND'>{__('Second')}</option>
-					<option value='THIRD'>{__('Third')}</option>
-					<option value='FOURTH'>{__('Fourth')}</option>
-					<option value='LAST'>{__('Last')}</option>
-				</select>
-			</div>
+			<PositionSelect
+				aria-label={__('Repeat monthly on the which')}
+				id={id}
+				isActive={isActive}
+				name='repeat.monthly.onThe.which'
+				onChangeWhich={onChangeWhich}
+				value={onThe.which}
+			/>
 
-			<div className='col-sm-3'>
-				<select
-					id={`${id}-day`}
-					name='repeat.monthly.onThe.day'
-					aria-label={__('Repeat monthly on the day')}
-					className='form-control'
-					value={onThe.day}
-					disabled={!isActive}
-					onChange={onChangeDay}
-				>
-					{Object.entries(DAYS).map(([key, day]) => (
-						<option key={key} value={key}>
-							{day}
-						</option>
-					))}
-				</select>
-			</div>
+			<select
+				id={`${id}-day`}
+				name='repeat.monthly.onThe.day'
+				aria-label={__('Repeat monthly on the day')}
+				className='rrule-generator__form-control rrule-generator__select rrule-generator__month'
+				value={onThe.day}
+				disabled={!isActive}
+				onChange={onChangeDay}
+			>
+				{Object.entries(DAYS).map(([key, day]) => (
+					<option key={key} value={key}>
+						{day}
+					</option>
+				))}
+			</select>
 		</div>
 	);
 };
+
 export default OnThe;
