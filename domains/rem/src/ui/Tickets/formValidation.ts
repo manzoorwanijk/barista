@@ -1,10 +1,10 @@
 import { __ } from '@wordpress/i18n';
 import * as yup from 'yup';
-import { isValid } from 'date-fns';
 
 import { yupToFinalFormErrors } from '@eventespresso/form';
-import { DateAndTime, TicketFormShape } from './types';
 import { IntervalType } from '@eventespresso/services';
+import { transformTimeByDate } from '@eventespresso/edtr-services';
+import { DateAndTime, TicketFormShape } from './types';
 
 export const validate = async (values: TicketFormShape): Promise<any> => {
 	return await yupToFinalFormErrors(validationSchema, values);
@@ -34,33 +34,12 @@ const requiredWhenIsSharedEquals = <T extends any>(
 const dateTimeShape = {
 	// make date and time required
 	date: yup.date().required(requiredMessage).typeError(requiredMessage),
-	time: yup
-		.date()
-		.required(requiredMessage)
-		.typeError(requiredMessage)
-		.when(
-			// we need to transform time to make sure that
-			// year, month and date are same as that of date
-			'date',
-			(date: Date, schema: yup.DateSchema) => {
-				// if the date is valid
-				if (isValid(date)) {
-					// transform the time to set year month and date from adjacent date input
-					return schema.transform((value) => {
-						if (isValid(value)) {
-							const time = new Date(value);
-							time.setFullYear(date.getFullYear());
-							time.setMonth(date.getMonth());
-							time.setDate(date.getDate());
-							return time;
-						}
-						return value;
-					});
-				}
-				// otherwise return the original schema
-				return schema;
-			}
-		),
+	time: yup.date().required(requiredMessage).typeError(requiredMessage).when(
+		// we need to transform time to make sure that
+		// year, month and date are same as that of date
+		'date',
+		transformTimeByDate
+	),
 };
 
 const dateTimeSchema = yup.object<DateAndTime>().when(
