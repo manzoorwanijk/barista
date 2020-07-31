@@ -49,11 +49,13 @@ const ticketSalesFields: Array<FieldProps> = [
 		name: 'unitValue',
 		fieldType: 'number',
 		required: true,
+		min: 1,
 	},
 	{
 		name: 'unit',
 		label: __('Unit'),
 		fieldType: 'select',
+		required: true,
 		options: [
 			{
 				label: 'month(s)',
@@ -81,6 +83,7 @@ const ticketSalesFields: Array<FieldProps> = [
 		name: 'position',
 		label: __('Position'),
 		fieldType: 'select',
+		required: true,
 		options: [
 			{
 				label: 'before',
@@ -96,6 +99,7 @@ const ticketSalesFields: Array<FieldProps> = [
 		name: 'startOrEnd',
 		label: __('Start/ end'),
 		fieldType: 'select',
+		required: true,
 		options: [
 			{
 				label: 'start',
@@ -180,7 +184,7 @@ const useTicketFormConfig = (ticket?: RemTicket, config?: Partial<TicketFormConf
 						subFields: dateTimeFields,
 					},
 					{
-						name: 'ticketSalesStart',
+						name: 'ticketSalesEnd',
 						label: '',
 						fieldType: 'group',
 						conditions: [{ field: 'isShared', compare: '=', value: false }],

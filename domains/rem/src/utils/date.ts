@@ -10,8 +10,8 @@ export const computeDatetimeEndDate = (startDate: Date, unit: IntervalType, dura
  * computes the ticket start or end date based upon the start and end date of datetime
  */
 export const computeTicketDate = (startAndEndDate: StartAndEndDate, ticketSales: TicketSatesFields): Date => {
-	const { position, startOrEnd, unit, unitValue } = ticketSales;
-	const { startDate, endDate } = startAndEndDate;
+	const { position, startOrEnd, unit, unitValue } = ticketSales || {};
+	const { startDate, endDate } = startAndEndDate || {};
 	switch (true) {
 		case startOrEnd === 'start' && position === 'before':
 			return sub(unit, startDate, unitValue);
