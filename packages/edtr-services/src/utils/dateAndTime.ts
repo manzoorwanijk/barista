@@ -97,7 +97,7 @@ export const transformTimeByDate: yup.WhenOptionsBuilderFunction<yup.DateSchema>
 	// otherwise return the original schema
 	return schema;
 };
-const dateMessage = () => __('End Date & Time must be set later than the Start Date & Time');
+export const dateErrorMessage = (): string => __('End Date & Time must be set later than the Start Date & Time');
 
 export const dateAndTimeSchema = yup.object({
 	startDate: yup
@@ -114,14 +114,14 @@ export const dateAndTimeSchema = yup.object({
 		.transform(transformDate)
 		.required(() => __('End Date is required'))
 		.when(['startDate'], (startDate: Date, schema: yup.DateSchema) => {
-			return schema.min(startDate, dateMessage);
+			return schema.min(startDate, dateErrorMessage);
 		}),
 	endTime: yup
 		.date()
 		.transform(transformTime)
 		.required(() => __('End Time is required'))
 		.when(['startTime', 'endDate'], (startTime: Date, endDate: Date, schema: yup.DateSchema) => {
-			return transformTimeByDate(endDate, schema).min(startTime, dateMessage);
+			return transformTimeByDate(endDate, schema).min(startTime, dateErrorMessage);
 		}),
 });
 

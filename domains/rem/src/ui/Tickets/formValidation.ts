@@ -3,7 +3,7 @@ import * as yup from 'yup';
 
 import { yupToFinalFormErrors } from '@eventespresso/form';
 import { IntervalType } from '@eventespresso/services';
-import { transformTimeByDate } from '@eventespresso/edtr-services';
+import { transformTimeByDate, dateErrorMessage } from '@eventespresso/edtr-services';
 import { DateAndTime, TicketFormShape } from './types';
 
 export const validate = async (values: TicketFormShape): Promise<any> => {
@@ -11,7 +11,6 @@ export const validate = async (values: TicketFormShape): Promise<any> => {
 };
 
 const requiredMessage = () => __('Required');
-const dateMessage = () => __('End Date & Time must be set later than the Start Date & Time');
 
 /**
  * switches required schema based on the value of isShared
@@ -79,8 +78,8 @@ const validationSchema = yup.object<TicketFormShape>({
 				// it's assumed that transformation of times has already been done
 				// to make sure that year, month and date is compared correctly for time inputs
 				return schema.shape<DateAndTime>({
-					date: dateTimeShape.date.min(dateTimeStart?.date, dateMessage),
-					time: dateTimeShape.time.min(dateTimeStart?.time, dateMessage),
+					date: dateTimeShape.date.min(dateTimeStart?.date, dateErrorMessage),
+					time: dateTimeShape.time.min(dateTimeStart?.time, dateErrorMessage),
 				});
 			}
 			return schema;
