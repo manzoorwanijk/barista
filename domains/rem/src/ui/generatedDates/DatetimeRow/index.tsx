@@ -5,11 +5,11 @@ import { __ } from '@wordpress/i18n';
 import { Rotate, PlusCircleFilled, Trash, CloseCircleFilled } from '@eventespresso/icons';
 import { Button } from '@eventespresso/components';
 import { useTimeZoneTime } from '@eventespresso/services';
-
 import { DatetimeRowProps, DateType } from '../types';
+import { getBgClassName, formatDate } from '../utils';
 
 import './styles.scss';
-import { formatDate } from '../utils';
+import '../bg-colors.scss';
 
 const iconMap: { [key in DateType]: React.ReactNode } = {
 	gDate: <Rotate />,
@@ -23,10 +23,12 @@ const titleMap: { [key in DateType]: string } = {
 	exDate: __('Remove from Exceptions'),
 };
 
-const DatetimeRow: React.FC<DatetimeRowProps> = ({ date, ISOStr, number, type, toggleExDate }) => {
+const DatetimeRow: React.FC<DatetimeRowProps> = ({ date, ISOStr, type, toggleExDate }) => {
 	const { formatForSite } = useTimeZoneTime();
 
-	const titleClassName = classNames('ee-datetime-row__title', type && `ee-datetime-row__title--${type}`);
+	const bgClassName = getBgClassName(type);
+
+	const titleClassName = classNames('ee-datetime-row__title', bgClassName);
 
 	const title = formatDate(date, formatForSite);
 

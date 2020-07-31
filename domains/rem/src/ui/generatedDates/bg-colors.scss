@@ -1,0 +1,16 @@
+.ee-generated-dates-bg {
+	&--rDate {
+		background-color: var(--ee-color-secondary);
+		color: var(--ee-text-on-secondary);
+	}
+
+	&--exDate {
+		background-color: var(--ee-color-accent);
+		color: var(--ee-text-on-accent);
+	}
+
+	&--gDate {
+		background-color: var(--ee-color-primary);
+		color: var(--ee-text-on-primary);
+	}
+}
