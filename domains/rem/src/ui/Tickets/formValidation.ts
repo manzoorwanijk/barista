@@ -92,7 +92,7 @@ const validationSchema = yup.object<TicketFormShape>({
 	ticketSalesEnd: ticketSalesSchema,
 	dateTimeStart: dateTimeSchema,
 	dateTimeEnd: dateTimeSchema.when(
-		['dateTimeStart'], // validation end dates based on start dates
+		['dateTimeStart'], // validate end dates based on start dates
 		(dateTimeStart: DateAndTime, schema: yup.ObjectSchema<DateAndTime>): yup.ObjectSchema<DateAndTime> => {
 			// if we have a start date
 			if (dateTimeStart?.date) {
