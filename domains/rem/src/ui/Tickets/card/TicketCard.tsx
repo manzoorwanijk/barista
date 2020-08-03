@@ -5,7 +5,7 @@ import { CurrencyInput, SimpleEntityCard } from '@eventespresso/components';
 import { BaseProps } from '../types';
 import Sidebar from './Sidebar';
 import { useFormState } from '../../../data';
-import { INTERVALS } from 'domains/rem/src/constants';
+import { INTERVALS } from '../../../constants';
 
 const TicketCard: React.FC<BaseProps> = ({ ticket }) => {
 	const { tickets } = useFormState();
