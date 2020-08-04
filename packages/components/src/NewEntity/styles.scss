@@ -1,11 +1,13 @@
 .ee-new-entity-popover {
 	max-width: 60rem !important;
 	height: auto !important;
+
 	&__body {
 		display: flex;
 		justify-content: center;
 	}
 }
+
 .ee-new-entity-option {
 	display: flex;
 	flex-direction: column;
@@ -16,14 +18,21 @@
 	padding: 1em;
 
 	h4 {
-		font-size: 1.5em;
+		color: var(--ee-default-text-color-low-contrast);
+		font-size: var(--ee-font-size-big);
 		font-weight: 600;
-		margin-top: 1.3em;
-		margin-bottom: 1.3em;
+		margin-top: var(--ee-margin-default);
+		margin-bottom: var(--ee-margin-default);
 	}
 
 	&__description {
 		text-align: center;
 		max-width: 220px;
+	}
+
+	svg {
+		color: var(--ee-color-grey-9);
+		height: auto;
+		width: 35px;
 	}
 }

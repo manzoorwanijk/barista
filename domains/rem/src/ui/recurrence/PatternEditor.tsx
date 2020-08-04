@@ -3,6 +3,7 @@ import { useDisclosure } from '@chakra-ui/hooks';
 import { __ } from '@wordpress/i18n';
 
 import { Button } from '@eventespresso/components';
+import { Divider } from '@eventespresso/adapters';
 
 import ExclusionPattern from './ExclusionPattern';
 import RecurrencePattern from './RecurrencePattern';
@@ -30,9 +31,11 @@ const PatternEditor: React.FC = () => {
 			) : null}
 			<RecurrencePattern />
 			<Button
+				noHorizontalMargin
 				buttonText={isOpen ? __('Remove exclusion pattern') : __('Add exclusion pattern')}
 				onClick={isOpen ? onRemoveClick : onOpen}
 			/>
+			<Divider />
 			{isOpen && <ExclusionPattern />}
 		</>
 	);
