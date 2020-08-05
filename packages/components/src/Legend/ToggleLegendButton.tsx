@@ -2,13 +2,17 @@ import React from 'react';
 import { useSpring, animated } from 'react-spring';
 import { __ } from '@wordpress/i18n';
 
-import { Button } from '../../../Button';
 import { CompassFilled } from '@eventespresso/icons';
-import type { ToggleLegendButtonProps } from '../types';
-
 import { getPropsAreEqual } from '@eventespresso/services';
+import { Button } from '../Button';
+import type { ToggleLegendButtonProps } from './types';
 
-const ToggleLegendButton: React.FC<ToggleLegendButtonProps> = ({ listId, showLegend, toggleLegend, ...rest }) => {
+const ToggleLegendButton: React.FC<ToggleLegendButtonProps> = ({
+	className,
+	noHorizontalMargin,
+	showLegend,
+	toggleLegend,
+}) => {
 	const iconProps = useSpring({
 		display: 'inline-flex',
 		transform: `rotate(${showLegend ? 0 : 180}deg)`,
@@ -20,22 +24,19 @@ const ToggleLegendButton: React.FC<ToggleLegendButtonProps> = ({ listId, showLeg
 		</animated.div>
 	);
 
-	const filterId = `ee-toggle-legend-btn-${listId}`;
 	const tooltip = showLegend ? __('hide legend') : __('show legend');
 
 	return (
 		<Button
 			active={showLegend}
-			className='ee-filter-bar__btn ee-btn--small'
+			className={className}
 			icon={icon}
-			id={filterId}
+			noHorizontalMargin={noHorizontalMargin}
 			onClick={toggleLegend}
-			labelClassName={'ee-filter-bar__btn-wrap'}
-			{...rest}
 		>
 			{tooltip}
 		</Button>
 	);
 };
 
-export default React.memo(ToggleLegendButton, getPropsAreEqual(['listId'], ['showLegend'], ['isDisabled']));
+export default React.memo(ToggleLegendButton, getPropsAreEqual(['showLegend'], ['isDisabled']));
