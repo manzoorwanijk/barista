@@ -13,9 +13,10 @@ const RemButton: React.FC = () => {
 	return (
 		<>
 			<NewEntityOption
-				title={__('Recurring Dates')}
+				className={'ee-new-entity-option__recurring-datetime'}
+				description={__('Add multiple dates in bulk\nthat follow a recurring pattern')}
 				icon={Rem}
-				description={__('Add dates in bulk using a recurring pattern')}
+				title={__('Recurring Dates')}
 			>
 				<Button buttonType='primary' onClick={onOpen}>
 					{__('Add Recurring Dates')}
