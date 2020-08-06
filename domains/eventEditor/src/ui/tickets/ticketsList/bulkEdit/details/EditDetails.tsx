@@ -19,8 +19,8 @@ const EditDetails: React.FC<EditDetailsProps> = ({ onClose, isOpen }) => {
 			formConfig={formConfig}
 			isOpen={isOpen}
 			onClose={onClose}
-			title={__('Bulk edit date details')}
-			warning={__('any changes will be applied to ALL of the selected dates.')}
+			title={__('Bulk edit ticket details')}
+			warning={__('any changes will be applied to ALL of the selected tickets.')}
 		/>
 	);
 };

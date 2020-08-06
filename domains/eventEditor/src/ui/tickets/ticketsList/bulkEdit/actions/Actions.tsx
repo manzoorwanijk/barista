@@ -19,11 +19,11 @@ const Actions: React.FC = () => {
 		},
 		{
 			value: 'edit-details',
-			label: __('edit datetime details'),
+			label: __('edit ticket details'),
 		},
 		{
 			value: 'delete',
-			label: __('delete datetimes'),
+			label: __('delete tickets'),
 		},
 	]);
 
