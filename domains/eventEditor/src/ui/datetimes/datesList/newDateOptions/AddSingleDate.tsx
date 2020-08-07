@@ -32,9 +32,10 @@ const AddSingleDate: React.FC<AddSingleDateProps> = ({ isOnlyButton }) => {
 
 	return (
 		<NewEntityOption
-			title={__('Single Date')}
+			className={'ee-new-entity-option__single-datetime'}
+			description={__('Add a single date\nthat only occurs once')}
 			icon={CalendarAlt}
-			description={__('Add a single date and assign the tickets to it')}
+			title={__('Single Date')}
 		>
 			{output}
 		</NewEntityOption>
