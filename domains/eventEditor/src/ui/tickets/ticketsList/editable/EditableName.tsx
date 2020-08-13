@@ -14,6 +14,8 @@ interface EditableNameProps extends TicketItemProps {
 const EditableName: React.FC<EditableNameProps> = ({ className, entity: ticket, view = 'card' }) => {
 	const { updateEntity } = useTicketMutator(ticket.id);
 
+	const lineCount = view === 'card' && 2;
+
 	const onChangeName = useCallback(
 		(name: string): void => {
 			if (name !== ticket.name) {
@@ -23,14 +25,18 @@ const EditableName: React.FC<EditableNameProps> = ({ className, entity: ticket, 
 		[ticket.name, updateEntity]
 	);
 
-	const ticketName = ticket.name ? ticket.name : __('Edit title...');
+	const tooltip = __('edit title...');
+
+	const ticketName = ticket.name || tooltip;
 
 	return (
 		<InlineEditText
-			fitText={view === 'card'}
-			tag={view === 'table' ? 'p' : 'h4'}
 			className={className}
+			fitText={view === 'card'}
+			lineCount={lineCount}
 			onChangeValue={onChangeName}
+			tag={view === 'table' ? 'p' : 'h4'}
+			tooltip={tooltip}
 			value={ticketName}
 		/>
 	);

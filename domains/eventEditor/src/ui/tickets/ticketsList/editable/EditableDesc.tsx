@@ -19,13 +19,16 @@ const EditableDesc: React.FC<EditableDescProps> = ({ entity: ticket, className }
 				updateEntity({ description });
 			}
 		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[ticket.cacheId, updateEntity]
+		[ticket.description, updateEntity]
 	);
 
-	const ticketDesc = ticket.description ? ticket.description : __('Edit description...');
+	const tooltip = __('edit description...');
 
-	return <InlineEditTextArea className={className} onChangeValue={onChangeDesc} value={ticketDesc} />;
+	const ticketDesc = ticket.description || tooltip;
+
+	return (
+		<InlineEditTextArea className={className} onChangeValue={onChangeDesc} tooltip={tooltip} value={ticketDesc} />
+	);
 };
 
 export default React.memo(EditableDesc, getPropsAreEqual(['entity', 'description']));
