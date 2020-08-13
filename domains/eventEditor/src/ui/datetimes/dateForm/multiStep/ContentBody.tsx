@@ -3,10 +3,10 @@ import { __ } from '@wordpress/i18n';
 import { FormSpy } from '@eventespresso/form';
 
 import { ButtonRow, Next, Previous, Submit } from '@eventespresso/components';
-import { TicketAssignmentsManager } from '@edtrUI/ticketAssignmentsManager/components';
-import { useDataState as useTAMDataState } from '@edtrUI/ticketAssignmentsManager/data';
 import { usePrevNext } from '@eventespresso/hooks';
 
+import { TicketAssignmentsManager } from '@edtrUI/ticketAssignmentsManager/components';
+import { useDataState as useTAMDataState } from '@edtrUI/ticketAssignmentsManager/data';
 import DateFormSteps from './DateFormSteps';
 import useDataListener from './useDataListener';
 
@@ -36,7 +36,7 @@ const ContentBody: React.FC = ({ children }) => {
 						{current === 0 && (
 							<>
 								{children}
-								<ButtonRow rightAligned>
+								<ButtonRow>
 									<Next
 										buttonText={__('Save and assign tickets')}
 										onClick={next}
@@ -49,7 +49,7 @@ const ContentBody: React.FC = ({ children }) => {
 						{current === 1 && (
 							<>
 								<TicketAssignmentsManager />
-								<ButtonRow rightAligned>
+								<ButtonRow>
 									<Previous onClick={prev} />
 									<Submit onClick={form.submit} isDisabled={isSubmitDisabled} />
 								</ButtonRow>
