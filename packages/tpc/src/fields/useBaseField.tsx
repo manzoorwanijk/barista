@@ -1,5 +1,4 @@
-import { useCallback } from 'react';
-
+import { useMemo } from 'react';
 import type { BaseFieldProps, FieldValue, InputProps } from './types';
 
 const defaultFormat: BaseFieldProps['format'] = (value, name) => (value === undefined ? '' : value);
@@ -20,21 +19,6 @@ const useBaseField = ({
 	setValue,
 	value,
 }: BaseFieldProps): BaseField => {
-	const handlers: InputProps = {
-		onBlur: useCallback(() => {
-			if (formatOnBlur) {
-				setValue(format(getValue(), name));
-			}
-		}, [name, format, formatOnBlur, setValue, getValue]),
-		onChange: useCallback(
-			(event) => {
-				const value = event?.target?.value;
-				setValue(parse(value, name));
-			},
-			[name, parse, setValue]
-		),
-	};
-
 	let fieldValue = (value || getValue()) as FieldValue;
 
 	if (formatOnBlur) {
@@ -49,7 +33,24 @@ const useBaseField = ({
 		fieldValue = '';
 	}
 
-	return { handlers, fieldValue };
+	return useMemo<BaseField>(() => {
+		const handlers: InputProps = {
+			onBlur: () => {
+				if (formatOnBlur) {
+					setValue(format(getValue(), name));
+				}
+			},
+			onChange: (event) => {
+				const value = event?.target?.value;
+				setValue(parse(value, name));
+			},
+		};
+
+		return {
+			handlers,
+			fieldValue,
+		};
+	}, [fieldValue, formatOnBlur, setValue, format, getValue, name, parse]);
 };
 
 export default useBaseField;
