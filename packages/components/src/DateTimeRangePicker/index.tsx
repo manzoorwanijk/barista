@@ -39,6 +39,7 @@ const DateTimeRangePicker: React.FC<DateTimeRangePickerProps> = ({
 				dateFormat={dateTimeFormat}
 				locale={user}
 				onChange={setDates}
+				value={dates}
 				{...props}
 			/>
 			<IconButton
