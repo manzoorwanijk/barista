@@ -3,9 +3,9 @@ import { parseISO } from 'date-fns';
 import { __ } from '@wordpress/i18n';
 
 import { switchTenseForDate } from '@eventespresso/services';
-import { DisplayStartOrEndDate } from '@eventespresso/edtr-services';
 import { useMemoStringify } from '@eventespresso/hooks';
 import { BiggieCalendarDate, CalendarDateRange } from '../../';
+import { DisplayStartOrEndDate } from './types';
 import type { CalendarDateSwitcherProps } from './types';
 
 const CalendarDateSwitcher: React.FC<CalendarDateSwitcherProps> = React.memo(
