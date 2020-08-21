@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import { Editor, EditorState, RichUtils, DraftBlockType } from 'draft-js';
+import { Editor, EditorState, RichUtils, DraftBlockType, getDefaultKeyBinding, KeyBindingUtil } from 'draft-js';
 import { convertFromHTML, convertToHTML } from 'draft-convert';
+import { TAB } from '@wordpress/keycodes';
 import 'draft-js/dist/Draft.css';
 
 import BlockStyleControls from './BlockStyleControls';
@@ -11,6 +12,8 @@ import { RichTextEditorProps, RichTextEditorState } from './types';
 
 import './style.scss';
 
+const { hasCommandModifier } = KeyBindingUtil;
+
 type SyntheticKeyboardEvent = React.KeyboardEvent<{ any }>;
 
 export class RichTextEditor extends React.Component<RichTextEditorProps, RichTextEditorState> {
@@ -18,7 +21,6 @@ export class RichTextEditor extends React.Component<RichTextEditorProps, RichTex
 	onChange: (editorState: EditorState) => void;
 	toggleInlineStyle: (style: any) => any;
 	toggleBlockType: (type: any) => any;
-	onTab: (e: any) => void;
 	handleKeyCommand: (command: any) => any;
 
 	constructor(props: RichTextEditorProps) {
@@ -26,10 +28,9 @@ export class RichTextEditor extends React.Component<RichTextEditorProps, RichTex
 
 		const markup = '<b>Edit ...</b>';
 
-		const editorState = EditorState.createWithContent(
-			// @ts-ignore
-			convertFromHTML((props?.input?.value.length && props?.input?.value) || markup)
-		);
+		const value = props?.input?.value?.length ? props?.input?.value : props?.value;
+
+		const editorState = EditorState.createWithContent(convertFromHTML(value || markup));
 
 		this.state = {
 			editorState,
@@ -46,14 +47,14 @@ export class RichTextEditor extends React.Component<RichTextEditorProps, RichTex
 		this.onChange = (editorState) => {
 			const html = convertToHTML(editorState.getCurrentContent());
 
-			// @ts-ignore
-			this.props?.input?.onChange?.(html);
+			const onChange = this.props?.input?.onChange || this.props?.onChange;
+
+			onChange?.(html);
 
 			this.setState({ editorState });
 		};
 
 		this.handleKeyCommand = (command) => this._handleKeyCommand(command);
-		this.onTab = (e) => this._onTab(e);
 		this.toggleBlockType = (type) => this._toggleBlockType(type);
 		this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
 	}
@@ -67,12 +68,21 @@ export class RichTextEditor extends React.Component<RichTextEditorProps, RichTex
 			return 'handled';
 		}
 
+		if (command === 'tab') {
+			const maxDepth = 4;
+			this.onChange(RichUtils.onTab(null, this.state.editorState, maxDepth));
+			return 'handled';
+		}
+
 		return 'not-handled';
 	}
 
-	_onTab(e: SyntheticKeyboardEvent): void {
-		const maxDepth = 4;
-		this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
+	keyBindingFn(e: SyntheticKeyboardEvent): string | null {
+		if (e.keyCode === TAB && hasCommandModifier(e)) {
+			return 'tab';
+		}
+
+		return getDefaultKeyBinding(e);
 	}
 
 	_toggleBlockType(blockType: DraftBlockType): any {
@@ -128,8 +138,8 @@ export class RichTextEditor extends React.Component<RichTextEditorProps, RichTex
 							customStyleMap={styleMap}
 							editorState={editorState}
 							handleKeyCommand={this.handleKeyCommand}
+							keyBindingFn={this.keyBindingFn}
 							onChange={this.onChange}
-							onTab={this.onTab}
 							placeholder='Write something...'
 							// eslint-disable-next-line react/no-string-refs
 							ref='editor'
