@@ -41,6 +41,13 @@ const PatternEditor: React.FC = () => {
 				type='recurrence'
 			/>
 			<Divider type='dotted' />
+			<ButtonRow align='left'>
+				<Button
+					buttonText={showExRule ? __('Remove exclusion pattern') : __('Add exclusion pattern')}
+					noHorizontalMargin
+					onClick={showExRule ? onRemoveClick : onOpen}
+				/>
+			</ButtonRow>
 			{showExRule && (
 				<RRuleEditor
 					desc={__('defines a rule or repeating pattern that will remove dates from those generated above')}
@@ -52,13 +59,7 @@ const PatternEditor: React.FC = () => {
 					type='exclusion'
 				/>
 			)}
-			<ButtonRow>
-				<Button
-					buttonText={showExRule ? __('Remove exclusion pattern') : __('Add exclusion pattern')}
-					onClick={showExRule ? onRemoveClick : onOpen}
-				/>
-				<DebugInfo data={{ rRule, exRule }} />
-			</ButtonRow>
+			<DebugInfo data={{ rRule, exRule }} />
 		</>
 	);
 };
