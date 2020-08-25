@@ -15,13 +15,13 @@ import {
 } from '@eventespresso/constants';
 import { useTimeZoneTime } from '@eventespresso/services';
 
-import { BiggieCalendarDateProps } from './index';
+import type { BiggieCalendarDateProps } from './index';
 import './style.scss';
 
 /**
  * Displays a full calendar date, but REALLY BIG!!
  */
-const BiggieCalendarDate: React.FC<BiggieCalendarDateProps> = ({
+export const BiggieCalendarDate: React.FC<BiggieCalendarDateProps> = ({
 	date,
 	editButton = {},
 	footerText,
@@ -39,7 +39,7 @@ const BiggieCalendarDate: React.FC<BiggieCalendarDateProps> = ({
 		return null;
 	}
 
-	const className = classNames(props.className, 'ee-biggie-calendar-date__wrapper');
+	const className = classNames(props.className, 'ee-bcd__wrapper');
 
 	const editDateButton = typeof onEdit === 'function' && (
 		<Button
@@ -54,8 +54,8 @@ const BiggieCalendarDate: React.FC<BiggieCalendarDateProps> = ({
 
 	return (
 		<div className={className}>
-			{headerText && <div className='ee-biggie-calendar-date__header'>{headerText}</div>}
-			<div className='ee-biggie-calendar-date'>
+			{headerText && <div className='ee-bcd__header'>{headerText}</div>}
+			<div className='ee-bcd'>
 				<div className='ee-bcd__weekday'>{format(dateObject, WEEKDAY_ONLY_FULL_FORMAT)}</div>
 				<div className='ee-bcd__month'>{format(dateObject, MONTH_ONLY_FULL_FORMAT)}</div>
 				<div className='ee-bcd__month-day-sep'></div>
@@ -66,10 +66,8 @@ const BiggieCalendarDate: React.FC<BiggieCalendarDateProps> = ({
 				)}
 				{timeRange && <div className='ee-bcd__time'>{timeRange}</div>}
 			</div>
-			{footerText && <div className='ee-biggie-calendar-date__footer'>{footerText}</div>}
+			{footerText && <div className='ee-bcd__footer'>{footerText}</div>}
 			{editDateButton}
 		</div>
 	);
 };
-
-export default BiggieCalendarDate;
