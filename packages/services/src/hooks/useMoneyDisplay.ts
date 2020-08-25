@@ -1,5 +1,8 @@
-import { formatAmount, FormatAmountFunction } from './formatAmount';
-import { useConfig, CurrencyProps } from '../../config';
+import { useMemo } from 'react';
+
+import { formatAmount, FormatAmountFunction } from '@eventespresso/utils';
+import { useConfig } from '../config';
+import type { CurrencyProps } from '../config';
 
 export type MoneyDisplay = {
 	// the currency sign if the currency displays it before the amount (or '')
@@ -18,12 +21,15 @@ const useMoneyDisplay = (): MoneyDisplay => {
 	const beforeAmount = config.currency.signB4 ? config.currency.sign : '';
 	const formatMoney = formatAmount(config.currency.decimalPlaces);
 
-	return {
-		afterAmount,
-		beforeAmount,
-		currency: config.currency,
-		formatAmount: formatMoney,
-	};
+	return useMemo(
+		() => ({
+			afterAmount,
+			beforeAmount,
+			currency: config.currency,
+			formatAmount: formatMoney,
+		}),
+		[afterAmount, beforeAmount, config.currency, formatMoney]
+	);
 };
 
 export default useMoneyDisplay;
