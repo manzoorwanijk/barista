@@ -1,29 +1,32 @@
-import React from 'react';
-import { useDisclosure } from '@chakra-ui/hooks';
+import React, { useCallback } from 'react';
 import { __ } from '@wordpress/i18n';
 
 import { Button, NewEntityOption } from '@eventespresso/components';
+import { useGlobalModal } from '@eventespresso/registry';
 import { Rem } from '@eventespresso/icons';
-
-import Modal from './Modal';
+import { RemGlobalModals } from '../types';
+import { EdtrGlobalModals } from '@eventespresso/edtr-services';
 
 const RemButton: React.FC = () => {
-	const { isOpen, onOpen, ...disclosure } = useDisclosure();
+	const { open: openRemModal } = useGlobalModal(RemGlobalModals.MAIN);
+	const { close: closeOptionsPopover } = useGlobalModal(EdtrGlobalModals.NEW_DATE_POPOVER);
+
+	const onClick = useCallback(() => {
+		closeOptionsPopover();
+		openRemModal();
+	}, [closeOptionsPopover, openRemModal]);
 
 	return (
-		<>
-			<NewEntityOption
-				className={'ee-new-entity-option__recurring-datetime'}
-				description={__('Add multiple dates in bulk\nthat follow a recurring pattern')}
-				icon={Rem}
-				title={__('Recurring Dates')}
-			>
-				<Button buttonType='primary' onClick={onOpen}>
-					{__('Add Recurring Dates')}
-				</Button>
-				{isOpen && <Modal isOpen={true} {...disclosure} />}
-			</NewEntityOption>
-		</>
+		<NewEntityOption
+			className={'ee-new-entity-option__recurring-datetime'}
+			description={__('Add multiple dates in bulk that follow a recurring pattern')}
+			icon={Rem}
+			title={__('Recurring Dates')}
+		>
+			<Button buttonType='primary' onClick={onClick}>
+				{__('Add Recurring Dates')}
+			</Button>
+		</NewEntityOption>
 	);
 };
 
