@@ -7,7 +7,6 @@ const SvgRem = (props: IconProps): JSX.Element => {
 		<svg
 			aria-hidden='true'
 			className='rem_svg__ee-svg'
-			data-icon='rem'
 			fill='currentColor'
 			height='1.25rem'
 			viewBox='0 0 20 20'
