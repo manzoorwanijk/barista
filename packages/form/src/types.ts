@@ -51,6 +51,7 @@ export interface AdditionalFieldProps<FormValues = AnyObject> {
 	conditions?: FieldConditions;
 	formControlProps?: FormControlProps;
 	parseAsInfinity?: boolean;
+	width?: 'small' | 'full';
 	[key: string]: any;
 }
 
