@@ -24,4 +24,6 @@ export enum EdtrGlobalModals {
 	EDIT_DATE = 'editDate',
 	EDIT_TICKET = 'editTicket',
 	NEW_DATE_POPOVER = 'newDatePopover',
+	TAM = 'tam',
+	TPC = 'tpc',
 }

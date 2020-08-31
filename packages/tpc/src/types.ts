@@ -1,21 +1,13 @@
-import type React from 'react';
 import type { EntityId } from '@eventespresso/data';
 import type { Price } from '@eventespresso/edtr-services';
+import { DataState } from './data';
 
 export interface BaseProps {
 	ticketId: EntityId;
 }
 
-export interface ModalContainerProps extends BaseProps, Omit<Disclosure, 'onOpen'> {}
-
-export interface Disclosure {
-	isOpen: boolean;
-	onOpen: VoidFunction;
-	onClose: VoidFunction;
-}
-
-export interface TicketPriceCalculatorHook extends Disclosure {
-	ModalContainer: React.FC<ModalContainerProps>;
+export interface TPCModalProps {
+	onSubmit: (data: DataState) => void;
 }
 
 export interface TpcPriceModifier extends Price {

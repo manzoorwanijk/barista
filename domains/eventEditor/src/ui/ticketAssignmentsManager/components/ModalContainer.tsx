@@ -1,12 +1,19 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { sprintf, __ } from '@wordpress/i18n';
 
-import { TicketAssignmentsManagerModal } from '../components';
-import type { ModalContainerProps } from '../types';
-import { withContext } from '../context';
+import { EdtrGlobalModals } from '@eventespresso/edtr-services';
+import { useGlobalModal } from '@eventespresso/registry';
 
-const ModalContainer: React.FC<ModalContainerProps> = ({ isOpen, onClose, ...props }) => {
-	const { assignmentType, entity } = props;
+import TicketAssignmentsManagerModal from './TicketAssignmentsManagerModal';
+import type { BaseProps } from '../types';
+import { withContext, TAMModalProps } from '../context';
+import { useOnSubmitAssignments } from '../data';
+
+const ModalContainer: React.FC = () => {
+	const { getData, isOpen, close: onClose } = useGlobalModal<BaseProps>(EdtrGlobalModals.TAM);
+	const submitAssignments = useOnSubmitAssignments();
+
+	const { assignmentType, entity } = getData();
 
 	let title = '';
 	if (assignmentType === 'forDate') {
@@ -14,12 +21,26 @@ const ModalContainer: React.FC<ModalContainerProps> = ({ isOpen, onClose, ...pro
 	} else if (assignmentType === 'forTicket') {
 		title = sprintf(__('Ticket Assignment Manager for Ticket: %s - %s'), `${entity.dbId}`, entity.name);
 	}
-	const contextProps = useMemo(() => ({ ...props, title, onCloseModal: onClose }), [onClose, props, title]);
+	const contextProps = useMemo(() => ({ assignmentType, entity, title, onCloseModal: onClose }), [
+		assignmentType,
+		entity,
+		onClose,
+		title,
+	]);
+	const onSubmit = useCallback<TAMModalProps['onSubmit']>(
+		(data) => {
+			// close the moal
+			onClose();
+			// submit TAM data
+			submitAssignments(data);
+		},
+		[onClose, submitAssignments]
+	);
 	if (!isOpen) {
 		return null;
 	}
 	const Component = withContext(TicketAssignmentsManagerModal, contextProps);
-	return <Component title={title} onCloseModal={onClose} />;
+	return <Component title={title} onCloseModal={onClose} onSubmit={onSubmit} />;
 };
 
 export default ModalContainer;
