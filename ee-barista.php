@@ -35,3 +35,8 @@ add_action(
 		$barista->initialize();
 	}
 );
+
+add_filter(
+	'FHEE__EventEspresso_core_domain_entities_routing_handlers_shared_AssetRequests__load_Barista',
+	'__return_false'
+);
