@@ -9,7 +9,7 @@
 # 2 | username of the target repository                 |    NO    |  "eventespresso"   #
 # 3 | build path on the current/this repository         |    NO    |      "build"       #
 # 4 | branch to deploy at, in the target repository     |    NO    |   "barista-prod"   #
-# 5 | path to dist folder on the target repository      |    NO    |   "assets/dist"    #
+# 5 | path to assets folder on the target repository    |    NO    |      "assets"      #
 #########################################################################################
 
 ##################################### EXAMPLES ##########################################
@@ -44,8 +44,8 @@ USERNAME="${2:-eventespresso}"
 BUILD_PATH="${3:-build}"
 # The target repo branch
 BRANCH="${4:-barista-prod}"
-# Default path to dist folder (on target repo)
-DIST_PATH="${5:-assets/dist}"
+# Default path to assets folder (on target repo)
+ASSETS_PATH="${5:-assets}"
 # This repo
 THIS="${5:-assets/dist}"
 
@@ -70,14 +70,14 @@ git clone -b $BRANCH https://$API_TOKEN_GITHUB@github.com/$USERNAME/$REPO.git $C
 # goto the repo directory
 cd $CLONE_DIR
 
-# clean the dist path.
-rm -rf $DIST_PATH/*
+# clean the assets path.
+rm -rf $ASSETS_PATH/*
 
 # Make sure the directory exists
-mkdir -p $DIST_PATH
+mkdir -p $ASSETS_PATH
 
-# copy files from build folder to target dist folder
-cp -r $BASE/$BUILD_PATH/* $DIST_PATH/
+# copy files from build folder to target assets folder
+cp -r $BASE/$BUILD_PATH/* $ASSETS_PATH/
 
 # Commit if there is anything to
 if [ -n "$(git status --porcelain)" ]; then
