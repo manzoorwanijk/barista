@@ -6,7 +6,7 @@ import { EdtrGlobalModals } from '@eventespresso/edtr-services';
 import Modal from './Modal';
 import { useGenerateDates } from '../generatedDates';
 import { useFormState, useSubmitForm } from '../../data';
-import { withContext } from '../../context';
+import { withContext, useStepsState } from '../../context';
 import { RemGlobalModals } from '../../types';
 
 const Container: React.FC = () => {
@@ -15,16 +15,34 @@ const Container: React.FC = () => {
 
 	// rDates and gDates, no exDates
 	const generateDates = useGenerateDates();
-	const { getData } = useFormState();
+	const { getData, reset: resetFormState } = useFormState();
+	const { reset: resetStepState } = useStepsState();
 	const submitForm = useSubmitForm(getData(), generateDates);
 
-	const onSubmit = useCallback(() => {
-		close();
-		closePopover();
-		submitForm();
-	}, [close, closePopover, submitForm]);
+	const resetState = useCallback(() => {
+		// reset REM state
+		resetFormState();
+		// reset steps
+		resetStepState();
+	}, [resetFormState, resetStepState]);
 
-	return isOpen && <Modal isOpen={true} onClose={close} onSubmit={onSubmit} />;
+	const onSubmit = useCallback(async () => {
+		// close REM modal
+		close();
+		// close new date popover
+		closePopover();
+		// submit the data for mutations
+		await submitForm();
+		resetState();
+	}, [close, closePopover, resetState, submitForm]);
+
+	const onClose = useCallback(() => {
+		// close REM modal
+		close();
+		resetState();
+	}, [close, resetState]);
+
+	return isOpen && <Modal isOpen={true} onClose={onClose} onSubmit={onSubmit} />;
 };
 
 export default withContext(Container);
