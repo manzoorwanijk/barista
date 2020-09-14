@@ -71,13 +71,13 @@ git clone -b $BRANCH https://$API_TOKEN_GITHUB@github.com/$USERNAME/$REPO.git $C
 ## make sure languages directory exists
 mkdir -p $CLONE_DIR/languages
 # paths of the translation files
-PHP_I18N_FILE="$CLONE_DIR/languages/event_espresso-js-translations.php"
+PHP_I18N_FILE="$CLONE_DIR/languages/event_espresso-translations-js.php"
 JS_I18N_FILE="$BASE/$BUILD_PATH/js-translations.pot"
 # make sure the file exists
-touch $I18N_FILE
+touch $PHP_I18N_FILE
 # Convert POT file to PHP
 echo "Converting pot to PHP..."
-npx pot-to-php $JS_I18N_FILE $I18N_FILE event_espresso
+npx pot-to-php $JS_I18N_FILE $PHP_I18N_FILE event_espresso
 # Remove POT file
 echo "Remove JS pot file"
 rm $JS_I18N_FILE
