@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { CloseCircleFilled } from '@eventespresso/icons';
+import { Close } from '@eventespresso/icons';
 import { FilterTagProps } from './types';
 
 const FilterTag: React.FC<FilterTagProps> = ({ title, className, onRemove }) => {
@@ -8,7 +8,7 @@ const FilterTag: React.FC<FilterTagProps> = ({ title, className, onRemove }) => 
 		<div className={classNames('ee-filter-tag', className)}>
 			{title}
 			<button className='ee-filter-tag__close-btn' onClick={onRemove}>
-				<CloseCircleFilled size={'small'} />
+				<Close size={'tiny'} />
 			</button>
 		</div>
 	);
