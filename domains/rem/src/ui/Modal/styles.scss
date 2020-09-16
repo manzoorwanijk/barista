@@ -2,6 +2,7 @@
 
 .ee-rem-modal {
 	max-width: 75rem !important;
+	overflow: auto;
 
 	&__body {
 		&--centered {
