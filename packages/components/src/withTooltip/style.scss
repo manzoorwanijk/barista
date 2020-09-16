@@ -1,16 +1,17 @@
 @import '~@eventespresso/styles/src/mixins/breakpoints.scss';
 
 .ee-tooltip.ee-tooltip {
-	background-color: var(--ee-text-on-blue-super-high-contrast);
-	border: 2px solid var(--ee-text-on-blue-super-high-contrast);
+	background-color: #fbf094;
+	border: 2px solid #fbf094;
 	border-radius: var(--ee-border-radius-small);
 	box-shadow: var(--ee-box-shadow-tiny);
 	box-sizing: border-box;
-	color: var(--ee-text-on-blue-low-contrast);
-	font-weight: normal;
+	color: #302936;
+	font-weight: 600;
 	letter-spacing: 2px;
-	padding: var(--ee-padding-tiny) var(--ee-padding-smaller);
+	padding: var(--ee-padding-micro) var(--ee-padding-smaller) var(--ee-padding-tiny);
 	position: relative;
+	text-shadow: var(--ee-text-shadow-inset-light);
 	white-space: pre;
 	width: auto;
 	word-spacing: 0.15rem;
