@@ -12,6 +12,7 @@ import {
 
 import { Button } from '../Button';
 import type { ModalProps } from './types';
+import modalCloseButtonProps from './modalCloseButtonProps';
 
 import './styles.scss';
 
@@ -69,7 +70,7 @@ const Modal: React.FC<ModalProps> = ({
 			<ModalContent role='alertdialog' className={className}>
 				<ModalHeader className={headerClassName}>{title}</ModalHeader>
 
-				{closeButton || <ModalCloseButton isDisabled={!isClosable} />}
+				{closeButton || <ModalCloseButton {...modalCloseButtonProps} isDisabled={!isClosable} />}
 
 				<ModalBody className={bodyClassName}>{children || content}</ModalBody>
 

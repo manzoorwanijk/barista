@@ -36,11 +36,11 @@
 	@at-root [role='alertdialog']#{&} {
 		.ee-confirm-close {
 			display: inline-flex;
-			position: absolute;
-			top: 8px;
-			right: 12px;
-			width: var(--ee-padding-big);
 			height: var(--ee-padding-big);
+			position: absolute;
+			right: var(--ee-margin-smaller);
+			top: var(--ee-margin-smaller);
+			width: var(--ee-padding-big);
 			svg {
 				height: var(--ee-border-radius-big);
 				margin: 0;
