@@ -1,7 +1,7 @@
 import React from 'react';
 import { __ } from '@wordpress/i18n';
 
-import { Button } from '../../../Button';
+import { Button, ButtonSize } from '../../../Button';
 
 import { getPropsAreEqual } from '@eventespresso/utils';
 import { Filter } from '@eventespresso/icons';
@@ -15,7 +15,8 @@ const ToggleFiltersButton: React.FC<ToggleFiltersButtonProps> = ({ listId, showF
 	return (
 		<Button
 			active={showFilters}
-			className='ee-filter-bar__btn ee-btn--small'
+			buttonSize={ButtonSize.SMALLER}
+			className='ee-filter-bar__btn'
 			icon={Filter}
 			id={filterId}
 			onClick={toggleFilters}

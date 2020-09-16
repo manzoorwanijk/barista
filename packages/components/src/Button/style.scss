@@ -323,14 +323,10 @@
 		&.ee-btn--small,
 		&.ee-btn--smaller {
 			height: var(--ee-icon-button-size-small);
-			letter-spacing: 1px;
 			line-height: var(--ee-font-size-tiny);
 			min-height: var(--ee-font-size-small);
+			letter-spacing: 1px;
 			padding: calc(var(--ee-padding-nano) + 1px) var(--ee-padding-tiny) var(--ee-padding-micro);
-
-			span {
-				font-size: var(--ee-font-size-small);
-			}
 
 			svg {
 				margin-top: 2px;
@@ -358,6 +354,14 @@
 		}
 
 		&.ee-btn--small {
+			// height: var(--ee-icon-button-size-small);
+			// line-height: var(--ee-font-size-tiny);
+			// min-height: var(--ee-font-size-small);
+
+			span {
+				font-size: var(--ee-font-size-small);
+			}
+
 			svg {
 				height: 0.9rem;
 				width: 0.9rem;
@@ -365,6 +369,14 @@
 		}
 
 		&.ee-btn--smaller {
+			// height: var(--ee-icon-button-size-smaller);
+			// line-height: var(--ee-font-size-micro);
+			// min-height: var(--ee-font-size-smaller);
+
+			span {
+				font-size: var(--ee-font-size-smaller);
+			}
+
 			svg {
 				height: 0.8rem;
 				width: 0.8rem;

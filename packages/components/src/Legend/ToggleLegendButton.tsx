@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 
 import { CompassFilled } from '@eventespresso/icons';
 import { getPropsAreEqual } from '@eventespresso/utils';
-import { Button } from '../Button';
+import { Button, ButtonSize } from '../Button';
 import type { ToggleLegendButtonProps } from './types';
 
 const ToggleLegendButton: React.FC<ToggleLegendButtonProps> = ({
@@ -29,6 +29,7 @@ const ToggleLegendButton: React.FC<ToggleLegendButtonProps> = ({
 	return (
 		<Button
 			active={showLegend}
+			buttonSize={ButtonSize.SMALLER}
 			className={className}
 			icon={icon}
 			noHorizontalMargin={noHorizontalMargin}

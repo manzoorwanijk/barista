@@ -7,6 +7,7 @@ export type ClickHandler = (click?: React.MouseEvent<HTMLElement>) => void;
 export enum ButtonSize {
 	TINY = 'tiny',
 	SMALL = 'small',
+	SMALLER = 'smaller',
 	DEFAULT = 'default',
 	BIG = 'big',
 	HUGE = 'huge',

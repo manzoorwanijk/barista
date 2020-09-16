@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 import { getPropsAreEqual } from '@eventespresso/utils';
 import { Sort } from '@eventespresso/icons';
 
-import { Button } from '../../../Button';
+import { Button, ButtonSize } from '../../../Button';
 import type { ToggleSortingButtonProps } from '../types';
 
 const ToggleSortingButton: React.FC<ToggleSortingButtonProps> = ({
@@ -18,7 +18,8 @@ const ToggleSortingButton: React.FC<ToggleSortingButtonProps> = ({
 	return (
 		<Button
 			active={sortingEnabled}
-			className='ee-filter-bar__btn ee-btn--small'
+			buttonSize={ButtonSize.SMALLER}
+			className='ee-filter-bar__btn'
 			icon={Sort}
 			id={id}
 			onClick={toggleSorting}
