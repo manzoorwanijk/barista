@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 import { Button, ButtonSize, NewEntityOption } from '@eventespresso/components';
 import { EdtrGlobalModals } from '@eventespresso/edtr-services';
 import { useGlobalModal } from '@eventespresso/registry';
-import { CalendarAlt } from '@eventespresso/icons';
+import { Calendar } from '@eventespresso/icons';
 
 import { EntityEditModalData } from '@edtrUI/types';
 
@@ -20,8 +20,7 @@ const AddSingleDate: React.FC<AddSingleDateProps> = ({ isOnlyButton }) => {
 			buttonText={isOnlyButton ? __('Add New Date') : __('Add Single Date')}
 			onClick={open}
 			buttonSize={isOnlyButton ? ButtonSize.BIG : null}
-			buttonType='primary'
-			icon={isOnlyButton && CalendarAlt}
+			icon={isOnlyButton && Calendar}
 		/>
 	);
 
@@ -33,7 +32,7 @@ const AddSingleDate: React.FC<AddSingleDateProps> = ({ isOnlyButton }) => {
 		<NewEntityOption
 			className={'ee-new-entity-option__single-datetime'}
 			description={__('Add a single date\nthat only occurs once')}
-			icon={CalendarAlt}
+			icon={Calendar}
 			title={__('Single Date')}
 		>
 			{output}
