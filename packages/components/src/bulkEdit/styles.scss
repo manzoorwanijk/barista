@@ -9,6 +9,26 @@
 		@include max782px {
 			flex-direction: column;
 		}
+
+		div:first-child:not(.ee-bulk-edit-actions__mobile-checkbox) {
+			display: contents;
+			max-width: fit-content;
+		}
+	}
+
+	&__select {
+		&.ee-input-base.ee-select {
+			max-width: fit-content;
+		}
+	}
+
+	&__checkbox {
+		margin: var(--ee-margin-tiny);
+
+		div:first-of-type {
+			background-color: var(--ee-background-color);
+			border-color: var(--ee-border-color);
+		}
 	}
 
 	&__mobile-checkbox {

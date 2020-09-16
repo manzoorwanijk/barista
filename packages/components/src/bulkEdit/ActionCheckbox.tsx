@@ -36,8 +36,7 @@ export const ActionCheckbox: React.FC<ActionCheckboxProps> = ({ id, label, visib
 
 	return (
 		<CheckboxAdapter
-			py='0.5em'
-			px='0.8em'
+			className='ee-bulk-edit-actions__checkbox'
 			isChecked={isChecked}
 			isIndeterminate={isIndeterminate}
 			label={label}

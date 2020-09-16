@@ -32,7 +32,12 @@ export const BulkActions = <T extends string>({
 
 	return (
 		<div className='ee-bulk-edit-actions__wrapper'>
-			<SelectInput value={action} options={options} onChangeValue={setValue} />
+			<SelectInput
+				className='ee-bulk-edit-actions__select'
+				onChangeValue={setValue}
+				options={options}
+				value={action}
+			/>
 			<div className={'ee-bulk-edit-actions__mobile-checkbox'}>
 				<Checkbox label={__('select all')} />
 			</div>
