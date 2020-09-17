@@ -1,6 +1,6 @@
 import React from 'react';
 import { Placeholder, Spinner } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
+import { __ } from '@eventespresso/i18n';
 
 import { AttendeesEditProps } from './types';
 import { useAttendees } from '@blocksServices/apollo';
@@ -34,7 +34,7 @@ const AttendeesDisplay: React.FC<AttendeesEditProps> = ({ attributes }) => {
 	}
 
 	if (error) {
-		return <Placeholder>{__('There was some error fetching attendees list', 'event_espresso')}</Placeholder>;
+		return <Placeholder>{__('There was some error fetching attendees list')}</Placeholder>;
 	}
 
 	const attendees = data?.espressoAttendees?.nodes || [];
@@ -42,16 +42,13 @@ const AttendeesDisplay: React.FC<AttendeesEditProps> = ({ attributes }) => {
 	if (isNewBlock(attributes) && !attendees.length) {
 		return (
 			<Placeholder>
-				{__(
-					'To get started, select what event you want to show attendees from in the block settings.',
-					'event_espresso'
-				)}
+				{__('To get started, select what event you want to show attendees from in the block settings.')}
 			</Placeholder>
 		);
 	}
 
 	if (!attendees.length) {
-		return <Placeholder>{__('There are no attendees for selected options.', 'event_espresso')}</Placeholder>;
+		return <Placeholder>{__('There are no attendees for selected options.')}</Placeholder>;
 	}
 
 	const { showGravatar, avatarSize } = attributes;

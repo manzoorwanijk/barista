@@ -1,20 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
-import { __ } from '@wordpress/i18n';
+import { __ } from '@eventespresso/i18n';
 
-import { Button } from '@eventespresso/adapters';
+import { ModalCloseButton } from '@eventespresso/adapters';
 import { iconBtnClassName } from '../Button/IconButton';
-import type { ConfirmPropsWithButton } from './types';
 import useConfirmationDialog from './useConfirmationDialog';
+import type { ConfirmProps } from './types';
 
-const useConfirmWithButton: React.FC<ConfirmPropsWithButton> = ({ buttonProps, ...props }) => {
-	const title = (props.title || buttonProps?.tooltip) ?? __('Please confirm this action.');
+const useConfirmWithButton: React.FC<ConfirmProps> = ({ className, icon, tooltip, ...props }) => {
+	const title = (props.title || tooltip) ?? __('Please confirm this action.');
 	const { confirmationDialog, onOpen } = useConfirmationDialog({ ...props, title });
-	const btnClassName = classNames(buttonProps.icon && iconBtnClassName, buttonProps.className);
+	const btnClassName = classNames(icon && iconBtnClassName, className);
 
 	return (
 		<>
-			<Button {...buttonProps} className={btnClassName} onClick={onOpen} />
+			<ModalCloseButton {...props} className={btnClassName} onClick={onOpen} />
 			{confirmationDialog}
 		</>
 	);

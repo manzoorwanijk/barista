@@ -1,14 +1,10 @@
-import type { ButtonProps } from '../Button';
+import { ModalCloseButtonProps } from '@eventespresso/adapters';
 
-export interface ConfirmProps {
+export interface ConfirmProps extends ModalCloseButtonProps {
 	message?: string;
 	noButtonText?: string;
 	onConfirm?: VoidFunction;
 	onCancel?: VoidFunction;
 	title?: string;
 	yesButtonText?: string;
-}
-
-export interface ConfirmPropsWithButton extends ConfirmProps {
-	buttonProps: ButtonProps;
 }
