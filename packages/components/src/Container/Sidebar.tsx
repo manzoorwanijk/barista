@@ -1,6 +1,7 @@
 import React from 'react';
-import ConditionalElement from './ConditionalElement';
 import classNames from 'classnames';
+
+import ConditionalElement from './ConditionalElement';
 import type { SidebarProps } from './types';
 import './styles.scss';
 
@@ -8,16 +9,9 @@ import './styles.scss';
  * A container for displaying child elements
  * before or after other elements within a Row
  */
-const Sidebar: React.FC<SidebarProps> = ({
-	align = 'top',
-	as = 'aside',
-	before = false,
-	children,
-	className,
-	...props
-}) => {
-	const htmlClass = classNames(
-		className,
+const Sidebar: React.FC<SidebarProps> = ({ align = 'top', before = false, children, ...props }) => {
+	const className = classNames(
+		props.className,
 		'ee-container__sidebar',
 		align && `ee-container--align-${align}`,
 		before && 'ee-container__sidebar--before',
@@ -25,7 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 	);
 
 	return (
-		<ConditionalElement {...props} className={htmlClass} tag={as}>
+		<ConditionalElement {...props} tag='div' className={className}>
 			{children}
 		</ConditionalElement>
 	);
