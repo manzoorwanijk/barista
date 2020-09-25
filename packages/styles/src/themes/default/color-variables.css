@@ -21,16 +21,16 @@
 	--ee-text-on-primary-super-low-contrast: #002365;
 
 	/** Secondary **/
-	--ee-color-secondary: #91ab30;
-	--ee-color-secondary-super-high-contrast: #516b00;
-	--ee-color-secondary-high-contrast: #718b10;
-	--ee-color-secondary-low-contrast: #b1cb50;
-	--ee-color-secondary-super-low-contrast: #d1eb70;
-	--ee-text-on-secondary: #001a00;
-	--ee-text-on-secondary-super-high-contrast: #ffffff;
-	--ee-text-on-secondary-high-contrast: #ffffff;
-	--ee-text-on-secondary-low-contrast: #1f3900;
-	--ee-text-on-secondary-super-low-contrast: #344e00;
+	--ee-color-secondary: #01873a;
+	--ee-color-secondary-super-high-contrast: #004700;
+	--ee-color-secondary-high-contrast: #00671a;
+	--ee-color-secondary-low-contrast: #21a75a;
+	--ee-color-secondary-super-low-contrast: #41c77a;
+	--ee-text-on-secondary: #ffffff;
+	--ee-text-on-secondary-super-high-contrast: #98df98;
+	--ee-text-on-secondary-high-contrast: #f7ffff;
+	--ee-text-on-secondary-low-contrast: #000000;
+	--ee-text-on-secondary-super-low-contrast: #002d00;
 
 	/** Accent **/
 	--ee-color-accent: #de5882;
@@ -59,7 +59,7 @@
     * ------------------------------ */
 
 	--ee-background-color: #ffffff;
-	--ee-border-color: #c1c1c1;
+	--ee-border-color: #969696;
 
 	--ee-color-grey-1: #161616;
 	--ee-text-on-grey-1: #a1a1a1;
@@ -231,16 +231,16 @@
 	--ee-text-on-light-green-super-low-contrast: #445a00;
 
 	/** Green **/
-	--ee-color-green: #91ab30;
-	--ee-color-green-super-high-contrast: #516b00;
-	--ee-color-green-high-contrast: #718b10;
-	--ee-color-green-low-contrast: #b1cb50;
-	--ee-color-green-super-low-contrast: #d1eb70;
-	--ee-text-on-green: #001a00;
-	--ee-text-on-green-super-high-contrast: #ffffff;
-	--ee-text-on-green-high-contrast: #ffffff;
-	--ee-text-on-green-low-contrast: #1f3900;
-	--ee-text-on-green-super-low-contrast: #344e00;
+	--ee-color-green: #01873a;
+	--ee-color-green-super-high-contrast: #004700;
+	--ee-color-green-high-contrast: #00671a;
+	--ee-color-green-low-contrast: #21a75a;
+	--ee-color-green-super-low-contrast: #41c77a;
+	--ee-text-on-green: #ffffff;
+	--ee-text-on-green-super-high-contrast: #98df98;
+	--ee-text-on-green-high-contrast: #f7ffff;
+	--ee-text-on-green-low-contrast: #000000;
+	--ee-text-on-green-super-low-contrast: #002d00;
 
 	/** Bright Green **/
 	--ee-color-bright-green: #71b94c;
