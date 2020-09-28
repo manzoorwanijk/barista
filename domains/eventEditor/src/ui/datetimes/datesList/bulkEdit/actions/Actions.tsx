@@ -25,10 +25,6 @@ const Actions: React.FC = () => {
 
 	const options = useMemoStringify([
 		{
-			value: '',
-			label: __('bulk actions'),
-		},
-		{
 			value: 'edit-details',
 			label: __('edit datetime details'),
 		},
@@ -48,7 +44,7 @@ const Actions: React.FC = () => {
 
 	return (
 		<>
-			<BulkActions Checkbox={Checkbox} defaultAction='' onApply={onApply} options={options} />
+			<BulkActions Checkbox={Checkbox} defaultAction={options[0].value} onApply={onApply} options={options} />
 			{isOpen && (
 				<>
 					{action === 'edit-details' && <EditDetails isOpen={true} onClose={onClose} />}
