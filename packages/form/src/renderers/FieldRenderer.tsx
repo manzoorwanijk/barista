@@ -1,8 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { FormControl, FormHelperText, FormLabel } from '@eventespresso/adapters';
+import { FormControl, FormLabel } from '@eventespresso/adapters';
 import { ErrorMessage } from '../ErrorMessage';
+import { HelperText } from '../HelperText';
+
 import { MappedField } from '../adapters';
 import { fieldPropsAreEqual } from '../utils';
 import type { FieldRendererProps } from '../types';
@@ -36,10 +38,10 @@ const FieldRenderer: React.FC<FieldRendererProps> = (props) => {
 		<FormControl className={className} isInvalid={Boolean(errorMessage)} isRequired={required}>
 			<FormLabel htmlFor={props.input.name}>{label}</FormLabel>
 			{before}
-			<MappedField aria-label={label} aria-describedby={tooltipKey} {...rest} />
+			<MappedField {...rest} aria-describedby={tooltipKey} aria-label={label} id={props.input.name} />
 			{after}
 			<ErrorMessage message={errorMessage} />
-			<FormHelperText>{description || info}</FormHelperText>
+			<HelperText id={tooltipKey}>{description || info}</HelperText>
 		</FormControl>
 	);
 };
