@@ -12,8 +12,17 @@ describe('useEvents', () => {
 		const { result: queryResult } = renderHook(() => {
 			return useEventsQueryOptions();
 		});
+		await actWait();
 
-		const wrapper = ApolloMockedProvider(errorMocks.map((mock) => ({ ...mock, request: queryResult.current })));
+		const wrapper = ApolloMockedProvider(
+			errorMocks.map((mock) => ({
+				...mock,
+				request: {
+					...queryResult.current,
+					query: { ...queryResult.current, query: queryResult.current.query }.query,
+				},
+			}))
+		);
 		/* Set query options and the wrapper */
 
 		const { result } = renderHook(
@@ -39,8 +48,14 @@ describe('useEvents', () => {
 		const { result: queryResult } = renderHook(() => {
 			return useEventsQueryOptions();
 		});
+		await actWait();
 
-		const wrapper = ApolloMockedProvider(successMocks.map((mock) => ({ ...mock, request: queryResult.current })));
+		const wrapper = ApolloMockedProvider(
+			successMocks.map((mock) => ({
+				...mock,
+				request: { ...queryResult.current, query: queryResult.current.query },
+			}))
+		);
 		/* Set query options and the wrapper */
 
 		const { result } = renderHook(
@@ -64,8 +79,14 @@ describe('useEvents', () => {
 		const { result: queryResult } = renderHook(() => {
 			return useEventsQueryOptions();
 		});
+		await actWait();
 
-		const wrapper = ApolloMockedProvider(successMocks.map((mock) => ({ ...mock, request: queryResult.current })));
+		const wrapper = ApolloMockedProvider(
+			successMocks.map((mock) => ({
+				...mock,
+				request: { ...queryResult.current, query: queryResult.current.query },
+			}))
+		);
 		/* Set query options and the wrapper */
 
 		const { result } = renderHook(
@@ -92,8 +113,14 @@ describe('useEvents', () => {
 		const { result: queryResult } = renderHook(() => {
 			return useEventsQueryOptions();
 		});
+		await actWait();
 
-		const wrapper = ApolloMockedProvider(successMocks.map((mock) => ({ ...mock, request: queryResult.current })));
+		const wrapper = ApolloMockedProvider(
+			successMocks.map((mock) => ({
+				...mock,
+				request: { ...queryResult.current, query: queryResult.current.query },
+			}))
+		);
 		/* Set query options and the wrapper */
 
 		const { result } = renderHook(

@@ -1,8 +1,8 @@
 import { GET_GENERAL_SETTINGS } from './queries';
-import { ReadQueryOptions } from '../';
+import type { CacheQueryOptions } from '../';
 
-const useGeneralSettingsQueryOptions = (): ReadQueryOptions => {
-	const options: ReadQueryOptions = {
+const useGeneralSettingsQueryOptions = (): CacheQueryOptions => {
+	const options: CacheQueryOptions = {
 		query: GET_GENERAL_SETTINGS,
 	};
 
