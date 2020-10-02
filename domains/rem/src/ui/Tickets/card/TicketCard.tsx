@@ -1,7 +1,7 @@
 import React from 'react';
 import { __, sprintf } from '@eventespresso/i18n';
 
-import { CurrencyInput, SimpleEntityCard } from '@eventespresso/components';
+import { CurrencyDisplay, SimpleEntityCard } from '@eventespresso/components';
 import { LOCALIZED_DATE_AND_TIME_SHORT_FORMAT } from '@eventespresso/constants';
 import { useTimeZoneTime } from '@eventespresso/services';
 import { DATE_INTERVALS } from '@eventespresso/dates';
@@ -17,7 +17,7 @@ const TicketCard: React.FC<BaseProps> = ({ ticket }) => {
 
 	const { isShared, ticketSalesDates, ticketSalesStart, ticketSalesEnd } = tickets?.[ticket.id];
 
-	const beforeDetails = <CurrencyInput id={ticket.id} amount={ticket.price} tag='p' vertical />;
+	const beforeDetails = <CurrencyDisplay value={ticket.price} vertical />;
 
 	const afterDetails = ticketSalesStart && ticketSalesEnd && (
 		<div className='ee-ticket-offset'>
