@@ -65,6 +65,7 @@
 			max-width: none;
 
 			span {
+				color: var(--ee-color-primary-high-contrast);
 				font-size: var(--ee-font-size-default);
 
 				+ input {
@@ -94,9 +95,14 @@
 
 	&__form-control {
 		.rrule-generator & {
+			color: var(--ee-default-text-color-high-contrast);
 			margin-right: 1rem;
 			min-width: 140px;
 			width: 100%;
+
+			&:hover {
+				color: var(--ee-default-text-color-high-contrast);
+			}
 		}
 
 		@at-root select#{&} {

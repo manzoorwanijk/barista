@@ -38,6 +38,10 @@
 			.ee-form-item {
 				padding: var(--ee-padding-smaller) 0;
 
+				label {
+					color: var(--ee-default-text-color-high-contrast);
+				}
+
 				&-switch {
 					padding: var(--ee-padding-small) 0;
 				}
@@ -66,7 +70,7 @@
 			position: relative;
 
 			&-heading {
-				color: var(--ee-default-text-color);
+				color: var(--ee-default-text-color-high-contrast);
 				font-size: var(--ee-font-size-bigger);
 				font-weight: bold;
 				margin: 0;
