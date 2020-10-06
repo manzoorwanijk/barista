@@ -1,83 +1,40 @@
 import React from 'react';
-import classNames from 'classnames';
-import {
-	Modal as ChakraModal,
-	ModalBody,
-	ModalCloseButton,
-	ModalContent,
-	ModalFooter,
-	ModalHeader,
-	ModalOverlay,
-} from '@chakra-ui/core';
+import { Modal as ChakraModal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/core';
 
-import { Button } from '../Button';
 import type { ModalProps } from './types';
-import modalCloseButtonProps from './modalCloseButtonProps';
 
-import './styles.scss';
-
-const Modal: React.FC<ModalProps> = ({
-	cancelButtonProps,
+export const Modal: React.FC<ModalProps> = ({
+	bodyClassName,
 	children,
+	className,
 	closeButton,
-	content,
-	destroyOnClose = true,
-	footerContent,
+	footer,
+	footerClassName,
+	headerClassName,
 	isClosable = true,
 	isOpen,
 	scrollBehavior = 'inside',
-	submitButtonProps,
 	title,
-	withBorder,
 	...props
 }) => {
-	if (destroyOnClose && !isOpen) {
-		return null;
-	}
-
-	const className = classNames(props.className, 'ee-modal');
-	const headerClassName = classNames(withBorder && 'ee-modal--with-border', 'ee-modal__header');
-	const bodyClassName = classNames(props.bodyClassName, 'ee-modal__body');
-	const footerClassName = classNames(withBorder && 'ee-modal--with-border', 'ee-modal__footer');
-
-	const cancelButton = cancelButtonProps && <Button mr={3} {...cancelButtonProps} />;
-	const submitButton = submitButtonProps && <Button variantColor='blue' {...submitButtonProps} />;
-	const defaultFooterNode = (cancelButton || submitButton) && (
-		<>
-			{cancelButton}
-			{submitButton}
-		</>
-	);
-
-	const footerNode = footerContent ? (
-		<>
-			{cancelButton && cancelButton}
-			{footerContent}
-		</>
-	) : (
-		defaultFooterNode
-	);
-
 	return (
 		<ChakraModal
+			{...props}
 			closeOnOverlayClick={isClosable}
 			isCentered
 			isOpen={isOpen}
 			scrollBehavior={scrollBehavior}
-			{...props}
 		>
 			<ModalOverlay />
 			<ModalContent role='alertdialog' className={className}>
 				<ModalHeader className={headerClassName}>{title}</ModalHeader>
 
-				{closeButton || <ModalCloseButton {...modalCloseButtonProps} size={null} isDisabled={!isClosable} />}
+				{closeButton}
 
-				<ModalBody className={bodyClassName}>{children || content}</ModalBody>
+				<ModalBody className={bodyClassName}>{children}</ModalBody>
 
-				{footerNode && <ModalFooter className={footerClassName}>{footerNode}</ModalFooter>}
+				{footer && <ModalFooter className={footerClassName}>{footer}</ModalFooter>}
 			</ModalContent>
 		</ChakraModal>
 	);
 };
-
-export default Modal;

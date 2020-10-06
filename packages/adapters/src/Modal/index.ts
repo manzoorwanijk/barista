@@ -1,4 +1,4 @@
-export { default as Modal } from './Modal';
-export { default as modalCloseButtonProps } from './modalCloseButtonProps';
+export { ModalCloseButton } from '@chakra-ui/core';
 
+export * from './Modal';
 export * from './types';
