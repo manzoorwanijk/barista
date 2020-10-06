@@ -1,7 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import type { withLabelProps } from './types';
+
 import { LabelPosition } from './types';
+import type { withLabelProps } from './types';
 import type { ForwardRefComponent } from '../types';
 import './style.scss';
 
@@ -13,7 +14,6 @@ const withLabel = <P extends withLabelProps>(
 
 	const WithLabel: React.FC<P & refProps> = ({
 		forwardedRef,
-		id,
 		label,
 		labelClassName,
 		labelPosition = LabelPosition.TOP_LEFT,
@@ -26,12 +26,14 @@ const withLabel = <P extends withLabelProps>(
 			label && labelPosition && `ee-input-label__wrapper--${labelPosition}`
 		);
 
+		const id = props.id && 'ee-' + props.id;
+
 		return label ? (
 			<div className={className}>
 				<label className='ee-input-label' htmlFor={id}>
 					{label}
 				</label>
-				<WrappedComponent {...(props as P)} id={id} label={label} ref={forwardedRef} />
+				<WrappedComponent {...(props as P)} aria-label={label} id={id} ref={forwardedRef} />
 			</div>
 		) : (
 			<WrappedComponent {...(props as P)} ref={forwardedRef} id={id} />
