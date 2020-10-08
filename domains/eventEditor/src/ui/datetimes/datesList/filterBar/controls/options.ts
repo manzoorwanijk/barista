@@ -2,7 +2,7 @@ import { __ } from '@eventespresso/i18n';
 
 import { DisplayStartOrEndDate } from '@eventespresso/edtr-services';
 
-import { DatetimeSales, DatetimeStatus } from '@edtrServices/filterState';
+import { DatetimeSales, DatetimeStatus } from '@eventespresso/predicates';
 
 export const displayStartOrEndDateOptions = {
 	[DisplayStartOrEndDate.start]: __('start dates only'),
@@ -39,6 +39,7 @@ export const sortByOptions = {
 
 export const labels = {
 	displayStartOrEndDate: __('display'),
+	recurrence: __('recurrence'),
 	sales: __('sales'),
 	sortBy: __('sort by'),
 	search: __('search'),

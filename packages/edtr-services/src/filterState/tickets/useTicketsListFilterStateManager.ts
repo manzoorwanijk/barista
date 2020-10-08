@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { DisplayStartOrEndDate, SortBy, ticketsList } from '@eventespresso/edtr-services';
-import { useEntityListFilterStateManager } from '@eventespresso/components';
-import { useEdtrState } from '@eventespresso/edtr-services';
+import { DisplayStartOrEndDate, SortBy } from '../types';
+import { ticketsList } from '../../constants';
+import { useEntityListFilterStateManager } from '@eventespresso/services';
+import { useEdtrState } from '../../hooks';
 import { useSessionStorageReducer } from '@eventespresso/storage';
+import { TicketsSales, TicketsStatus } from '@eventespresso/predicates';
 
 import reducer from './reducer';
-import { TicketsSales, TicketsStatus } from './types';
 import type { TicketsFilterState, TicketsFilterStateManager } from './types';
 
 type FSM = TicketsFilterStateManager;
+type TFS = TicketsFilterState;
 
 const initialState: TicketsFilterState = {
 	displayStartOrEndDate: DisplayStartOrEndDate.start,
@@ -17,6 +19,7 @@ const initialState: TicketsFilterState = {
 	sales: TicketsSales.all,
 	status: TicketsStatus.onSaleAndPending,
 };
+type ResetPageNumber = <K extends keyof TFS>(filter: K, value: TFS[K]) => void;
 
 const useTicketsListFilterStateManager = (): FSM => {
 	const [state, dispatch] = useSessionStorageReducer('ticket-list-filter-state', reducer, initialState);
@@ -36,9 +39,9 @@ const useTicketsListFilterStateManager = (): FSM => {
 		}
 	}, [state.isChained, visibleDatetimeIds]);
 
-	const resetPageNumber = useCallback(
-		(filter: TicketsSales | TicketsStatus): void => {
-			if (filter !== state[filter]) {
+	const resetPageNumber = useCallback<ResetPageNumber>(
+		(filter, value) => {
+			if (value !== state[filter]) {
 				setPageNumber(1);
 			}
 		},
@@ -57,7 +60,7 @@ const useTicketsListFilterStateManager = (): FSM => {
 
 	const setSales: FSM['setSales'] = useCallback(
 		(sales) => {
-			resetPageNumber(sales);
+			resetPageNumber('sales', sales);
 
 			dispatch({
 				type: 'SET_SALES',
@@ -69,7 +72,7 @@ const useTicketsListFilterStateManager = (): FSM => {
 
 	const setStatus: FSM['setStatus'] = useCallback(
 		(status) => {
-			resetPageNumber(status);
+			resetPageNumber('status', status);
 			dispatch({
 				type: 'SET_STATUS',
 				status,
