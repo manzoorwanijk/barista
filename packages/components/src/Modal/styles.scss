@@ -4,6 +4,9 @@
 	.ee-modal {
 		&__header {
 			&.ee-modal__header {
+				position: relative;
+				z-index: 1;
+
 				.ee-entity-edit-modal & {
 					color: var(--ee-default-text-color-high-contrast);
 				}
@@ -33,22 +36,6 @@
 		&__footer {
 			&.ee-modal--with-border {
 				border-top: 0.5px solid var(--ee-border-color);
-			}
-		}
-	}
-
-	@at-root [role='alertdialog']#{&} {
-		.ee-confirm-close {
-			display: inline-flex;
-			height: var(--ee-padding-big);
-			position: absolute;
-			right: var(--ee-margin-smaller);
-			top: var(--ee-margin-smaller);
-			width: var(--ee-padding-big);
-			svg {
-				height: var(--ee-border-radius-big);
-				margin: 0;
-				width: var(--ee-border-radius-big);
 			}
 		}
 	}
