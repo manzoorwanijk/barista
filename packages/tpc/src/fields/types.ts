@@ -11,6 +11,7 @@ type SupportedInputs = 'input' | 'select' | 'textarea';
 export type FieldValue = string | number | boolean;
 
 export interface BaseFieldProps<V = FieldValue> extends InputProps {
+	'aria-label': string;
 	children?: ((props: AnyObject) => React.ReactNode) | React.ReactNode;
 	component?: React.ComponentType | SupportedInputs;
 	disabled?: boolean;
@@ -22,10 +23,14 @@ export interface BaseFieldProps<V = FieldValue> extends InputProps {
 	setValue: (value: V) => void;
 }
 
+export interface UseBaseField extends Omit<BaseFieldProps<FieldValue>, 'aria-label'> {}
+
 export interface UsePrice {
 	getValue: () => FieldValue;
 	setValue: (value: FieldValue) => void;
 }
+
+export interface UsePriceAmount extends Pick<PriceFieldProps, 'field' | 'price'> {}
 
 export interface PriceFieldProps
 	extends PriceModifierProps,

@@ -2,16 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { TimePicker as TimePickerAdapter } from '@eventespresso/dates';
-import type { FieldRendererProps } from '../types';
+import withoutMetaProp from './withoutMetaProp';
 import { useFormConfig } from '../hooks';
+import type { FieldRendererProps } from '../types';
 
 const TimePicker: React.FC<FieldRendererProps> = ({
 	className,
 	input: { onChange: onInputChange, value, ...input },
-	onChange,
-	onChangeValue,
-	meta,
-	format,
 	...props
 }) => {
 	const { locale, timeFormat } = useFormConfig();
@@ -32,4 +29,4 @@ const TimePicker: React.FC<FieldRendererProps> = ({
 	);
 };
 
-export default TimePicker;
+export default withoutMetaProp(TimePicker);

@@ -31,6 +31,7 @@ const PriceAmountInput: React.FC<PriceModifierProps> = ({ price }) => {
 	return (
 		<MoneyField className={moneyFieldClassName} isPercent={price.isPercent}>
 			<BaseNumberInputField
+				aria-label={__('amount')}
 				className={className}
 				component='input'
 				// because it can affect other tickets that have this price

@@ -12,12 +12,14 @@ interface CommonProps {
 }
 
 export interface Cell {
+	as?: 'td';
 	type: string;
 	key: string;
 	value: React.ReactNode;
 	id?: string;
 	className?: string;
 	render?: (props: CellRender) => JSX.Element;
+	scope?: 'col' | 'row';
 }
 
 interface CellRender {
@@ -109,12 +111,13 @@ interface TableClassName {
 }
 
 export interface TableDataCellProps {
-	className: TableClassName;
 	children: React.ReactNode;
-	rowNumber: number;
+	className: TableClassName;
 	colNumber: number;
 	id?: string;
 	htmlClassName?: string;
+	rowNumber: number;
+	rowType: RowType;
 	tableDataCellClassName?: string;
 }
 

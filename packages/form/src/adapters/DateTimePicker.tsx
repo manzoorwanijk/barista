@@ -2,11 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { DateTimePicker as DateTimePickerAdapter } from '@eventespresso/dates';
-
-import type { FieldRendererProps } from '../types';
+import withoutMetaProp from './withoutMetaProp';
 import { useFormConfig } from '../hooks';
+import type { FieldRendererProps } from '../types';
 
-const DateTimePicker: React.FC<FieldRendererProps> = ({ className, input: { onChange, ...input }, meta, ...props }) => {
+const DateTimePicker: React.FC<FieldRendererProps> = ({ className, input: { onChange, ...input }, ...props }) => {
 	const { locale, dateTimeFormat } = useFormConfig();
 
 	const htmlClass = classNames(
@@ -30,4 +30,4 @@ const DateTimePicker: React.FC<FieldRendererProps> = ({ className, input: { onCh
 	);
 };
 
-export default DateTimePicker;
+export default withoutMetaProp(DateTimePicker);
