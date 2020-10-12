@@ -1,0 +1,53 @@
+@import './mixins/reduce-motion';
+
+$animation-spin: ee-animation-spin 1s linear infinite;
+$animation-spin-cc: ee-animation-spin-cc 1s linear infinite;
+$animation-spin-fast: ee-animation-spin 0.25s ease-in infinite;
+
+$animation: (
+	'animation-spin': $animation-spin,
+	'animation-spin-cc': $animation-spin-cc,
+	'animation-spin-fast': $animation-spin-fast,
+) !default;
+
+@keyframes ee-animation-spin {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes ee-animation-spin-cc {
+	100% {
+		transform: rotate(-360deg);
+	}
+}
+
+@keyframes ee-fade-in-opacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes ee-fade-out-opacity {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.ee-fade-in {
+	animation: ee-fade-in-opacity 0.25s ease-in-out 1;
+	opacity: 1;
+	@include reduce-motion('animation');
+}
+
+.ee-fade-out {
+	animation: ee-fade-out-opacity 0.25s ease-in-out 1;
+	opacity: 0;
+	@include reduce-motion('animation');
+}

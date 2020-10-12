@@ -2,6 +2,7 @@
  * Event Espresso Recurring_Events Stylesheet
  * (c) 2018 Event Espresso
  * -------------------------------------------------------------------------*/
+@import '~@eventespresso/styles/src';
 
 .rrule-generator {
 	&-wrapper {
@@ -114,7 +115,7 @@
 			background-clip: padding-box;
 			border: 1px solid #b3b3b3;
 			border-radius: 0.25rem;
-			transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+			@include transition(border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out);
 		}
 
 		button,
@@ -157,8 +158,12 @@
 			font-size: 1rem;
 			line-height: 1.5;
 			border-radius: 0.25rem;
-			transition: color 0.05s ease-in-out, background-color 0.05s ease-in-out, border-color 0.05s ease-in-out,
-				box-shadow 0.05s ease-in-out;
+			@include transition(
+				color 0.05s ease-in-out,
+				background-color 0.05s ease-in-out,
+				border-color 0.05s ease-in-out,
+				box-shadow 0.05s ease-in-out
+			);
 		}
 
 		.btn-group {

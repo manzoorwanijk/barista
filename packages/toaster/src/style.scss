@@ -1,3 +1,5 @@
+@import '~@eventespresso/styles/src';
+
 .ee-toaster-notice {
 	--ee-toast-icon-size: 24px;
 	--ee-toast-btn-size: 12px;
@@ -31,7 +33,8 @@
 					display: inline-flex;
 					margin: 0 var(--ee-margin-smaller) 0 0;
 					&.ee-loading-spinner {
-						animation: loadingCircle 1s infinite linear;
+						animation: var(--ee-animation-spin);
+						@include reduce-motion('animation');
 					}
 				}
 			}
@@ -85,6 +88,7 @@
 		&--loading {
 			.ee-toaster-notice__icon {
 				animation: var(--ee-animation-spin);
+				@include reduce-motion('animation');
 			}
 		}
 
@@ -99,12 +103,5 @@
 				color: #3b413e;
 			}
 		}
-	}
-}
-
-@keyframes loadingCircle {
-	100% {
-		-webkit-transform: rotate(360deg);
-		transform: rotate(360deg);
 	}
 }

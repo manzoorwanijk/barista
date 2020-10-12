@@ -3,7 +3,7 @@
  * © 2020 Event Espresso
  * ------------------------------------------------------------------------- */
 
-@import '~@eventespresso/styles/src/mixins/breakpoints.scss';
+@import '~@eventespresso/styles/src';
 
 :root {
 	--ee-icon-button-size-tiny: 30px;
@@ -72,10 +72,9 @@
 		text-decoration: none;
 		text-align: center;
 		text-shadow: var(--ee-text-shadow-inset-light);
-		-webkit-transition: all linear 50ms;
-		transition: all linear 50ms;
 		vertical-align: middle;
 		width: auto;
+		@include transition(all linear 50ms);
 
 		&--no-margin {
 			margin: 0;
@@ -107,7 +106,7 @@
 
 		svg {
 			fill: currentColor;
-			transition: color 50ms linear, fill 50ms linear;
+			@include transition(color 50ms linear, fill 50ms linear);
 		}
 
 		&--has-icon,
