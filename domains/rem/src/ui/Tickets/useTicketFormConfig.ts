@@ -208,6 +208,7 @@ const useTicketFormConfig = (ticket?: RemTicket | Ticket, config?: Partial<Ticke
 							label: __('Number of Uses'),
 							fieldType: 'number',
 							parseAsInfinity: true,
+							max: 1000,
 							min: 0,
 							info: sprintf(
 								__(
@@ -221,6 +222,7 @@ const useTicketFormConfig = (ticket?: RemTicket | Ticket, config?: Partial<Ticke
 							name: 'min',
 							label: __('Minimum Quantity'),
 							fieldType: 'number',
+							max: 1000000,
 							min: 0,
 							info: sprintf(
 								__(
@@ -235,6 +237,7 @@ const useTicketFormConfig = (ticket?: RemTicket | Ticket, config?: Partial<Ticke
 							label: __('Maximum Quantity'),
 							fieldType: 'number',
 							parseAsInfinity: true,
+							max: 1000000,
 							min: -1,
 							info: sprintf(
 								__(
