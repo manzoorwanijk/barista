@@ -1,17 +1,18 @@
 import React, { useCallback } from 'react';
-import { __ } from '@eventespresso/i18n';
 
+import { __, sprintf } from '@eventespresso/i18n';
 import { Checkbox } from '@eventespresso/adapters';
 import { useBulkEdit } from '@eventespresso/services';
-import type { EntityId } from '@eventespresso/data';
+import type { EntityId, EntityDbId } from '@eventespresso/data';
 
 export type ActionCheckboxProps = {
+	dbId?: EntityDbId;
 	id?: EntityId;
 	label?: React.ReactNode;
 	visibleEntityIds?: Array<EntityId>;
 };
 
-export const ActionCheckbox: React.FC<ActionCheckboxProps> = ({ id, label, visibleEntityIds }) => {
+export const ActionCheckbox: React.FC<ActionCheckboxProps> = ({ dbId, id, label, visibleEntityIds }) => {
 	const { selected, toggleSelected, unSelectAll, selectMultiple } = useBulkEdit();
 
 	const onChange = useCallback(() => {
@@ -30,14 +31,17 @@ export const ActionCheckbox: React.FC<ActionCheckboxProps> = ({ id, label, visib
 		}
 	}, [id, selectMultiple, selected.length, toggleSelected, unSelectAll, visibleEntityIds]);
 
+	const ariaLabel = id && dbId ? sprintf(__('select entity with id %s'), String(dbId)) : __('select all entities');
+
 	// for header chekbox, if visible and selected have same length, means all are checked
 	const isChecked = id ? selected.includes(id) : selected.length === visibleEntityIds.length;
+
 	// set "-" icon for header when some are selected
 	const isIndeterminate = !isChecked && selected.length && !id;
 
 	return (
 		<Checkbox
-			aria-label={__('select entity')}
+			aria-label={ariaLabel}
 			className='ee-bulk-edit-actions__checkbox'
 			isChecked={isChecked}
 			isIndeterminate={isIndeterminate}
