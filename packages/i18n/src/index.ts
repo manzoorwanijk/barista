@@ -1,3 +1,5 @@
+/* eslint-disable @wordpress/i18n-no-variables */
+/* eslint-disable @wordpress/i18n-text-domain */
 // import global types.
 import '../../../types';
 import { createI18n } from '@wordpress/i18n';

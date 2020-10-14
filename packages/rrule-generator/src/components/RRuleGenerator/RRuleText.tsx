@@ -12,7 +12,8 @@ export interface RRuleTextProps {
 const RRuleText: React.FC<RRuleTextProps> = ({ rRuleString }) => {
 	const rRule = RRule.fromString(rRuleString);
 	const ruleText = sprintf(
-		__('%s,%sstarting %s'),
+		/* translators: %1$s recurrence pattern ex: 'Every month on the first', %2$s line break, starting, %3$s date ex: 'Jan 1, 20221'*/
+		__('%1$s,%2$sstarting %3$s'),
 		rRule.toText(),
 		'\n',
 		format(rRule.options.dtstart, LOCALIZED_DATE_FULL_FORMAT)

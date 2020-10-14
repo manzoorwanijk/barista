@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { __, sprintf } from '@eventespresso/i18n';
+import { __ } from '@eventespresso/i18n';
 import { pick } from 'ramda';
 
 import { CalendarOutlined, ControlOutlined, ProfileOutlined } from '@eventespresso/icons';
@@ -125,12 +125,10 @@ const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): TicketFo
 							parseAsInfinity: true,
 							max: 1000000,
 							min: -1,
-							info: sprintf(
-								__(
-									'The maximum number of this ticket available for sale.%sSet to 0 to stop sales, or leave blank for no limit.'
-								),
-								'\n'
-							),
+							info:
+								__('The maximum number of this ticket available for sale.') +
+								'\n' +
+								__('Set to 0 to stop sales, or leave blank for no limit.'),
 							width: 'small',
 						},
 						{
@@ -140,12 +138,14 @@ const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): TicketFo
 							parseAsInfinity: true,
 							max: 1000,
 							min: 0,
-							info: sprintf(
+							info:
 								__(
-									'Controls the total number of times this ticket can be used, regardless of the number of dates it is assigned to.%sExample: A ticket might have access to 4 different dates, but setting this field to 2 would mean that the ticket could only be used twice. Leave blank for no limit.'
+									'Controls the total number of times this ticket can be used, regardless of the number of dates it is assigned to.'
+								) +
+								'\n' +
+								__(
+									'Example: A ticket might have access to 4 different dates, but setting this field to 2 would mean that the ticket could only be used twice. Leave blank for no limit.'
 								),
-								'\n'
-							),
 							width: 'small',
 						},
 						{
@@ -154,12 +154,12 @@ const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): TicketFo
 							fieldType: 'number',
 							max: 1000000,
 							min: 0,
-							info: sprintf(
+							info:
 								__(
-									'The minimum quantity that can be selected for this ticket. Use this to create ticket bundles or graduated pricing.%sLeave blank for no minimum.'
-								),
-								'\n'
-							),
+									'The minimum quantity that can be selected for this ticket. Use this to create ticket bundles or graduated pricing.'
+								) +
+								'\n' +
+								__('Leave blank for no minimum.'),
 							width: 'small',
 						},
 						{
@@ -169,12 +169,12 @@ const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): TicketFo
 							parseAsInfinity: true,
 							max: 1000000,
 							min: -1,
-							info: sprintf(
+							info:
 								__(
-									'The maximum quantity that can be selected for this ticket. Use this to create ticket bundles or graduated pricing.%sLeave blank for no maximum.'
-								),
-								'\n'
-							),
+									'The maximum quantity that can be selected for this ticket. Use this to create ticket bundles or graduated pricing.'
+								) +
+								'\n' +
+								__('Leave blank for no maximum.'),
 							width: 'small',
 						},
 						{
