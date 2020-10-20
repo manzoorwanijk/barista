@@ -3,8 +3,8 @@ import { FormControl as ChakraFormControl } from '@chakra-ui/core';
 
 import type { FormControlProps } from './types';
 
-const FormControl: React.FC<FormControlProps> = ({ children, ...props }) => {
-	return <ChakraFormControl {...props}>{children}</ChakraFormControl>;
-};
-
-export default FormControl;
+export const FormControl: React.FC<FormControlProps> = ({ children, className, isInvalid, isRequired }) => (
+	<ChakraFormControl className={className} isInvalid={isInvalid} isRequired={isRequired}>
+		{children}
+	</ChakraFormControl>
+);

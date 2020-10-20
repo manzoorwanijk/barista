@@ -1,1 +1,1 @@
-export { default as MappedField } from './MappedField';
+export * from './MappedField';

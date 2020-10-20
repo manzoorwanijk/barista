@@ -3,8 +3,6 @@ import { FormLabel as ChakraFormLabel } from '@chakra-ui/core';
 
 import type { FormLabelProps } from './types';
 
-const FormLabel: React.FC<FormLabelProps> = ({ children, ...props }) => {
-	return <ChakraFormLabel {...props}>{children}</ChakraFormLabel>;
+export const FormLabel: React.FC<FormLabelProps> = ({ children, htmlFor }) => {
+	return <ChakraFormLabel htmlFor={htmlFor}>{children}</ChakraFormLabel>;
 };
-
-export default FormLabel;

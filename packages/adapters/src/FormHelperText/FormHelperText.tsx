@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormHelperText as ChakraFormHelperText } from '@chakra-ui/core';
 
-import type { FormControlProps } from './types';
+import type { FormHelperTextProps } from './types';
 
-const FormHelperText: React.FC<FormControlProps> = ({ children, ...props }) => {
-	return <ChakraFormHelperText {...props}>{children}</ChakraFormHelperText>;
-};
-
-export default FormHelperText;
+export const FormHelperText: React.FC<FormHelperTextProps> = ({ children, className, id }) => (
+	<ChakraFormHelperText className={className} id={id}>
+		{children}
+	</ChakraFormHelperText>
+);

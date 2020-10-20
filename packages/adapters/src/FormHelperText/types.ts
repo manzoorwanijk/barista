@@ -1,3 +1,3 @@
-import type { FormControlProps as ChakraFormControlProps } from '@chakra-ui/core';
+import type { BoxProps } from '@chakra-ui/core';
 
-export interface FormControlProps extends ChakraFormControlProps {}
+export interface FormHelperTextProps extends Pick<BoxProps, 'className' | 'id'> {}
