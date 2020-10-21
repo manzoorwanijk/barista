@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
 import { __ } from '@eventespresso/i18n';
 
-import type { TicketItemProps } from '../types';
 import { InlineEditCurrency } from '@eventespresso/components';
-import useRecalculateBasePrice from '../../hooks/useRecalculateBasePrice';
 import { useMemoStringify } from '@eventespresso/hooks';
+import { SOLD_TICKET_ERROR_MESSAGE } from '@eventespresso/tpc';
+import useRecalculateBasePrice from '../../hooks/useRecalculateBasePrice';
+import type { TicketItemProps } from '../types';
 
 interface EditablePriceProps extends TicketItemProps {
 	className?: string;
@@ -24,15 +25,20 @@ const EditablePrice: React.FC<Partial<EditablePriceProps>> = ({ entity: ticket, 
 
 	const wrapperProps = useMemoStringify({ className });
 
+	const isEditDisabled = Boolean(ticket.sold);
+
+	const tooltip = isEditDisabled ? SOLD_TICKET_ERROR_MESSAGE : __('edit ticket total…');
+
 	return (
 		<InlineEditCurrency
 			id={ticket.id}
 			amount={ticket.price}
+			isEditDisabled={isEditDisabled}
 			placeholder={__('set price…')}
 			wrapperProps={wrapperProps}
 			onChange={onChangePrice}
 			tag={'h3'}
-			tooltip={__('edit ticket total…')}
+			tooltip={tooltip}
 		/>
 	);
 };

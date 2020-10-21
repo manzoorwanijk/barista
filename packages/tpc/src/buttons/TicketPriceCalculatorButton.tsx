@@ -3,13 +3,14 @@ import { __ } from '@eventespresso/i18n';
 
 import { Calculator } from '@eventespresso/icons';
 import { IconButton, IconButtonProps } from '@eventespresso/components';
-import { EdtrGlobalModals } from '@eventespresso/edtr-services';
+import { EdtrGlobalModals, useTicketItem } from '@eventespresso/edtr-services';
 import { TypeName, withIsLoaded } from '@eventespresso/services';
 import type { TooltipProps } from '@eventespresso/adapters';
 import { useGlobalModal } from '@eventespresso/registry';
 import { useMemoStringify } from '@eventespresso/hooks';
 
 import type { BaseProps } from '../types';
+import { SOLD_TICKET_ERROR_MESSAGE } from '../utils';
 
 interface TPCButtonProps extends BaseProps, IconButtonProps {}
 
@@ -22,13 +23,19 @@ const TicketPriceCalculatorButton: React.FC<TPCButtonProps> = ({ ticketId, ...bu
 		openWithData({ ticketId });
 	}, [ticketId, openWithData]);
 
+	const ticket = useTicketItem({ id: ticketId });
+	const isDisabled = Boolean(ticket?.sold);
+
+	const tooltip = isDisabled ? SOLD_TICKET_ERROR_MESSAGE : __('ticket price calculator');
+
 	return (
 		<IconButton
 			borderless
 			icon={Calculator}
 			onClick={onOpen}
-			tooltip={__('ticket price calculator')}
+			tooltip={tooltip}
 			tooltipProps={tooltipProps}
+			isDisabled={isDisabled}
 			{...buttonProps}
 		/>
 	);
