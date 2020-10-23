@@ -1,13 +1,16 @@
-import React, { Children } from 'react';
+import React from 'react';
 import { __ } from '@eventespresso/i18n';
 
 import { ActiveFiltersProps } from './types';
+import { cleanChildren } from '@eventespresso/utils';
 
 import './styles.scss';
 
 const ActiveFilters: React.FC<ActiveFiltersProps> = ({ title = __('active filters:'), children }) => {
-	// if no filters
-	if (!Children.toArray(children).length) {
+	const validChildren = cleanChildren(children);
+	const noFilters = !validChildren?.length;
+
+	if (noFilters) {
 		return null;
 	}
 
