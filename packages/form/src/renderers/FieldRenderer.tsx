@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { FormControl, FormLabel } from '@eventespresso/adapters';
-import { ErrorMessage } from '../ErrorMessage';
+import { ErrorMessage } from '../../../components/src/ErrorMessage';
 import { HelperText } from '../HelperText';
 
 import { MappedField } from '../adapters';
