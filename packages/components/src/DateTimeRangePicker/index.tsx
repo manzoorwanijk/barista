@@ -1,18 +1,29 @@
 import React, { useCallback, useState } from 'react';
+import { isEqual } from 'date-fns';
 import classNames from 'classnames';
 
 import { __ } from '@eventespresso/i18n';
-import { DateTimeRangePicker as DateTimeRangePickerAdapter } from '@eventespresso/dates';
-import type { DateRangePickerProps } from '@eventespresso/dates';
+import {
+	DateTimeRangePicker as DateTimeRangePickerAdapter,
+	DateRangePickerProps,
+	endDateAfterStartDateErrorMessage,
+	startDateBeforeEndDateErrorMessage,
+	useDatePickerValidation,
+} from '@eventespresso/dates';
 import { Save } from '@eventespresso/icons';
 import { useConfig } from '@eventespresso/services';
 
-import { Button, ButtonType, TimezoneTimeInfo } from '../';
+import { Button, ButtonType, ErrorMessage, TimezoneTimeInfo } from '../';
 
 import './styles.scss';
 
 export const DateTimeRangePicker: React.FC<DateRangePickerProps> = ({ onChange, value, ...props }) => {
 	const [dates, setDates] = useState(value);
+	const { startDateIsValid, startDateBeforeEndDate, endDateIsValid, endDateAfterStartDate } = useDatePickerValidation(
+		dates[0],
+		dates[1],
+		true
+	);
 	const {
 		locale: { user },
 	} = useConfig();
@@ -28,8 +39,15 @@ export const DateTimeRangePicker: React.FC<DateRangePickerProps> = ({ onChange, 
 		'ee-input-base-wrapper'
 	);
 
+	const isDisabled = !startDateIsValid || !endDateIsValid;
+
 	const startDateTZ = <TimezoneTimeInfo date={dates[0]} />;
+
 	const endDateTZ = <TimezoneTimeInfo date={dates[1]} />;
+
+	const hasStartDateChanged = !isEqual(value[0], dates[0]);
+
+	const hasEndDateChanged = !isEqual(value[1], dates[1]);
 
 	return (
 		<div className={className}>
@@ -40,14 +58,22 @@ export const DateTimeRangePicker: React.FC<DateRangePickerProps> = ({ onChange, 
 				required
 				startDateTZ={startDateTZ}
 				value={dates}
-				{...props}
 			/>
+
+			{hasStartDateChanged && !startDateBeforeEndDate && (
+				<ErrorMessage message={startDateBeforeEndDateErrorMessage} />
+			)}
+
+			{hasEndDateChanged && !endDateAfterStartDate && (
+				<ErrorMessage message={endDateAfterStartDateErrorMessage} />
+			)}
 
 			<Button
 				aria-label={__('save')}
 				buttonText={__('save')}
 				buttonType={ButtonType.PRIMARY}
 				icon={Save}
+				isDisabled={isDisabled}
 				noMargin
 				onClick={onSave}
 			/>
