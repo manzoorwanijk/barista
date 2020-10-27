@@ -9,20 +9,16 @@ import useInitDatetimeTestCache from './useInitDatetimeTestCache';
 describe('useDatetimeItem', () => {
 	const wrapper = ApolloMockedProvider();
 	const existingDatetime = nodes[0];
-	const consoleWarn = jest.spyOn(console, 'warn').mockImplementation();
 	it('checks for non existent datetime when the cache is empty', async () => {
 		const { result } = renderHook(() => useDatetimeItem({ id: existingDatetime.id }), {
 			wrapper,
 		});
 		await actWait();
 
-		expect(result.current).toBe(undefined);
-		expect(consoleWarn).toHaveBeenCalled();
-		consoleWarn.mockRestore();
+		expect(result.current).toEqual({});
 	});
 
 	it('checks for non existent datetime when the cache is NOT empty', async () => {
-		const consoleWarn = jest.spyOn(console, 'warn').mockImplementation();
 		const { result } = renderHook(
 			() => {
 				useInitDatetimeTestCache();
@@ -32,9 +28,7 @@ describe('useDatetimeItem', () => {
 		);
 		await actWait();
 
-		expect(result.current).toBe(undefined);
-		expect(consoleWarn).toHaveBeenCalled();
-		consoleWarn.mockRestore();
+		expect(result.current).toEqual({});
 	});
 
 	it('checks for an existent datetime', async () => {

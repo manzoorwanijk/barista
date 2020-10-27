@@ -9,7 +9,6 @@ import useInitTicketTestCache from './useInitTicketTestCache';
 describe('useTicketItem', () => {
 	const existingTicket = nodes[0];
 	const wrapper = ApolloMockedProvider();
-	const consoleWarn = jest.spyOn(console, 'warn').mockImplementation();
 
 	it('checks for non existent ticket when the cache is empty', async () => {
 		const { result } = renderHook(() => useTicketItem({ id: existingTicket.id }), {
@@ -17,13 +16,10 @@ describe('useTicketItem', () => {
 		});
 		await actWait();
 
-		expect(result.current).toBe(undefined);
-		expect(consoleWarn).toHaveBeenCalled();
-		consoleWarn.mockRestore();
+		expect(result.current).toEqual({});
 	});
 
 	it('checks for non existent ticket when the cache is NOT empty', async () => {
-		const consoleWarn = jest.spyOn(console, 'warn').mockImplementation();
 		const { result } = renderHook(
 			() => {
 				useInitTicketTestCache();
@@ -33,9 +29,7 @@ describe('useTicketItem', () => {
 		);
 		await actWait();
 
-		expect(result.current).toBe(undefined);
-		expect(consoleWarn).toHaveBeenCalled();
-		consoleWarn.mockRestore();
+		expect(result.current).toEqual({});
 	});
 
 	it('checks for an existent ticket', async () => {
