@@ -29,11 +29,9 @@ const useRegisterIsChainedFilter: VoidFunction = () => {
 	const unSubIsChainedFilterRef = useRef<VoidFunction>();
 
 	useEffect(() => {
-		// If already register
-		if (typeof unSubIsChainedFilterRef.current === 'function') {
-			// de-register
-			unSubIsChainedFilterRef.current();
-		}
+		// If already registered, de-register
+		unSubIsChainedFilterRef.current?.();
+
 		// Register isChained filter
 		const unSubscribeIsChainedFilter = registerTicketsFilter(({ entityList, filterState }) => {
 			return isChainedFilter({ isChained: filterState.isChained, tickets: entityList });
@@ -41,12 +39,11 @@ const useRegisterIsChainedFilter: VoidFunction = () => {
 
 		// update ref, it won't cause rerendersٖ
 		unSubIsChainedFilterRef.current = unSubscribeIsChainedFilter;
-
 		// Housekeeping
 		return (): void => {
-			unSubscribeIsChainedFilter();
+			unSubIsChainedFilterRef.current?.();
 		};
-	}, [isChainedFilter, isChainedDeps]);
+	}, [isChainedDeps, isChainedFilter]);
 };
 
 export default useRegisterIsChainedFilter;
