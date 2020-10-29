@@ -1,34 +1,20 @@
-import { useMemo } from 'react';
-import {
-	Currency,
-	CurrencyProps,
-	CurrentUserProps,
-	DateTimeFormats,
-	DateTimeFormatsProps,
-	Locale,
-	LocaleProps,
-	SiteUrl,
-	SiteUrlProps,
-	Timezone,
-	TimezoneProps,
-	ConfigDataProps,
-} from './';
-import { ApiDomData, ConfigDomData } from '../types';
 import { useMemoStringify } from '@eventespresso/hooks';
+import { useMemo } from 'react';
+import { Currency, DateTimeFormats, Locale, LocaleProps, SiteUrl, Timezone, ConfigDataProps } from './';
 
 export const useConfigData = (): ConfigDataProps => {
-	const api: ApiDomData = useMemoStringify(window?.eventEspressoData?.api);
-	const config: ConfigDomData = useMemoStringify(window?.eventEspressoData?.config);
+	const api = useMemoStringify(window?.eventEspressoData?.api);
+	const config = useMemoStringify(window?.eventEspressoData?.config);
 	return useMemo(
 		() => ({
 			brandName: config?.coreDomain?.brandName || 'Event Espresso',
-			currency: Currency(config?.siteCurrency as CurrencyProps),
-			currentUser: config?.currentUser as CurrentUserProps,
+			currency: Currency(config?.siteCurrency),
+			currentUser: config?.currentUser,
 			generalSettings: config?.generalSettings,
 			dateTimeFormats: DateTimeFormats({
 				dateFormat: config?.generalSettings?.dateFormat,
 				timeFormat: config?.generalSettings?.timeFormat,
-			} as DateTimeFormatsProps),
+			}),
 			locale: Locale({
 				site: config?.locale?.site || '',
 				siteTimezone: config?.locale?.siteTimezone || {},
@@ -39,12 +25,12 @@ export const useConfigData = (): ConfigDataProps => {
 			siteUrl: SiteUrl({
 				admin: config?.siteUrls?.admin || '',
 				home: config?.siteUrls?.home || '',
-			} as SiteUrlProps),
+			}),
 			timezone: Timezone({
 				city: config?.locale?.siteTimezone?.city || '',
 				name: config?.locale?.siteTimezone?.name || '',
 				offset: config?.locale?.siteTimezone?.offset || 0,
-			} as TimezoneProps),
+			}),
 			wp_debug: config?.wp_debug || false,
 		}),
 		[
@@ -56,9 +42,9 @@ export const useConfigData = (): ConfigDataProps => {
 			config?.locale?.siteTimezone,
 			config?.locale?.user,
 			config?.siteCurrency,
+			config?.sitePermissions,
 			config?.siteUrls?.admin,
 			config?.siteUrls?.home,
-			config?.sitePermissions,
 			config?.wp_debug,
 		]
 	);
