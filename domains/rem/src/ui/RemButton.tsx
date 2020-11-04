@@ -9,12 +9,12 @@ import { EdtrGlobalModals } from '@eventespresso/edtr-services';
 
 const RemButton: React.FC = () => {
 	const { open: openRemModal } = useGlobalModal(RemGlobalModals.MAIN);
-	const { close: closeOptionsPopover } = useGlobalModal(EdtrGlobalModals.NEW_DATE_POPOVER);
+	const { close: closeNewDateModal } = useGlobalModal(EdtrGlobalModals.NEW_DATE);
 
 	const onClick = useCallback(() => {
-		closeOptionsPopover();
+		closeNewDateModal();
 		openRemModal();
-	}, [closeOptionsPopover, openRemModal]);
+	}, [closeNewDateModal, openRemModal]);
 
 	return (
 		<NewEntityOption
