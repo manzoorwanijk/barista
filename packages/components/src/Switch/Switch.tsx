@@ -1,8 +1,10 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { SwitchChecked, SwitchUnchecked } from '@eventespresso/icons';
 import { isLeftKey, isRightKey } from '@eventespresso/utils';
+import { useOnChange } from '@eventespresso/hooks';
+import { withLabel } from '../withLabel';
 import type { SwitchProps } from './types';
 
 import './style.scss';
@@ -12,11 +14,13 @@ const icons = {
 	unchecked: <SwitchUnchecked />,
 };
 
-export const Switch: React.FC<SwitchProps> = ({
+const Switch: React.FC<SwitchProps> = ({
 	checked,
 	defaultChecked,
 	disabled,
 	onBlur,
+	onChange,
+	onChangeValue,
 	onFocus,
 	value,
 	...props
@@ -24,6 +28,9 @@ export const Switch: React.FC<SwitchProps> = ({
 	const [innerChecked, setInnerChecked] = useState<boolean>(checked || defaultChecked);
 	const [hasFocus, setHasFocus] = useState<boolean>(false);
 	const ref = useRef<HTMLInputElement>();
+	const onChangeHandlerArg = useMemo(() => ({ onChange, onChangeValue }), [onChange, onChangeValue]);
+	const onChangeHandler = useOnChange(onChangeHandlerArg);
+
 	const touch = useRef({
 		activated: false,
 		moved: false,
@@ -110,8 +117,10 @@ export const Switch: React.FC<SwitchProps> = ({
 				aria-checked={innerChecked}
 				checked={innerChecked}
 				className='ee-switch__sr-only'
-				onFocus={handleFocus}
 				onBlur={handleBlur}
+				onChange={onChangeHandler}
+				onClick={onClick}
+				onFocus={handleFocus}
 				ref={ref}
 				type='checkbox'
 				value={value}
@@ -119,3 +128,5 @@ export const Switch: React.FC<SwitchProps> = ({
 		</div>
 	);
 };
+
+export default withLabel(Switch);

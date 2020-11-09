@@ -43,7 +43,7 @@ const RepeatableRenderer: React.FC<Omit<RepeatableRendererProps, 'component'>> =
 									/>
 								</>
 							}
-						/>
+						></Component>
 					</div>
 				);
 			})}
@@ -53,4 +53,5 @@ const RepeatableRenderer: React.FC<Omit<RepeatableRendererProps, 'component'>> =
 		</>
 	);
 };
+
 export default RepeatableRenderer;

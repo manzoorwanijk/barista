@@ -1,0 +1,6 @@
+@import '~@eventespresso/styles/src';
+
+.ee-text-input {
+	@extend .ee-input-base;
+	@extend .ee-input;
+}

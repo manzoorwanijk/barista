@@ -1,25 +1,12 @@
-import React, { useCallback } from 'react';
-import classNames from 'classnames';
-import { Input as ChakraInput } from '@chakra-ui/core';
+import React, { useMemo } from 'react';
+import { Input as ChakraInput } from '@chakra-ui/input';
 
+import { useOnChange } from '@eventespresso/hooks';
 import type { TextInputProps } from './types';
 
-const TextInput: React.FC<TextInputProps> = ({ onChange, onChangeValue, ...props }) => {
-	const className = classNames('ee-input-base ee-input', props.className);
-	const onChangeHandler: TextInputProps['onChange'] = useCallback(
-		(event) => {
-			if (typeof onChangeValue === 'function') {
-				onChangeValue(event.target.value, event);
-			}
+export const TextInput: React.FC<TextInputProps> = ({ onChange, onChangeValue, ...props }) => {
+	const onChangeHandlerArg = useMemo(() => ({ onChange, onChangeValue }), [onChange, onChangeValue]);
+	const onChangeHandler = useOnChange(onChangeHandlerArg);
 
-			if (typeof onChange === 'function') {
-				onChange(event);
-			}
-		},
-		[onChange, onChangeValue]
-	);
-
-	return <ChakraInput {...props} className={className} onChange={onChangeHandler} />;
+	return <ChakraInput {...props} onChange={onChangeHandler} />;
 };
-
-export default TextInput;
