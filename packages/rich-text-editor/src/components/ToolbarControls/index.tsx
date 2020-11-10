@@ -7,14 +7,35 @@ import InlineStyleControls from './InlineStyleControls';
 import type { ToolbarControlsProps } from './types';
 
 import './style.scss';
+import { useUrlInputState } from '../../hooks';
+import UrlInput from './UrlInput';
+import LinkControl from './LinkControl';
 
-const ToolbarControls: React.FC<ToolbarControlsProps> = ({ editorState, onToggleBlockType, onToggleInlineStyle }) => {
+const ToolbarControls: React.FC<ToolbarControlsProps> = ({ editorRef, type = 'simple' }) => {
+	const { inputRef, urlValue, setUrlValue, isVisible, setIsVisible } = useUrlInputState();
+
 	return (
-		<div className='rich-text-editor-controls__wrapper'>
-			<HeadingControls editorState={editorState} onToggle={onToggleBlockType} />
-			<BlockStyleControls editorState={editorState} onToggle={onToggleBlockType} />
-			<InlineStyleControls editorState={editorState} onToggle={onToggleInlineStyle} />
-		</div>
+		<>
+			<div className='ee-rich-text-editor-controls__wrapper'>
+				<HeadingControls />
+				<BlockStyleControls />
+				<InlineStyleControls />
+				{type === 'advanced' && (
+					<>
+						<LinkControl inputRef={inputRef} setUrlValue={setUrlValue} setIsVisible={setIsVisible} />
+					</>
+				)}
+			</div>
+			{isVisible && (
+				<UrlInput
+					editorRef={editorRef}
+					inputRef={inputRef}
+					setIsVisible={setIsVisible}
+					setUrlValue={setUrlValue}
+					urlValue={urlValue}
+				/>
+			)}
+		</>
 	);
 };
 
