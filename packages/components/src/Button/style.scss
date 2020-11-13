@@ -4,6 +4,7 @@
  * ------------------------------------------------------------------------- */
 
 @import '~@eventespresso/styles/src';
+@import './colors';
 @import './sizes';
 
 :root {
@@ -198,96 +199,6 @@
 				color: var(--ee-color-primary-low-contrast);
 				&.ee-btn--is-active {
 					border-color: var(--ee-color-primary-super-low-contrast);
-				}
-			}
-		}
-
-		/* PRIMARY */
-		&.ee-btn--primary {
-			text-shadow: none !important;
-			&:not([disabled]) {
-				background: var(--ee-color-primary);
-				border-color: var(--ee-color-primary);
-				color: var(--ee-text-on-primary);
-			}
-
-			&:focus:not([disabled]) {
-				background: var(--ee-color-primary);
-				border-color: var(--ee-color-primary-high-contrast);
-
-				&.ee-btn--is-active {
-					border-color: var(--ee-color-primary-super-high-contrast);
-				}
-			}
-
-			&:hover:not([disabled]) {
-				background: var(--ee-color-primary);
-				border-color: var(--ee-color-primary-low-contrast);
-
-				&.ee-btn--is-active {
-					border-color: var(--ee-color-primary-super-low-contrast);
-				}
-			}
-		}
-
-		/* SECONDARY */
-		&.ee-btn--secondary {
-			text-shadow: none !important;
-
-			span,
-			svg {
-				color: var(--ee-color-white);
-			}
-
-			&:not([disabled]) {
-				background: var(--ee-color-secondary);
-				border-color: var(--ee-color-secondary);
-				color: var(--ee-text-on-secondary);
-			}
-
-			&:focus:not([disabled]) {
-				background: var(--ee-color-secondary);
-				border-color: var(--ee-color-secondary-high-contrast);
-
-				&.ee-btn--is-active {
-					border-color: var(--ee-color-secondary-super-high-contrast);
-				}
-			}
-
-			&:hover:not([disabled]) {
-				background: var(--ee-color-secondary);
-				border-color: var(--ee-color-secondary-low-contrast);
-
-				&.ee-btn--is-active {
-					border-color: var(--ee-color-secondary-super-low-contrast);
-				}
-			}
-		}
-
-		/* ACCENT */
-		&.ee-btn--accent {
-			text-shadow: none !important;
-			&:not([disabled]) {
-				background: var(--ee-color-accent-high-contrast);
-				border-color: var(--ee-color-accent-high-contrast);
-				color: var(--ee-text-on-accent);
-			}
-
-			&:focus:not([disabled]) {
-				background: var(--ee-color-accent-super-high-contrast);
-				border-color: var(--ee-color-accent-super-high-contrast);
-
-				&.ee-btn--is-active {
-					border-color: var(--ee-color-accent-super-high-contrast);
-				}
-			}
-
-			&:hover:not([disabled]) {
-				background: var(--ee-color-accent);
-				border-color: var(--ee-color-accent-low-contrast);
-
-				&.ee-btn--is-active {
-					border-color: var(--ee-color-accent-super-low-contrast);
 				}
 			}
 		}

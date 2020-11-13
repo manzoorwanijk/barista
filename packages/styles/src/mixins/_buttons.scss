@@ -1,0 +1,34 @@
+@mixin button-variant($background, $border, $color) {
+	text-shadow: none !important;
+
+	span,
+	svg {
+		@if $color == secondary {
+			color: var(--ee-color-white);
+		}
+	}
+
+	&:not([disabled]) {
+		background: $background;
+		border-color: $border;
+		color: var(--ee-text-on-#{$color});
+	}
+
+	&:focus:not([disabled]) {
+		background: $background;
+		border-color: var(--ee-color-#{$color}-high-contrast);
+
+		&.ee-btn--is-active {
+			border-color: var(--ee-color-#{$color}-super-high-contrast);
+		}
+	}
+
+	&:hover:not([disabled]) {
+		background: var(--ee-color-primary);
+		border-color: var(--ee-color-#{$color}-low-contrast);
+
+		&.ee-btn--is-active {
+			border-color: var(--ee-color-#{$color}-super-low-contrast);
+		}
+	}
+}
