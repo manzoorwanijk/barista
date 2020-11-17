@@ -1,8 +1,22 @@
+@use "sass:map";
+
 @import '../effects';
 @import '../functions';
 @import '../variables';
 
-$rootVariables: map-collect($animation, $borders, $date-picker, $font-sizes, $heights, $margins, $paddings);
+$rootVariables: map-collect(
+	$animation,
+	$borders,
+	$colors,
+	$date-picker,
+	$defaults,
+	$default-text-colors,
+	$font-sizes,
+	$heights,
+	$margins,
+	$paddings,
+	$others
+);
 
 :root {
 	@each $variable, $value in $rootVariables {
