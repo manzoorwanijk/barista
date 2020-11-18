@@ -3,6 +3,7 @@
 @import '../effects';
 @import '../functions';
 @import '../variables';
+@import './entity-status';
 
 $rootVariables: map-collect(
 	$animation,
@@ -14,8 +15,9 @@ $rootVariables: map-collect(
 	$font-sizes,
 	$heights,
 	$margins,
+	$others,
 	$paddings,
-	$others
+	$statuses
 );
 
 :root {
