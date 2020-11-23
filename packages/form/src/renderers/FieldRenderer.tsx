@@ -2,11 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { FormControl, FormLabel } from '@eventespresso/adapters';
-import { ErrorMessage } from '../../../components/src/ErrorMessage';
+import { ErrorMessage, InfoMessage } from '../../../components/src/InlineNotification';
 import { HelperText } from '../HelperText';
 
-import { MappedField } from '../adapters';
-import { fieldPropsAreEqual } from '../utils';
+import MappedField from '../adapters/MappedField';
 import type { FieldRendererProps } from '../types';
 
 const FieldRenderer: React.FC<FieldRendererProps> = (props) => {
@@ -37,6 +36,7 @@ const FieldRenderer: React.FC<FieldRendererProps> = (props) => {
 	const tooltipKey = info ? props.input.name + '-tooltip' : null;
 
 	const errorMessageId = props.input.name + '-error-message';
+	const infoMessageId = props.input.name + '-info-message';
 
 	const ariaDescribedBy = isInvalid ? errorMessageId : tooltipKey;
 
@@ -54,9 +54,10 @@ const FieldRenderer: React.FC<FieldRendererProps> = (props) => {
 			/>
 			{after}
 			<ErrorMessage id={errorMessageId} message={errorMessage} />
+			<InfoMessage id={infoMessageId} message={meta.data?.fieldNotice} />
 			<HelperText id={tooltipKey}>{description || info}</HelperText>
 		</FormControl>
 	);
 };
 
-export default React.memo(FieldRenderer, fieldPropsAreEqual);
+export default FieldRenderer;
