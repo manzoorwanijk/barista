@@ -57,8 +57,11 @@ typings/
 # next.js build output
 .next
 
+#ide & os
 .DS_Store
 .vscode/
+*.code-workspace
+
 #composer
 /vendor/
 
