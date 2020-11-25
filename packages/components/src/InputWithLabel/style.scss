@@ -9,7 +9,7 @@
 			border-radius: var(--ee-border-radius-small);
 			height: var(--ee-icon-button-size);
 			margin: 0;
-			padding: 0;
+			padding: 0 var(--ee-padding-micro);
 		}
 
 		.ee-input--disabled & {
@@ -37,14 +37,14 @@
 	}
 
 	&.ee-input-with-label__left-label {
-		.ee-input.ee-input {
+		.ee-text-input {
 			border-bottom-left-radius: 0;
 			border-top-left-radius: 0;
 		}
 	}
 
 	&.ee-input-with-label__right-label {
-		.ee-input.ee-input {
+		.ee-text-input {
 			border-bottom-right-radius: 0;
 			border-top-right-radius: 0;
 		}

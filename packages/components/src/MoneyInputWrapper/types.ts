@@ -1,8 +1,9 @@
 import type { CurrencyProps } from '@eventespresso/services';
 
-export interface MoneyFieldProps {
-	children: React.ReactNode;
+export interface MoneyInputWrapperProps {
 	className?: string;
 	currency?: CurrencyProps;
 	isPercent?: boolean;
+	sign: CurrencyProps['sign'];
+	signB4: CurrencyProps['signB4'];
 }

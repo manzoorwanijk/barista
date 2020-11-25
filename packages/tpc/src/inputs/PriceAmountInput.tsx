@@ -3,8 +3,7 @@ import classNames from 'classnames';
 import { __ } from '@eventespresso/i18n';
 
 import { parsedAmount } from '@eventespresso/utils';
-
-import { BaseNumberInputField, MoneyField, usePriceAmount } from '../fields';
+import { BaseNumberInputField, MoneyInputWithConfig, usePriceAmount } from '../fields';
 import { useDataState } from '../data';
 import type { PriceModifierProps } from '../types';
 
@@ -15,7 +14,7 @@ const PriceAmountInput: React.FC<PriceModifierProps> = ({ price }) => {
 	const { getValue, setValue } = usePriceAmount({ field: 'amount', price });
 
 	const hasError = Number(price?.amount ?? 0) === 0;
-	const className = classNames('ee-input ee-input__price-field', {
+	const className = classNames('ee-input__price-field', {
 		'ee-input__price-field--has-error': hasError,
 	});
 
@@ -29,7 +28,7 @@ const PriceAmountInput: React.FC<PriceModifierProps> = ({ price }) => {
 	const moneyFieldClassName = disabled && 'ee-input--disabled';
 
 	return (
-		<MoneyField className={moneyFieldClassName} isPercent={price.isPercent}>
+		<MoneyInputWithConfig className={moneyFieldClassName} isPercent={price.isPercent}>
 			<BaseNumberInputField
 				aria-label={__('amount')}
 				className={className}
@@ -46,7 +45,7 @@ const PriceAmountInput: React.FC<PriceModifierProps> = ({ price }) => {
 				setValue={setValue}
 				type='number'
 			/>
-		</MoneyField>
+		</MoneyInputWithConfig>
 	);
 };
 
