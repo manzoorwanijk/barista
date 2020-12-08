@@ -1,3 +1,3 @@
-import type { TextareaProps as ChakraTextareaProps } from '@chakra-ui/textarea';
+import type { InputProps } from '@chakra-ui/core';
 
-export interface TextareaProps extends Omit<ChakraTextareaProps, 'sizes'> {}
+export interface TextareaProps extends Omit<InputProps<HTMLTextAreaElement>, 'sizes'> {}

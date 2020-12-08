@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { useDisclosure } from '@chakra-ui/hooks';
+import { useDisclosure } from '@chakra-ui/core';
 import { __ } from '@eventespresso/i18n';
 
 import { Button, ButtonRow, DebugInfo, Divider, ErrorMessage } from '@eventespresso/components';
@@ -11,7 +11,7 @@ import { useFormState } from '../../data';
 import './style.scss';
 
 const PatternEditor: React.FC = () => {
-	const { isOpen, onClose, onOpen } = useDisclosure({ defaultIsOpen: false });
+	const { isOpen, onClose, onOpen } = useDisclosure(false);
 	const { exRule, rRule, setExRule, setRRule } = useFormState();
 
 	const onRemoveClick = useCallback(() => {
