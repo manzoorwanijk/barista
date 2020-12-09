@@ -1,8 +1,8 @@
 import React from 'react';
 import { __ } from '@eventespresso/i18n';
 
-import { ModalWithAlert } from '@eventespresso/components';
-
+import { CollapsibleLegend, ModalWithAlert } from '@eventespresso/components';
+import { legendConfig } from './config';
 import TicketAssignmentsManager from '../TicketAssignmentsManager';
 import useCancelButtonProps from './buttons/useCancelButtonProps';
 import useSubmitButtonProps from './buttons/useSubmitButtonProps';
@@ -30,6 +30,7 @@ const TicketAssignmentsManagerModal: React.FC<Partial<TAMModalProps>> = ({ onClo
 			title={title || __('Ticket Assignment Manager')}
 		>
 			<TicketAssignmentsManager />
+			<CollapsibleLegend direction='row' legendConfig={legendConfig} />
 		</ModalWithAlert>
 	);
 };

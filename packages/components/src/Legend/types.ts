@@ -3,23 +3,25 @@ import type { IconName } from '@eventespresso/icons';
 import { ButtonProps } from '../Button';
 
 export interface LegendBaseProps {
+	className?: string;
 	columnsPerRow?: number;
 	direction?: 'row';
 	termWhiteBg?: boolean;
 }
 
 export interface LegendProps extends LegendBaseProps {
-	legendConfig: LegendConfig;
+	legendConfig: LegendConfig<string>;
 }
 
-interface IconType {
+interface IconType<ClassName = string> {
 	bgClassName?: string;
+	className?: ClassName;
 	description: string;
 	icon: IconName | React.ElementType;
 }
 
-export interface LegendConfig {
-	icons: IconType[];
+export interface LegendConfig<ClassName> {
+	icons: IconType<ClassName>[];
 	swatches?: AnyObject;
 }
 

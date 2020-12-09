@@ -4,7 +4,7 @@ import { __ } from '@eventespresso/i18n';
 import { useStatus } from '@eventespresso/services';
 import type { EntityListFilterStateManager } from '@eventespresso/services';
 
-import { Divider, EmptyState, ErrorIndicator, Heading, LoadingNotice, Pagination } from '../..';
+import { ButtonRow, CollapsibleLegend, EmptyState, ErrorIndicator, Heading, LoadingNotice, Pagination } from '../..';
 import EntityListFilterBar from './withValidFilterState';
 import type { EntityListProps } from './types';
 import './style.scss';
@@ -41,35 +41,37 @@ const EntityList = <ELFS extends EntityListFilterStateManager<any>>({
 	}
 
 	return (
-		<div className={'ee-entity-list'}>
+		<div className='ee-entity-list  ee-edtr-section'>
 			<Heading as='h3' className='ee-entity-list__header'>
 				{headerText}
 			</Heading>
-			<EntityListFilterBar
-				domain={domain}
-				filterState={filterState}
-				legendConfig={legendConfig}
-				listId={listId}
-			/>
+
+			<EntityListFilterBar domain={domain} filterState={filterState} listId={listId} />
+
 			{activeFilters}
+
 			{entityList}
-			{
-				// disable pogination when sorting
-				!filterState.sortingEnabled && (
-					<Pagination
-						alignment='right'
-						defaultPerPage={6}
-						onChangePageNumber={filterState.setPageNumber}
-						onChangePerPage={filterState.setPerPage}
-						pageNumber={filterState.pageNumber}
-						perPage={filterState.perPage}
-						showPerPageChanger
-						total={filterState.total}
-					/>
-				)
-			}
+
+			<ButtonRow alignItems='start' justifyContent='space-between'>
+				<CollapsibleLegend direction='row' legendConfig={legendConfig} termWhiteBg />
+				{
+					// disable pogination when sorting
+					!filterState.sortingEnabled && (
+						<Pagination
+							className='ee-entity-list__pagination'
+							defaultPerPage={6}
+							onChangePageNumber={filterState.setPageNumber}
+							onChangePerPage={filterState.setPerPage}
+							pageNumber={filterState.pageNumber}
+							perPage={filterState.perPage}
+							showPerPageChanger
+							total={filterState.total}
+						/>
+					)
+				}
+			</ButtonRow>
+
 			<div className={'ee-entity-list__footer'}>{footer}</div>
-			<Divider type='dashed' />
 		</div>
 	);
 };
