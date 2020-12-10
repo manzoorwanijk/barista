@@ -9,7 +9,11 @@ export * from './context';
 
 export * from './filterState';
 
+export * from './forms';
+
 export * from './hooks';
+
+export * from './ioc';
 
 export * from './utils';
 
