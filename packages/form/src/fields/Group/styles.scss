@@ -1,0 +1,57 @@
+@import '~@eventespresso/styles/src';
+
+.ee-form.ee-form {
+	.ee-row {
+		display: flex;
+		flex-wrap: wrap;
+
+		> [class*='ee-col--'] {
+			padding: var(--ee-padding-smaller) var(--ee-padding-smaller) 0 0;
+		}
+
+		.ee-col {
+			flex: 0 0 auto;
+			width: 100%;
+
+			.ee-form-item {
+				padding-bottom: 0;
+			}
+
+			.ee-form__label {
+				display: block;
+			}
+
+			.ee-form-item {
+				> div {
+					width: 100%;
+				}
+			}
+
+			&--2 {
+				@include min782px {
+					width: 50%;
+				}
+			}
+
+			&--3 {
+				@include min782px {
+					width: 50%;
+				}
+
+				@include min960px {
+					width: calc(100% / 3);
+				}
+			}
+
+			&--4 {
+				@include min782px {
+					width: 50%;
+				}
+
+				@include min960px {
+					width: 25%;
+				}
+			}
+		}
+	}
+}

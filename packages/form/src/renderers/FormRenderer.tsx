@@ -27,11 +27,11 @@ const FormRenderer: React.FC<FormRendererProps> = (props) => {
 		<div className='ee-form'>
 			<div className='form-wrapper'>
 				<form>
-					{sections.length ? <RenderSections sections={sections} /> : null}
+					{sections?.length ? <RenderSections sections={sections} /> : null}
 
-					{fields.length ? <RenderFields fields={fields} /> : null}
+					{fields?.length ? <RenderFields fields={fields} /> : null}
 
-					{/* May be formWrapper handles form submission */}
+					{/* Maybe formWrapper handles form submission */}
 					{submitButton ? (
 						<Submit
 							hasErrors={hasValidationErrors || hasSubmitErrors}
@@ -41,7 +41,8 @@ const FormRenderer: React.FC<FormRendererProps> = (props) => {
 						/>
 					) : null}
 				</form>
-				{debugFields.length && (
+
+				{debugFields?.length && (
 					<FormSpy>{({ form }) => <DebugInfo data={pick(debugFields, form.getState())} />}</FormSpy>
 				)}
 			</div>
@@ -54,4 +55,5 @@ const FormRenderer: React.FC<FormRendererProps> = (props) => {
 
 	return formOutput;
 };
+
 export default FormRenderer;

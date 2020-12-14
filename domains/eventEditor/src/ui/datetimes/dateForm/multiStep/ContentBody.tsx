@@ -11,6 +11,7 @@ import DateFormSteps from './DateFormSteps';
 import useDataListener from './useDataListener';
 
 const subscription = { submitting: true, hasValidationErrors: true, hasSubmitErrors: true };
+
 /**
  * This component is inside both RFF and TAM contexts, so we can use all of their features
  */
@@ -35,7 +36,7 @@ const ContentBody: React.FC = ({ children }) => {
 						{current === 0 && (
 							<>
 								{children}
-								<ButtonRow>
+								<ButtonRow fullWidth>
 									<Next
 										buttonText={__('Save and assign tickets')}
 										onClick={next}
@@ -48,7 +49,7 @@ const ContentBody: React.FC = ({ children }) => {
 						{current === 1 && (
 							<>
 								<TicketAssignmentsManager />
-								<ButtonRow>
+								<ButtonRow fullWidth>
 									<Previous onClick={prev} />
 									<Submit onClick={form.submit} isDisabled={isSubmitDisabled} />
 								</ButtonRow>

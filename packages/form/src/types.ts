@@ -99,6 +99,7 @@ export interface RepeatableRendererProps<FieldValue = any>
 export interface FieldProps<FormValues = AnyObject, FieldValue = any>
 	extends AdditionalFieldProps<FormValues>,
 		RFFFieldProps<FieldValue, FieldRendererProps> {
+	columns?: 2 | 3 | 4;
 	name: string & keyof FormValues;
 }
 
@@ -112,6 +113,7 @@ export interface SubmitProps extends Pick<AdditionalFormProps, 'submitButton' | 
 
 export interface RenderFieldsProps {
 	fields: FieldList;
+	inline?: boolean;
 	namespace?: string;
 }
 
@@ -122,16 +124,18 @@ export interface RenderSectionsProps {
 export interface RenderFieldProps extends FieldProps<AnyObject> {}
 
 export interface SectionProps<FormValues = AnyObject> {
-	name: string;
-	title?: string | React.ReactNode;
-	icon?: React.ComponentType<{ className: string }>;
-	fields: FieldList<FormValues>;
 	/**
 	 * If true, each field inside the section
 	 * will be saved as `${section.name}.{field.name}`
 	 */
 	addSectionToFieldNames?: boolean;
+	fields: FieldList<FormValues>;
+	icon?: React.ComponentType<{ className: string }>;
+	inline?: boolean;
+	name: string;
+	title?: React.ReactNode;
 }
 
 type FieldList<FormValues = AnyObject> = Array<FieldProps<FormValues>>;
+
 type SectionList<FormValues = AnyObject> = Array<SectionProps<FormValues>>;
