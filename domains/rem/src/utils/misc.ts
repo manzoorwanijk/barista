@@ -1,5 +1,7 @@
 import { Frequency } from 'rrule';
 
+import { __ } from '@eventespresso/i18n';
+
 // "freq" is the named capturing group
 const FREQ_PATTERN = /FREQ=(?<freq>(?:YEAR|MONTH|WEEK|DAI)LY)/;
 /**
@@ -29,11 +31,8 @@ export const DATE_COUNT_LIMITS: { [key in keyof Partial<typeof Frequency>]: numb
  * Returns the limit for generating dates.
  */
 export const getDatesLimit = (rruleString: string): number => {
-	// It's 'DAILY' by default
-	const freq = getRecurrenceFrequency(rruleString);
-
 	// This is the maximum number of dates allowed to be generated
-	const maxLimit = DATE_COUNT_LIMITS?.[freq];
+	const maxLimit = getMaxDatesLimit(rruleString);
 
 	// This is the count set in the pattern
 	const count = getRecurrenceCount(rruleString);
@@ -45,4 +44,31 @@ export const getDatesLimit = (rruleString: string): number => {
 	}
 
 	return maxLimit;
+};
+
+/**
+ * Returns the maximum limit for generating dates.
+ */
+export const getMaxDatesLimit = (rruleString: string): number => {
+	// It's 'DAILY' by default
+	const freq = getRecurrenceFrequency(rruleString);
+
+	return DATE_COUNT_LIMITS?.[freq];
+};
+
+export const getLimitsWarning = (rRule: string): string => {
+	const freq = getRecurrenceFrequency(rRule);
+
+	switch (freq) {
+		case 'YEARLY':
+			return __('The number of Event Dates has been capped at 5 for YEARLY recurrence patterns');
+		case 'MONTHLY':
+			return __('The number of Event Dates has been capped at 36 for MONTHLY recurrence patterns (3 years)');
+		case 'WEEKLY':
+			return __('The number of Event Dates has been capped at 52 for WEEKLY recurrence patterns (1 year)');
+		case 'DAILY':
+			return __('The number of Event Dates has been capped at 92 for DAILY recurrence patterns (~3 months)');
+	}
+
+	return '';
 };
