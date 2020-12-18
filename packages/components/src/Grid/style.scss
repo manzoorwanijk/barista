@@ -1,18 +1,205 @@
 @import '~@eventespresso/styles/src';
 
-.ee-grid.ee-grid {
+.ee-grid {
 	display: grid;
 	grid-gap: 0.1rem;
 	grid-template-columns: 1fr;
 	margin: var(--ee-margin-tiny) 0;
 
 	> div {
-		align-items: center;
+		align-items: flex-start;
+		background: #fff;
 		background: var(--ee-background-color);
+		box-shadow: var(--ee-box-shadow-tiny-diffuse);
+		color: #595959;
 		color: var(--ee-default-text-color);
 		display: flex;
+		height: unset;
 		justify-content: space-around;
 		padding: var(--ee-padding-small);
+		grid-column-start: span 12;
+	}
+
+	.ee-grid__item.ee-grid__item {
+		@include min360px {
+			grid-column-start: span 12;
+		}
+		@include min480px {
+			grid-column-start: span 6;
+		}
+		@include min600px {
+			grid-column-start: span 6;
+		}
+		@include min667px {
+			grid-column-start: span 6;
+		}
+		@include min700px {
+			grid-column-start: span 6;
+		}
+		@include min782px {
+			grid-column-start: span 5;
+		}
+		@include min850px {
+			grid-column-start: span 6;
+		}
+		@include min960px {
+			grid-column-start: span 6;
+		}
+		@include min1024px {
+			grid-column-start: span 6;
+		}
+		@include min1080px {
+			grid-column-start: span 6;
+		}
+		@include min1280px {
+			grid-column-start: span 4;
+		}
+		@include min1440px {
+			grid-column-start: span 3;
+		}
+		@include min1600px {
+			grid-column-start: span 3;
+		}
+		@include min1766px {
+			grid-column-start: span 3;
+		}
+
+		&--size {
+			&-small {
+				@include min360px {
+					grid-column-start: span 6;
+				}
+				@include min480px {
+					grid-column-start: span 4;
+				}
+				@include min600px {
+					grid-column-start: span 4;
+				}
+				@include min667px {
+					grid-column-start: span 4;
+				}
+				@include min700px {
+					grid-column-start: span 4;
+				}
+				@include min782px {
+					grid-column-start: span 4;
+				}
+				@include min850px {
+					grid-column-start: span 4;
+				}
+				@include min960px {
+					grid-column-start: span 4;
+				}
+				@include min1024px {
+					grid-column-start: span 4;
+				}
+				@include min1080px {
+					grid-column-start: span 4;
+				}
+				@include min1280px {
+					grid-column-start: span 3;
+				}
+				@include min1440px {
+					grid-column-start: span 2;
+				}
+				@include min1600px {
+					grid-column-start: span 2;
+				}
+				@include min1766px {
+					grid-column-start: span 2;
+				}
+			}
+
+			&-big {
+				@include min360px {
+					grid-column-start: span 12;
+				}
+				@include min480px {
+					grid-column-start: span 12;
+				}
+				@include min600px {
+					grid-column-start: span 8;
+				}
+				@include min667px {
+					grid-column-start: span 6;
+				}
+				@include min700px {
+					grid-column-start: span 6;
+				}
+				@include min782px {
+					grid-column-start: span 6;
+				}
+				@include min850px {
+					grid-column-start: span 12;
+				}
+				@include min960px {
+					grid-column-start: span 10;
+				}
+				@include min1024px {
+					grid-column-start: span 8;
+				}
+				@include min1080px {
+					grid-column-start: span 6;
+				}
+				@include min1280px {
+					grid-column-start: span 6;
+				}
+				@include min1440px {
+					grid-column-start: span 6;
+				}
+				@include min1600px {
+					grid-column-start: span 4;
+				}
+				@include min1766px {
+					grid-column-start: span 3;
+				}
+			}
+
+			&-huge {
+				@include min360px {
+					grid-column-start: span 12;
+				}
+				@include min480px {
+					grid-column-start: span 12;
+				}
+				@include min600px {
+					grid-column-start: span 12;
+				}
+				@include min667px {
+					grid-column-start: span 12;
+				}
+				@include min700px {
+					grid-column-start: span 12;
+				}
+				@include min782px {
+					grid-column-start: span 10; // maybe 12?
+				}
+				@include min850px {
+					grid-column-start: span 12;
+				}
+				@include min960px {
+					grid-column-start: span 12;
+				}
+				@include min1024px {
+					grid-column-start: span 12;
+				}
+				@include min1080px {
+					grid-column-start: span 12;
+				}
+				@include min1280px {
+					grid-column-start: span 10;
+				}
+				@include min1440px {
+					grid-column-start: span 8;
+				}
+				@include min1600px {
+					grid-column-start: span 8;
+				}
+				@include min1766px {
+					grid-column-start: span 6;
+				}
+			}
+		}
 	}
 
 	/*  The following rules assume usage within the WP Admin */

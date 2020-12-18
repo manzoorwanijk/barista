@@ -1,25 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { __ } from '@eventespresso/i18n';
 import { GridItem, InlineEditText } from '@eventespresso/components';
-import { useEvent, useEventMutator } from '@eventespresso/edtr-services';
-import type { InlineEditProps } from '@eventespresso/adapters';
+import type { EventRegistrationOptionsProps } from './types';
 
-const AltRegPage: React.FC = () => {
-	const event = useEvent();
-	const { updateEntity: updateEvent } = useEventMutator(event?.id);
-	const altRegPage = event?.altRegPage;
+interface Props extends Pick<EventRegistrationOptionsProps, 'altRegPage' | 'onAltRegPageChange'> {}
 
+const AltRegPage: React.FC<Props> = ({ altRegPage, onAltRegPageChange }) => {
 	const id = 'ee-event-registration-alt-reg-page';
-
-	const onChange = useCallback<InlineEditProps['onChange']>(
-		(newAltRegPage) => {
-			if (newAltRegPage !== altRegPage) {
-				updateEvent({ altRegPage: newAltRegPage });
-			}
-		},
-		[altRegPage, updateEvent]
-	);
 
 	return (
 		<GridItem
@@ -28,13 +16,14 @@ const AltRegPage: React.FC = () => {
 			input={
 				<InlineEditText
 					aria-describedby={id}
-					onChange={onChange}
+					onChange={onAltRegPageChange}
 					placeholder='https://'
 					tag='h4'
 					value={altRegPage}
 				/>
 			}
 			label={__('Alternative Registration Page')}
+			size='huge'
 		/>
 	);
 };

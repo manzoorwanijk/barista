@@ -1,39 +1,26 @@
-import React /* , { useCallback } */ from 'react';
+import React, { useMemo } from 'react';
+import classNames from 'classnames';
 
 import { __ } from '@eventespresso/i18n';
-import { GridItem } from '@eventespresso/components';
-// import { objectToSelectOptions } from '@eventespresso/utils';
-// import { useEvent } from '@eventespresso/edtr-services';
+import { GridItem, Select } from '@eventespresso/components';
+import { datetimeStatus } from '@eventespresso/constants';
+import { objectToSelectOptions } from '@eventespresso/utils';
+import { datetimeStatusBgColorClassName } from '@eventespresso/helpers';
+import type { EventRegistrationOptionsProps } from './types';
 
-/* const status = {
-	isActive: __('Active'),
-	isCancelled: __('Cancelled'),
-	isExpired: __('Expired'),
-	isInactive: __('Inactive'),
-	isPostponed: __('Postponed'),
-	isSoldOut: __('SoldOut'),
-	isUpcoming: __('Upcoming'),
-}; */
+interface Props extends Pick<EventRegistrationOptionsProps, 'status' | 'onStatusChange'> {}
 
-// const options = objectToSelectOptions(status);
-
-const ActiveStatus: React.FC = () => {
-	/* const event = useEvent();
-
-	const onChange = useCallback(() => {
-		console.log({ event });
-	}, [event]); */
+const ActiveStatus: React.FC<Props> = ({ status, onStatusChange }) => {
+	const bgColorClassName = datetimeStatusBgColorClassName(null);
+	const className = classNames('ee-event-registration-options__status', bgColorClassName);
 
 	const id = 'ee-event-registration-active-status';
 
-	return (
-		<GridItem
-			className='ee-event-registration-options__active-status'
-			id={id}
-			input={null}
-			label={__('Active Status')}
-		/>
-	);
+	const options = useMemo(() => objectToSelectOptions(datetimeStatus), []);
+
+	const input = <Select onChangeValue={onStatusChange} options={options} type='inline' value={status} />;
+
+	return <GridItem className={className} id={id} input={input} label={__('Active status')} />;
 };
 
 export default ActiveStatus;

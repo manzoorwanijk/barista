@@ -1,38 +1,25 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { __ } from '@eventespresso/i18n';
 import { GridItem, InlineEditText } from '@eventespresso/components';
-import { useEvent, useEventMutator } from '@eventespresso/edtr-services';
-import type { InlineEditProps } from '@eventespresso/adapters';
+import type { EventRegistrationOptionsProps } from './types';
 
-const MaxRegistrations: React.FC = () => {
-	const event = useEvent();
-	const { updateEntity: updateEvent } = useEventMutator(event?.id);
-	const maxReg = event?.maxRegistrations;
+interface Props extends Pick<EventRegistrationOptionsProps, 'maxReg' | 'onMaxRegChange'> {}
 
-	const onChange = useCallback<InlineEditProps['onChange']>(
-		(newMaxRegistrations) => {
-			const maxRegistrations = Number(newMaxRegistrations);
-			if (maxRegistrations !== maxReg) {
-				updateEvent({ maxRegistrations });
-			}
-		},
-		[maxReg, updateEvent]
-	);
-
+const MaxRegistrations: React.FC<Props> = ({ maxReg, onMaxRegChange }) => {
 	const id = 'ee-event-registration-max-reg';
+	const strValue = maxReg && String(maxReg);
 
-	const input = (
-		<InlineEditText
-			aria-describedby={id}
-			onChange={onChange}
-			tag='h4'
-			// convert the value to string
-			value={maxReg && String(maxReg)}
+	const input = <InlineEditText aria-describedby={id} onChange={onMaxRegChange} tag='h4' value={strValue} />;
+
+	return (
+		<GridItem
+			id={id}
+			input={input}
+			label={__('Maximum Number of Registrations Allowed per Transaction')}
+			size='small'
 		/>
 	);
-
-	return <GridItem id={id} input={input} label={__('Maximum Number of Registrations Allowed per Transaction')} />;
 };
 
 export default MaxRegistrations;

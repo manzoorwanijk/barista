@@ -1,31 +1,26 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { __ } from '@eventespresso/i18n';
-import { GridItem, Select } from '@eventespresso/components';
-import { useEvent, useEventManagers, useEventMutator } from '@eventespresso/edtr-services';
 import { entityListToSelectOptions } from '@eventespresso/utils';
+import { GridItem, Select } from '@eventespresso/components';
+import type { EventRegistrationOptionsProps } from './types';
 
-const EventManager: React.FC = () => {
-	const event = useEvent();
-	const eventManagers = useEventManagers();
-	const managerId = event?.manager?.id;
-	const { updateEntity: updateEvent } = useEventMutator(event?.id);
+interface Props extends Pick<EventRegistrationOptionsProps, 'eventManagers' | 'managerId' | 'onManagerChange'> {}
 
-	const onChangeValue = useCallback(
-		(newManagerId: string): void => {
-			if (managerId !== newManagerId) {
-				updateEvent({ manager: newManagerId });
-			}
-		},
-		[managerId, updateEvent]
-	);
-
+const EventManager: React.FC<Props> = ({ eventManagers, managerId, onManagerChange }) => {
 	const id = 'ee-event-registration-manager';
 
-	const options = useMemo(() => entityListToSelectOptions(eventManagers), [eventManagers]);
+	const options = useMemo(() => eventManagers && entityListToSelectOptions(eventManagers), [eventManagers]);
 
-	const input = <Select onChangeValue={onChangeValue} options={options} type='inline' value={managerId} />;
-
+	const input = (
+		<Select
+			defaultValue={managerId}
+			onChangeValue={onManagerChange}
+			options={options}
+			type='inline'
+			value={managerId}
+		/>
+	);
 	return <GridItem id={id} input={input} label={__('Event Manager')} />;
 };
 
