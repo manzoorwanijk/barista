@@ -1,15 +1,8 @@
 import React from 'react';
-import { ThemeProvider as ChakraThemeProvider, CSSReset } from '@chakra-ui/core';
-
-import theme from './theme';
+import { ChakraProvider } from '@chakra-ui/react';
 
 const ThemeProvider: React.FC = ({ children }) => {
-	return (
-		<ChakraThemeProvider theme={theme}>
-			<CSSReset />
-			{children}
-		</ChakraThemeProvider>
-	);
+	return <ChakraProvider>{children}</ChakraProvider>;
 };
 
 export default ThemeProvider;
