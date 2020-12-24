@@ -3,11 +3,12 @@ import React from 'react';
 import { useForm } from '@eventespresso/form';
 import { useSiteDateToUtcISO } from '@eventespresso/services';
 import { useMemoStringify } from '@eventespresso/hooks';
-import { Entity } from '@eventespresso/data';
-import type { BaseProps } from './types';
+import type { Entity } from '@eventespresso/data';
+
+import type { EntityEditBaseProps } from './types';
 
 interface EntityEditFormProps {
-	Component: React.ComponentType<Partial<BaseProps<Entity>>>;
+	Component: React.ComponentType<Partial<EntityEditBaseProps<Entity>>>;
 	newEntityId: string;
 }
 
@@ -16,6 +17,7 @@ const EntityEditForm: React.FC<EntityEditFormProps> = ({ Component, newEntityId 
 	const toUtcISO = useSiteDateToUtcISO();
 
 	const values = getState().values;
+
 	const entity = useMemoStringify(
 		{
 			...values,

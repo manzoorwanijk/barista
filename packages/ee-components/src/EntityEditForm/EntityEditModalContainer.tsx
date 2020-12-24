@@ -1,11 +1,11 @@
 import React from 'react';
 
-import EntityEditModal from './EntityEditModal';
-
+import { EntityEditModal } from '@eventespresso/components';
 import type { Entity } from '@eventespresso/data';
+
 import type { EntityEditModalContainerProps } from './types';
 
-const Container = <E extends Entity>({
+const EntityEditModalContainer = <E extends Entity>({
 	component: Component,
 	entity,
 	isOpen,
@@ -21,4 +21,4 @@ const Container = <E extends Entity>({
 	);
 };
 
-export default Container;
+export default EntityEditModalContainer;

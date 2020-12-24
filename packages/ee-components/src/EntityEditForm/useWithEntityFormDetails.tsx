@@ -1,7 +1,8 @@
 import React from 'react';
 
 import type { Entity } from '@eventespresso/data';
-import type { BaseProps } from './types';
+import type { EntityEditBaseProps } from './types';
+
 import EntityEditForm from './EntityEditForm';
 
 /**
@@ -9,7 +10,7 @@ import EntityEditForm from './EntityEditForm';
  * in multi-step form by subscribing to RFF.
  */
 const useWithEntityFormDetails = (
-	Component: React.ComponentType<Partial<BaseProps<Entity>>>,
+	Component: React.ComponentType<Partial<EntityEditBaseProps<Entity>>>,
 	newEntityId: string
 ): JSX.Element => {
 	return <EntityEditForm Component={Component} newEntityId={newEntityId} />;
