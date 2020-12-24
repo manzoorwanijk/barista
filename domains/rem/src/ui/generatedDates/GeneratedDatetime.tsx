@@ -32,8 +32,9 @@ const GeneratedDatetime: React.FC<GeneratedDatetimeProps> = ({ date, ISOStr, typ
 				{iconMap[type]}
 				<span>{gDateLabel}</span>
 			</div>
-			<div className='ee-generated-datetime__trash'>
+			<div className='ee-generated-datetime__icon'>
 				<IconButton
+					borderless
 					className={iconClassMap[type]}
 					icon={iconActionMap[type]}
 					onClick={onClickTrash}

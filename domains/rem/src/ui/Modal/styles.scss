@@ -1,16 +1,10 @@
-@import '~@eventespresso/styles/src/mixins/breakpoints.scss';
+@import '~@eventespresso/styles/src';
 
 .ee-rem-modal {
 	max-width: 75rem !important;
 	overflow: auto;
 
 	&__body {
-		&--centered {
-			align-items: center;
-			display: flex;
-			justify-content: center;
-		}
-
 		.ee-rem-form-step-pattern-editor {
 			.ee-form-step__icon svg {
 				height: 1.9rem;

@@ -4,6 +4,8 @@ import { parse, getDaysInMonth } from 'date-fns';
 import { range } from 'ramda';
 
 import { NOW } from '@eventespresso/constants';
+import { Radio } from '../../../../../adapters';
+import { Divider, Select } from '../../../../../components';
 import { MONTHS } from '../../../constants';
 import { useRRuleState } from '../../../hooks';
 import { OnChangeSelect } from '../../types';
@@ -44,12 +46,11 @@ const On: React.FC<OnProps> = ({ id, isTheOnlyMode, onChangeMode }) => {
 		<div className='rrule-generator__on'>
 			{!isTheOnlyMode && (
 				<label className='rrule-generator__labelled-input'>
-					<input
+					<Radio
 						aria-label={__('Repeat yearly on')}
-						checked={isActive}
+						isChecked={isActive}
 						className='rrule-generator__input-radio'
 						id={id}
-						type='radio'
 						name={id}
 						value='ON'
 						onChange={onChangeMode}
@@ -58,39 +59,43 @@ const On: React.FC<OnProps> = ({ id, isTheOnlyMode, onChangeMode }) => {
 				</label>
 			)}
 
-			<select
+			<Select
 				id={`${id}-month`}
 				name={`${id}-month`}
 				aria-label={__('Repeat yearly on month')}
 				className='rrule-generator__form-control rrule-generator__select rrule-generator__month'
 				value={on.month}
-				disabled={!isActive}
+				isDisabled={!isActive}
 				onBlur={onChangeMonth}
 				onChange={onChangeMonth}
+				width='auto'
 			>
 				{Object.entries(MONTHS).map(([key, month]) => (
 					<option key={key} value={key}>
 						{month}
 					</option>
 				))}
-			</select>
+			</Select>
 
-			<select
+			<Divider orientation='vertical' size='tiny' />
+
+			<Select
 				id={`${id}-day`}
 				name={`${id}-day`}
 				aria-label={__('Repeat yearly on a day')}
 				className='rrule-generator__form-control rrule-generator__select rrule-generator__day'
 				value={on.day}
-				disabled={!isActive}
+				isDisabled={!isActive}
 				onBlur={onChangeDay}
 				onChange={onChangeDay}
+				width='auto'
 			>
 				{range(1, daysInMonth + 1).map((day) => (
 					<option key={day} value={day}>
 						{day}
 					</option>
 				))}
-			</select>
+			</Select>
 		</div>
 	);
 };

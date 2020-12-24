@@ -1,25 +1,27 @@
 import React from 'react';
 
-import { PositionSelectProps } from './types';
+import { Select } from '../../../../components';
 import { WHICH } from '../../constants';
+import type { PositionSelectProps } from './types';
 
 const PositionSelect: React.FC<PositionSelectProps> = ({ id, isActive, onChangeWhich, value, ...props }) => (
-	<select
+	<Select
 		aria-label={props['aria-label']}
 		id={`${id}-which`}
 		name={`${id}-which`}
 		className='rrule-generator__form-control rrule-generator__select'
 		value={value}
-		disabled={!isActive}
+		isDisabled={!isActive}
 		onBlur={onChangeWhich}
 		onChange={onChangeWhich}
+		width='auto'
 	>
 		{Object.entries(WHICH).map(([key, label]) => (
 			<option key={key} value={key}>
 				{label}
 			</option>
 		))}
-	</select>
+	</Select>
 );
 
 export default PositionSelect;
