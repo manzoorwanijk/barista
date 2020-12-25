@@ -5,8 +5,8 @@ import { Dotdotdot } from '@eventespresso/adapters';
 import { Edit } from '@eventespresso/icons';
 import { useDisclosure } from '@eventespresso/hooks';
 import { SimpleTextEditor } from '@eventespresso/rich-text-editor';
+import { TabbableText, ModalWithAlert } from '@eventespresso/ui-components';
 
-import { TabbableText, ModalWithAlert } from '../';
 import type { SimpleTextEditorModalProps } from './types';
 
 import './style.scss';
