@@ -6,12 +6,12 @@ import { addZebraStripesOnMobile } from '@eventespresso/ui-components';
 import { filterCellByStartOrEndDate, useLazyDatetime } from '@eventespresso/edtr-services';
 import { ENTITY_LIST_DATE_TIME_FORMAT } from '@eventespresso/constants';
 import { getDatetimeBackgroundColorClassName, datetimeStatus } from '@eventespresso/helpers';
+import { shortenGuid } from '@eventespresso/utils';
 import type { DatetimesFilterStateManager } from '@eventespresso/edtr-services';
 import type { BodyRowGeneratorFn } from '@eventespresso/ee-components';
-import { shortenGuid } from '@eventespresso/utils';
 
-import DateRegistrationsLink from '@edtrUI/datetimes/DateRegistrationsLink';
-import DateActionsMenu from '@edtrUI/datetimes/datesList/actionsMenu/DateActionsMenu';
+import DateRegistrationsLink from '../../DateRegistrationsLink';
+import DateActionsMenu from '../../datesList/actionsMenu/DateActionsMenu';
 import DateCapacity from '../cardView/DateCapacity';
 import { EditableName } from '../editable';
 import Checkbox from './Checkbox';
@@ -45,7 +45,7 @@ const useBodyRowGenerator = (): DatesTableBodyRowGen => {
 				key: 'name',
 				type: 'cell',
 				className:
-					'ee-date-list-cell ee-date-list-col-name ee-col-name ee-rspnsv-table-column-bigger ee-rspnsv-table-hide-on-mobile',
+					'ee-date-list-cell ee-date-list-col-name ee-col-name ee-rspnsv-table-column-huge ee-rspnsv-table-hide-on-mobile',
 				value: sortingEnabled ? (
 					datetime.name
 				) : (
