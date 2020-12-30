@@ -44,6 +44,10 @@
 		padding: var(--ee-padding-nano) var(--ee-padding-nano) var(--ee-padding-nano) var(--ee-padding-smaller);
 		position: relative;
 
+		[dir='rtl'] & {
+			padding-right: var(--ee-padding-smaller);
+		}
+
 		&__close-btn {
 			align-items: center;
 			border: 1px solid transparent;
@@ -56,6 +60,11 @@
 			margin-left: var(--ee-margin-micro);
 			outline: none !important;
 			width: calc(var(--ee-icon-button-size-micro) - 6px);
+
+			[dir='rtl'] & {
+				margin-left: 0;
+				margin-right: var(--ee-margin-micro);
+			}
 
 			&:focus,
 			&:hover {
