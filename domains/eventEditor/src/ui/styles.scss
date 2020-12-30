@@ -1,5 +1,6 @@
 @import '~@eventespresso/styles/src';
 
+
 .post-type-espresso_events {
 	#adminmenuwrap {
 		z-index: 2;
@@ -10,26 +11,32 @@
 	}
 
 	#ee-event-editor {
+		font-family: var(--ee-admin-font-family) !important;
 		position: relative;
 		z-index: 1; // more info: https://github.com/eventespresso/barista/pull/437
-
-		* {
-			font-family: var(--ee-admin-font-family);
-		}
 
 		.ee-edtr-section {
 			padding: var(--ee-padding-small) 0;
 		}
 	}
 
-	@include max782px {
-		#wpcontent {
-			margin: 0 !important;
-			padding: 0 0.75rem !important;
-		}
+	#wpcontent {
+		// margin: 0;
+		padding: 0 var(--ee-padding-tiny);
 
-		.wrap {
-			margin-right: 0;
+		#wpbody-content > .wrap {
+			margin: 0;
+			padding: 0;
+		}
+	}
+
+	@include min782px {
+		#wpcontent {
+			padding: 0 0 0 var(--ee-padding-small);
+
+			#wpbody-content > .wrap {
+				padding: var(--ee-padding-micro) var(--ee-padding-smaller) 0 0;
+			}
 		}
 	}
 }
