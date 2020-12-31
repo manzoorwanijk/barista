@@ -1,7 +1,5 @@
 import { __ } from '@eventespresso/i18n';
-
 import { useFilterBarUIElements } from '@eventespresso/registry';
-import type { EntityListFilterStateManager as ELFSM } from '@eventespresso/services';
 import {
 	SearchInput,
 	EntityListFilterBar as EntityListFilterBarUI,
@@ -9,14 +7,17 @@ import {
 	EntityListViewButtonGroup,
 } from '@eventespresso/ui-components';
 
+import type { EntityListFilterStateManager as ELFSM } from '@eventespresso/services';
 import type { EntityListFilterBarProps } from './types';
 
+import { ToggleBulkActionsButton } from '../bulkEdit';
 /**
  * EntityListFilterBar
  * a group of inputs for controlling how a list of entities is displayed
  */
 export const EntityListFilterBar = <FS extends ELFSM>({
 	domain,
+	entityType,
 	filterState,
 	listId,
 }: EntityListFilterBarProps<FS>): JSX.Element => {
@@ -29,8 +30,8 @@ export const EntityListFilterBar = <FS extends ELFSM>({
 	const mainButtons = (
 		<>
 			<EntityListViewButtonGroup id={listId} setCardView={setCardView} setTableView={setTableView} view={view} />
-
 			<ToggleSortingButton id={listId} value={sortingEnabled} onClick={toggleSorting} />
+			{view === 'table' && <ToggleBulkActionsButton id={listId} entityType={entityType} />}
 		</>
 	);
 
