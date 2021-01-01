@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { __ } from '@eventespresso/i18n';
-import { Divider, Select } from '@eventespresso/ui-components';
+import { Divider, Radio, Select } from '@eventespresso/ui-components';
 
 import { DAYS } from '../../../constants';
 import PositionSelect from '../PositionSelect';
@@ -39,19 +39,16 @@ const OnThe: React.FC<OnProps> = ({ id, isTheOnlyMode, onChangeMode }) => {
 	return (
 		<div className='rrule-generator__on-the'>
 			{!isTheOnlyMode && (
-				<label className='rrule-generator__labelled-input'>
-					<input
-						aria-label={__('Repeat monthly on the')}
-						checked={isActive}
-						className='rrule-generator__input-radio'
-						id={id}
-						type='radio'
-						name={id}
-						value='ON_THE'
-						onChange={onChangeMode}
-					/>
-					<span>{__('on the')}</span>
-				</label>
+				<Radio
+					aria-label={__('Repeat monthly on the')}
+					id={id}
+					isChecked={isActive}
+					name={id}
+					onChange={onChangeMode}
+					value='ON_THE'
+				>
+					{__('on the')}
+				</Radio>
 			)}
 
 			<PositionSelect
@@ -68,7 +65,7 @@ const OnThe: React.FC<OnProps> = ({ id, isTheOnlyMode, onChangeMode }) => {
 				id={`${id}-day`}
 				name={`${id}-day`}
 				aria-label={__('Repeat monthly on the day')}
-				className='rrule-generator__form-control rrule-generator__select rrule-generator__month'
+				className='rrule-generator__select rrule-generator__month'
 				value={onThe.day}
 				isDisabled={!isActive}
 				onBlur={onChangeDay}
