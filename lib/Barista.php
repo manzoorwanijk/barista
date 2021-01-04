@@ -18,12 +18,14 @@ class Barista
      */
     private $styles = [];
 
+
     public function initialize()
     {
         add_action('wp_default_scripts', [$this, 'registerScripts']);
         add_action('wp_default_styles', [$this, 'registerPackagesStyles']);
         add_action('admin_enqueue_scripts', [$this, 'addAssets']);
     }
+
 
     /**
      * Retrieves a URL to a file in the ee_barista plugin.
@@ -34,7 +36,7 @@ class Barista
      *
      * @since 0.0.1
      */
-    public function url($path)
+    public function url(string $path): string
     {
         return EE_BARISTA_URL . $path;
     }
@@ -43,9 +45,9 @@ class Barista
     /**
      * @return array
      */
-    protected function getEntryPoints()
+    protected function getEntryPoints(): array
     {
-        if (!$this->entry_points) {
+        if (! $this->entry_points) {
             $this->entry_points = array_keys($this->getManifest('entrypoints'));
         }
         return $this->entry_points;
@@ -97,11 +99,16 @@ class Barista
      * @param bool             $in_footer Optional. Whether to enqueue the script before </body> instead of in the
      *                                    <head>. Default 'false'.
      * @since 0.0.1
-     *
      */
-    protected function overrideScript($scripts, $handle, $src, $deps = [], $ver = false, $in_footer = false)
-    {
-        $script = $scripts->query($handle, 'registered');
+    protected function overrideScript(
+        WP_Scripts $scripts,
+        string $handle,
+        string $src,
+        array $deps = [],
+        $ver = false,
+        $in_footer = false
+    ) {
+        $script = $scripts->query($handle);
         if ($script) {
             /*
              * In many ways, this is a reimplementation of `wp_register_script` but
@@ -118,7 +125,7 @@ class Barista
             $scripts->add($handle, $src, $deps, $ver, $in_footer);
         }
 
-        $script = $scripts->query($handle, 'registered');
+        $script = $scripts->query($handle);
         if ($script) {
             /*
             * The script's `group` designation is an indication of whether it is
@@ -156,9 +163,15 @@ class Barista
      * @since 0.0.1
      *
      */
-    protected function overrideStyle($styles, $handle, $src, $deps = [], $ver = false, $media = 'all')
-    {
-        $style = $styles->query($handle, 'registered');
+    protected function overrideStyle(
+        WP_Styles $styles,
+        string $handle,
+        string $src,
+        array $deps = [],
+        $ver = false,
+        $media = 'all'
+    ) {
+        $style = $styles->query($handle);
         if ($style) {
             $styles->remove($handle);
         }
@@ -175,9 +188,8 @@ class Barista
      *
      * @param WP_Scripts $scripts WP_Scripts instance.
      * @since 0.0.1
-     *
      */
-    public function registerScripts($scripts)
+    public function registerScripts(WP_Scripts $scripts)
     {
         $asset_files  = $this->getManifest();
         $entry_points = $this->getEntryPoints();
@@ -195,12 +207,15 @@ class Barista
                 $asset        = file_exists($asset_file) ? require($asset_file) : null;
                 $dependencies = isset($asset['dependencies']) ? $asset['dependencies'] : $dependencies;
             }
-            
+
             // remove cyclical dependencies, if any
             if (($key = array_search($handle, $dependencies, true)) !== false) {
                 unset($dependencies[ $key ]);
             }
-            $version = isset($asset['version']) ? $asset['version'] : filemtime(EE_BARISTA_DIR . $package_path);
+            $version = isset($asset['version']) ? $asset['version'] : '';
+            $version = $version === '' && file_exists(EE_BARISTA_DIR . $package_path)
+            ? filemtime(EE_BARISTA_DIR . $package_path)
+            : espresso_version();
 
             $this->overrideScript(
                 $scripts,
@@ -220,7 +235,7 @@ class Barista
      * @param WP_Styles $styles WP_Styles instance.
      * @since 0.0.1
      */
-    public function registerPackagesStyles($styles)
+    public function registerPackagesStyles(WP_Styles $styles)
     {
         $asset_files  = $this->getManifest();
         $entry_points = $this->getEntryPoints();
@@ -251,7 +266,7 @@ class Barista
 
     public function addAssets()
     {
-        // Enqueue the empty style with all the barista syles as deps.
+        // Enqueue the empty style with all the barista styles as deps.
         wp_enqueue_style(
             'ee-barista',
             plugins_url('styles.css', __FILE__),
