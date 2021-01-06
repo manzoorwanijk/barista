@@ -6,6 +6,7 @@ import type {
 	OnDragEndResponder,
 } from 'react-beautiful-dnd';
 import { AnyObject } from 'react-final-form';
+import type { Size } from '../';
 
 interface CommonProps {
 	showDragHandle?: boolean;
@@ -13,13 +14,18 @@ interface CommonProps {
 
 export interface Cell {
 	as?: 'td';
-	type: string;
-	key: string;
-	value?: React.ReactNode;
-	id?: string;
 	className?: string;
+	id?: string;
+	key: string;
 	render?: (props: CellRender) => JSX.Element;
 	scope?: 'col' | 'row';
+	type: string;
+	value?: React.ReactNode;
+}
+
+export interface CellData extends Omit<Cell, 'type'>, Size {
+	showValueOnMobile?: boolean;
+	textAlign?: 'center' | 'end';
 }
 
 interface CellRender {
@@ -30,13 +36,13 @@ interface CellRender {
 }
 
 export interface FooterRow {
-	cells: Cell[];
+	cells: CellData[];
 	footerRowClassName?: string;
 	id?: string;
 }
 
 export interface HeaderRow {
-	cells: Cell[];
+	cells: CellData[];
 	children?: React.ReactNode;
 	className?: string;
 	extraProps?: AnyObject;
@@ -147,7 +153,7 @@ export interface TableHeaderCellProps {
 }
 
 export interface BodyRow extends CommonProps {
-	cells?: Cell[];
+	cells?: CellData[];
 	children?: React.ReactNode;
 	className?: TableClassName | string;
 	headerRows?: HeaderRow[];

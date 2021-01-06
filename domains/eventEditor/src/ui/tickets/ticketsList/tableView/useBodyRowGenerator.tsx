@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
+import classNames from 'classnames';
 import { format } from 'date-fns';
 import { filter, pipe } from 'ramda';
 
-import { Cell, addZebraStripesOnMobile } from '@eventespresso/ui-components';
+import { addZebraStripesOnMobile, CellData } from '@eventespresso/ui-components';
 import { CurrencyDisplay } from '@eventespresso/ee-components';
-import { filterCellByStartOrEndDate, useLazyTicket } from '@eventespresso/edtr-services';
+import { filterCellByStartOrEndDate, useLazyTicket, useShowTicketBA } from '@eventespresso/edtr-services';
 import { ENTITY_LIST_DATE_TIME_FORMAT } from '@eventespresso/constants';
 import { getTicketBackgroundColorClassName, ticketStatus } from '@eventespresso/helpers';
 import { shortenGuid } from '@eventespresso/utils';
@@ -21,6 +22,7 @@ type TicketsTableBodyRowGen = BodyRowGeneratorFn<TicketsFilterStateManager>;
 
 const useBodyRowGenerator = (): TicketsTableBodyRowGen => {
 	const getTicket = useLazyTicket();
+	const [showBulkActions] = useShowTicketBA();
 
 	return useCallback<TicketsTableBodyRowGen>(
 		({ entityId, filterState }) => {
@@ -31,11 +33,32 @@ const useBodyRowGenerator = (): TicketsTableBodyRowGen => {
 			const id = ticket.dbId || shortenGuid(ticket.id);
 			const statusClassName = ticketStatus(ticket);
 
-			const name = {
+			const stripeCell: CellData = {
+				className: classNames('ee-entity-list-status-stripe', bgClassName),
+				key: 'stripe',
+				showValueOnMobile: true,
+				textAlign: 'center',
+				value: ticket.name,
+			};
+
+			const bulkActionCheckboxCell: CellData = showBulkActions && {
+				key: 'cell',
+				size: 'micro',
+				textAlign: 'center',
+				value: <Checkbox dbId={ticket.dbId} id={ticket.id} />,
+			};
+
+			const idCell: CellData = {
+				key: 'id',
+				size: 'micro',
+				textAlign: 'end',
+				value: id,
+			};
+
+			const nameCell: CellData = {
+				className: 'ee-col-name ee-rspnsv-table-hide-on-mobile',
 				key: 'name',
-				type: 'cell',
-				className:
-					'ee-ticket-list-cell ee-ticket-list-col-name ee-col-name ee-rspnsv-table-column-bigger ee-rspnsv-table-hide-on-mobile',
+				size: 'huge',
 				value: sortingEnabled ? (
 					ticket.name
 				) : (
@@ -47,75 +70,70 @@ const useBodyRowGenerator = (): TicketsTableBodyRowGen => {
 				),
 			};
 
-			const quantity = {
+			const startCell: CellData = {
+				key: 'start',
+				size: 'default',
+				value: format(new Date(ticket.startDate), ENTITY_LIST_DATE_TIME_FORMAT),
+			};
+
+			const endCell: CellData = {
+				key: 'end',
+				size: 'default',
+				value: format(new Date(ticket.endDate), ENTITY_LIST_DATE_TIME_FORMAT),
+			};
+
+			const priceCell: CellData = {
+				key: 'price',
+				size: 'tiny',
+				textAlign: 'end',
+				value: <CurrencyDisplay value={ticket.price} />,
+			};
+
+			const soldCell: CellData = {
+				key: 'sold',
+				size: 'tiny',
+				textAlign: 'end',
+				value: ticket.sold,
+			};
+
+			const quantityCell: CellData = {
+				className: 'ee-col__inline-edit',
 				key: 'quantity',
-				type: 'cell',
-				className:
-					'ee-ticket-list-cell ee-ticket-list-col-quantity ee-rspnsv-table-column-tiny ee-number-column',
+				size: 'tiny',
+				textAlign: 'end',
 				value: sortingEnabled ? ticket.quantity : <TicketQuantity entity={ticket} />,
 			};
 
-			const cellsData: Array<Cell> = [
-				{
-					key: 'stripe',
-					type: 'cell',
-					className: `ee-ticket-list-cell ee-entity-list-status-stripe ${bgClassName} ee-rspnsv-table-column-nano`,
-					value: <div className={'ee-rspnsv-table-show-on-mobile'}>{ticket.name}</div>,
-				},
-				{
-					key: 'checkbox',
-					type: 'cell',
-					className: 'ee-date-list-cell ee-date-list-col-checkbox ee-rspnsv-table-column-micro',
-					value: <Checkbox dbId={ticket.dbId} id={ticket.id} />,
-				},
-				{
-					key: 'id',
-					type: 'cell',
-					className: 'ee-ticket-list-cell ee-ticket-list-col-id ee-rspnsv-table-column-nano ee-number-column',
-					value: id,
-				},
-				name,
-				{
-					key: 'start',
-					type: 'cell',
-					className: 'ee-ticket-list-cell ee-ticket-list-col-start ee-rspnsv-table-column-default',
-					value: format(new Date(ticket.startDate), ENTITY_LIST_DATE_TIME_FORMAT),
-				},
-				{
-					key: 'end',
-					type: 'cell',
-					className: 'ee-ticket-list-cell ee-ticket-list-col-end ee-rspnsv-table-column-default',
-					value: format(new Date(ticket.endDate), ENTITY_LIST_DATE_TIME_FORMAT),
-				},
-				{
-					key: 'price',
-					type: 'cell',
-					className:
-						'ee-ticket-list-col-hdr ee-ticket-list-col-price ee-rspnsv-table-column-tiny ee-number-column',
-					value: <CurrencyDisplay value={ticket.price} />,
-				},
-				quantity,
-				{
-					key: 'sold',
-					type: 'cell',
-					className:
-						'ee-ticket-list-cell ee-ticket-list-col-sold ee-rspnsv-table-column-tiny ee-number-column',
-					value: ticket.sold,
-				},
-				{
-					key: 'registrations',
-					type: 'cell',
-					className:
-						'ee-ticket-list-cell ee-ticket-list-col-registrations ee-rspnsv-table-column-smaller ee-centered-column',
-					value: sortingEnabled ? '-' : <TicketRegistrationsLink ticket={ticket} />,
-				},
-				{
-					key: 'actions',
-					type: 'cell',
-					className: 'ee-ticket-list-cell ee-actions-column ee-rspnsv-table-column-big',
-					value: sortingEnabled ? '-' : <TicketActionsMenu entity={ticket} />,
-				},
-			];
+			const registrationsCell: CellData = {
+				key: 'registrations',
+				size: 'smaller',
+				textAlign: 'center',
+				value: sortingEnabled ? '-' : <TicketRegistrationsLink ticket={ticket} />,
+			};
+
+			const actionsCell: CellData = {
+				key: 'actions',
+				size: 'big',
+				textAlign: 'center',
+				value: sortingEnabled ? '-' : <TicketActionsMenu entity={ticket} />,
+			};
+
+			const cellsData: Array<CellData> = [
+				stripeCell,
+				bulkActionCheckboxCell,
+				idCell,
+				nameCell,
+				startCell,
+				endCell,
+				priceCell,
+				quantityCell,
+				soldCell,
+				registrationsCell,
+				actionsCell,
+			].filter(
+				// removes falsy values
+				Boolean
+			);
 
 			const exclude = ['row', 'stripe', 'name', 'actions'];
 
@@ -132,7 +150,7 @@ const useBodyRowGenerator = (): TicketsTableBodyRowGen => {
 				type: 'row',
 			};
 		},
-		[getTicket]
+		[getTicket, showBulkActions]
 	);
 };
 

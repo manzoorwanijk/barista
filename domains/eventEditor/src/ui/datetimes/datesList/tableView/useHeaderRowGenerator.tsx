@@ -1,123 +1,193 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+
 import { __ } from '@eventespresso/i18n';
+import { filterCellByStartOrEndDate, useShowDatetimeBA } from '@eventespresso/edtr-services';
 
-import { Cell } from '@eventespresso/ui-components';
-import { filterCellByStartOrEndDate } from '@eventespresso/edtr-services';
-import Checkbox from './Checkbox';
-
+import type { CellData } from '@eventespresso/ui-components';
 import type { HeaderRowGeneratorFn } from '@eventespresso/ee-components';
 import type { DatetimesFilterStateManager } from '@eventespresso/edtr-services';
+
+import Checkbox from './Checkbox';
 
 type DatesTableHeaderRowGen = HeaderRowGeneratorFn<DatetimesFilterStateManager>;
 
 const useHeaderRowGenerator = (): DatesTableHeaderRowGen => {
-	return useCallback<DatesTableHeaderRowGen>((filterState) => {
-		const displayStartOrEndDate = filterState?.displayStartOrEndDate;
+	const [showBulkActions] = useShowDatetimeBA();
 
-		const cellsData: Array<Cell> = [
-			{
-				key: 'stripe',
-				type: 'cell',
-				className: 'ee-date-list-col-hdr ee-entity-list-status-stripe ee-rspnsv-table-column-nano',
-				value: '',
-			},
-			{
+	const stripeCell: CellData = useMemo(
+		() => ({
+			className: 'ee-entity-list-status-stripe',
+			key: 'stripe',
+			size: 'nano',
+			textAlign: 'center',
+			value: '',
+		}),
+		[]
+	);
+
+	const checkboxCell: CellData = useMemo(
+		() =>
+			showBulkActions && {
 				key: 'checkbox',
-				type: 'cell',
-				className: 'ee-date-list-col-hdr ee-date-list-col-checkbox ee-rspnsv-table-column-micro',
+				size: 'micro',
+				textAlign: 'center',
 				value: (
 					<div className={'ee-rspnsv-table-hide-on-mobile'}>
 						<Checkbox />
 					</div>
 				),
 			},
-			{
-				key: 'id',
-				type: 'cell',
-				className: 'ee-date-list-col-hdr ee-date-list-col-id ee-number-column ee-rspnsv-table-column-nano',
-				value: __('ID'),
-			},
-			{
-				key: 'name',
-				type: 'cell',
-				className: 'ee-date-list-col-hdr ee-date-list-col-name ee-rspnsv-table-column-huge',
-				value: __('Name'),
-			},
-			{
-				key: 'start',
-				type: 'cell',
-				className: 'ee-date-list-col-hdr ee-rspnsv-table-column-default',
-				value: (
-					<>
-						<span className={'ee-rspnsv-table-long-label'}>{__('Start Date')}</span>
-						<span className={'ee-rspnsv-table-short-label'}>{__('Start')}</span>
-					</>
-				),
-			},
-			{
-				key: 'end',
-				type: 'cell',
-				className: 'ee-date-list-col-hdr ee-rspnsv-table-column-default',
-				value: (
-					<>
-						<span className={'ee-rspnsv-table-long-label'}>{__('End Date')}</span>
-						<span className={'ee-rspnsv-table-short-label'}>{__('End')}</span>
-					</>
-				),
-			},
-			{
-				key: 'capacity',
-				type: 'cell',
-				className:
-					'ee-date-list-col-hdr ee-date-list-col-capacity ee-rspnsv-table-column-tiny ee-number-column',
-				value: (
-					<>
-						<span className={'ee-rspnsv-table-long-label'}>{__('Capacity')}</span>
-						<span className={'ee-rspnsv-table-short-label'}>{__('Cap')}</span>
-					</>
-				),
-			},
-			{
-				key: 'sold',
-				type: 'cell',
-				className: 'ee-date-list-col-hdr ee-date-list-col-sold ee-rspnsv-table-column-tiny ee-number-column',
-				value: __('Sold'),
-			},
-			{
-				key: 'registrations',
-				type: 'cell',
-				className:
-					'ee-date-list-col-hdr ee-date-list-col-registrations ee-rspnsv-table-column-smaller ee-centered-column',
-				value: (
-					<>
-						<span className={'ee-rspnsv-table-long-label'}>{__('Reg list')}</span>
-						<span className={'ee-rspnsv-table-short-label'}>{__('Regs')}</span>
-					</>
-				),
-			},
-			{
-				key: 'actions',
-				type: 'cell',
-				className: 'ee-date-list-col-hdr ee-actions-column ee-rspnsv-table-column-big ee-centered-column',
-				value: (
-					<>
-						<span className={'ee-rspnsv-table-long-label'}>{__('Actions')}</span>
-						<span className={'ee-rspnsv-table-short-label'}>{__('Actions')}</span>
-					</>
-				),
-			},
-		];
+		[showBulkActions]
+	);
 
-		const cells = cellsData.filter(filterCellByStartOrEndDate(displayStartOrEndDate));
+	const idCell: CellData = useMemo(
+		() => ({
+			key: 'id',
+			size: 'micro',
+			textAlign: 'end',
+			value: __('ID'),
+		}),
+		[]
+	);
 
-		return {
-			cells,
-			className: 'ee-editor-date-list-items-header-row',
-			key: 'dates-list-header',
-			primary: true,
-			type: 'row',
-		};
-	}, []);
+	const nameCell: CellData = useMemo(
+		() => ({
+			key: 'name',
+			size: 'huge',
+			value: __('Name'),
+		}),
+		[]
+	);
+
+	const startCell: CellData = useMemo(
+		() => ({
+			key: 'start',
+			size: 'default',
+			value: (
+				<>
+					<span className={'ee-rspnsv-table-long-label'}>{__('Start Date')}</span>
+					<span className={'ee-rspnsv-table-short-label'}>{__('Start')}</span>
+				</>
+			),
+		}),
+		[]
+	);
+
+	const endCell: CellData = useMemo(
+		() => ({
+			key: 'end',
+			size: 'default',
+			value: (
+				<>
+					<span className={'ee-rspnsv-table-long-label'}>{__('End Date')}</span>
+					<span className={'ee-rspnsv-table-short-label'}>{__('End')}</span>
+				</>
+			),
+		}),
+		[]
+	);
+
+	const capacityCell: CellData = useMemo(
+		() => ({
+			className: 'ee-col__inline-edit',
+			key: 'capacity',
+			size: 'tiny',
+			textAlign: 'end',
+			value: (
+				<>
+					<span className={'ee-rspnsv-table-long-label'}>{__('Capacity')}</span>
+					<span className={'ee-rspnsv-table-short-label'}>{__('Cap')}</span>
+				</>
+			),
+		}),
+		[]
+	);
+
+	const soldCell: CellData = useMemo(
+		() => ({
+			key: 'sold',
+			size: 'tiny',
+			textAlign: 'end',
+			value: __('Sold'),
+		}),
+		[]
+	);
+
+	const registrationsCell: CellData = useMemo(
+		() => ({
+			key: 'registrations',
+			size: 'smaller',
+			textAlign: 'center',
+			value: (
+				<>
+					<span className={'ee-rspnsv-table-long-label'}>{__('Reg list')}</span>
+					<span className={'ee-rspnsv-table-short-label'}>{__('Regs')}</span>
+				</>
+			),
+		}),
+		[]
+	);
+
+	const actionsCell: CellData = useMemo(
+		() => ({
+			key: 'actions',
+			size: 'big',
+			textAlign: 'center',
+			value: (
+				<>
+					<span className={'ee-rspnsv-table-long-label'}>{__('Actions')}</span>
+					<span className={'ee-rspnsv-table-short-label'}>{__('Actions')}</span>
+				</>
+			),
+		}),
+		[]
+	);
+
+	return useCallback<DatesTableHeaderRowGen>(
+		(filterState) => {
+			const displayStartOrEndDate = filterState?.displayStartOrEndDate;
+
+			const cellsData: Array<CellData> = [
+				stripeCell,
+				checkboxCell,
+				idCell,
+				nameCell,
+				startCell,
+				endCell,
+				capacityCell,
+				soldCell,
+				registrationsCell,
+				actionsCell,
+			];
+
+			const cells = cellsData
+				.filter(
+					// removes falsy values
+					Boolean
+				)
+				.filter(filterCellByStartOrEndDate(displayStartOrEndDate));
+
+			return {
+				cells,
+				className: 'ee-editor-date-list-items-header-row',
+				key: 'dates-list-header',
+				primary: true,
+				type: 'row',
+			};
+		},
+		[
+			actionsCell,
+			capacityCell,
+			checkboxCell,
+			endCell,
+			idCell,
+			nameCell,
+			registrationsCell,
+			soldCell,
+			startCell,
+			stripeCell,
+		]
+	);
 };
 
 export default useHeaderRowGenerator;

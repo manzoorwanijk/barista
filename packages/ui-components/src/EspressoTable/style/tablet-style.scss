@@ -1,17 +1,6 @@
 /* Media Queries for specific screen sizes
  * -------------------------------------------------------------------------*/
-@import '~@eventespresso/styles/src/mixins/breakpoints.scss';
-
-/* Tablet Landscape */
-@include max1024px {
-	.ee-rspnsv-table {
-		.ee-rspnsv-table-header-th.ee-entity-list-status-stripe,
-		.ee-rspnsv-table-body-td.ee-entity-list-status-stripe {
-			max-width: unset;
-			width: 0.5%;
-		}
-	}
-}
+@import '~@eventespresso/styles/src';
 
 /* WordPress Admin Media Query Breakpoint: Tablet */
 @include max782px {
@@ -29,18 +18,6 @@
 			justify-content: space-between;
 
 			td {
-				&.ee-entity-list-status-stripe.ee-entity-list-status-stripe {
-					text-align: center;
-
-					.ee-rspnsv-table-mobile-only-column-value {
-						padding-left: 0;
-					}
-
-					.ee-rspnsv-table-show-on-mobile {
-						color: white;
-					}
-				}
-
 				&.ee-ticket-list-col-registrations,
 				&.ee-actions-column {
 					.ee-rspnsv-table-mobile-only-column-value {
@@ -172,18 +149,12 @@
 		.ee-rspnsv-table-header-th.ee-rspnsv-table-column-small:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-body-td.ee-rspnsv-table-column-small:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-footer-th.ee-rspnsv-table-column-small:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
-		.ee-rspnsv-table-header-th.ee-rspnsv-table-column-default:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
-		.ee-rspnsv-table-body-td.ee-rspnsv-table-column-default:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
-		.ee-rspnsv-table-footer-th.ee-rspnsv-table-column-default:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-header-th.ee-rspnsv-table-column-big:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-body-td.ee-rspnsv-table-column-big:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-footer-th.ee-rspnsv-table-column-big:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-header-th.ee-rspnsv-table-column-bigger:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-body-td.ee-rspnsv-table-column-bigger:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-footer-th.ee-rspnsv-table-column-bigger:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
-		.ee-rspnsv-table-header-th.ee-rspnsv-table-column-huge:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
-		.ee-rspnsv-table-body-td.ee-rspnsv-table-column-huge:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
-		.ee-rspnsv-table-footer-th.ee-rspnsv-table-column-huge:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-header-th.ee-rspnsv-table-column-extreme:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-body-td.ee-rspnsv-table-column-extreme:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),
 		.ee-rspnsv-table-footer-th.ee-rspnsv-table-column-extreme:not(.ee-entity-list-status-stripe):not(.ee-rspnsv-table-hide-on-mobile),

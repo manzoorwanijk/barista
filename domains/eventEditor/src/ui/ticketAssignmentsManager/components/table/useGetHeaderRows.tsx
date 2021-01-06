@@ -1,15 +1,14 @@
 import { useMemo } from 'react';
-import classNames from 'classnames';
 
-import { Cell, HeaderRow } from '@eventespresso/ui-components';
-import HeaderCell from './HeaderCell';
+import type { CellData, HeaderRow } from '@eventespresso/ui-components';
 import type { Ticket } from '@eventespresso/edtr-services';
+
+import HeaderCell from './HeaderCell';
 import useColClassName from './useColClassName';
 
-const emptyCell: Cell = {
+const emptyCell: CellData = {
 	key: 'empty',
-	type: 'cell',
-	className: 'ee-rspnsv-table-column-huge',
+	size: 'huge',
 	value: '',
 };
 
@@ -17,10 +16,10 @@ const useGetHeaderRows = (tickets: Ticket[]): HeaderRow[] => {
 	const getColClass = useColClassName();
 
 	return useMemo<HeaderRow[]>(() => {
-		const cells: Array<Cell> = tickets.map((ticket) => ({
+		const cells: Array<CellData> = tickets.map((ticket) => ({
+			className: getColClass(ticket),
 			key: ticket.id,
-			type: 'cell',
-			className: classNames('ee-rspnsv-table-column-huge', getColClass(ticket)),
+			size: 'huge',
 			value: <HeaderCell ticket={ticket} />,
 		}));
 
