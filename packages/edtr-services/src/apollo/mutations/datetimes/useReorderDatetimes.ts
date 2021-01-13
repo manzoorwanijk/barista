@@ -1,63 +1,52 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
+import { datetimesDroppableId } from '@eventespresso/constants';
 import type { EntityId } from '@eventespresso/data';
 import type { EntityTableProps } from '@eventespresso/ee-components';
 
-import type { Datetime, DatetimeEdge } from '../../types';
-import useReorderEntities from '../useReorderEntities';
-import { useDatetimes, useDatetimeQueryOptions } from '../../queries';
-import { useUpdateDatetimeList } from '../../../hooks';
+import { ReorderEntities, useReorderEntities } from '../useReorderEntities';
+import { useDatetimes, useLazyDatetime } from '../../queries';
 import { DatetimesFilterStateManager as DFSM } from '../../../filterState';
+import type { Datetime } from '../../types';
 
 type SortResponder = EntityTableProps<DFSM>['onSort'];
 
-interface ReorderDatetimes {
+interface ReorderDatetimes extends Pick<ReorderEntities<Datetime>, 'done'> {
+	allOrderedEntities: Datetime[];
 	sortResponder: SortResponder;
 }
 
 const useReorderDatetimes = (filteredEntityIds: Array<EntityId>): ReorderDatetimes => {
-	const { sortEntities } = useReorderEntities<Datetime>({ entityType: 'DATETIME' });
-	const allEntities = useDatetimes();
-	const queryOptions = useDatetimeQueryOptions();
-	const updateDatetimeList = useUpdateDatetimeList();
+	const getDatetime = useLazyDatetime();
+	const datetimes = useMemo(() => filteredEntityIds.map(getDatetime), [filteredEntityIds, getDatetime]);
+	const [allOrderedEntities, setAllOrderedEntities] = useState<Array<Datetime>>(datetimes);
 
-	const updateEntityList = useCallback(
-		(updatedEntities) => {
-			const espressoDatetimes: DatetimeEdge = {
-				nodes: updatedEntities,
-				__typename: 'EspressoRootQueryDatetimesConnection',
-			};
-			updateDatetimeList({
-				...queryOptions,
-				data: {
-					espressoDatetimes,
-				},
-			});
-		},
-		[queryOptions, updateDatetimeList]
-	);
+	const { sortEntities, done } = useReorderEntities<Datetime>({ entityType: 'DATETIME' });
+	const allEntities = useDatetimes();
 
 	const sortResponder = useCallback<SortResponder>(
 		({ destination, source }) => {
 			const noDestination = !destination;
 			const noChange = source?.index === destination?.index && destination?.droppableId === source?.droppableId;
-			const notOurListOfInterest = destination?.droppableId !== 'date-entities-table-view-droppable';
+			const notOurListOfInterest = destination?.droppableId !== datetimesDroppableId;
 
 			if (noDestination || noChange || notOurListOfInterest) {
 				return;
 			}
-			sortEntities({
+
+			const allSortedEntities = sortEntities({
 				allEntities,
 				filteredEntityIds,
 				newIndex: destination.index,
 				oldIndex: source.index,
-				updateEntityList,
 			});
+
+			setAllOrderedEntities(allSortedEntities);
 		},
-		[filteredEntityIds, allEntities, sortEntities, updateEntityList]
+		[allEntities, filteredEntityIds, sortEntities]
 	);
 
-	return useMemo(() => ({ sortResponder }), [sortResponder]);
+	return useMemo(() => ({ allOrderedEntities, done, sortResponder }), [allOrderedEntities, done, sortResponder]);
 };
 
 export default useReorderDatetimes;

@@ -1,16 +1,5 @@
-import type {
-	OnBeforeCaptureResponder,
-	OnBeforeDragStartResponder,
-	OnDragStartResponder,
-	OnDragUpdateResponder,
-	OnDragEndResponder,
-} from 'react-beautiful-dnd';
-import { AnyObject } from 'react-final-form';
+import type { AnyObject } from 'react-final-form';
 import type { Size } from '../';
-
-interface CommonProps {
-	showDragHandle?: boolean;
-}
 
 export interface Cell {
 	as?: 'td';
@@ -52,20 +41,12 @@ export interface HeaderRow {
 	type: string;
 }
 
-interface Responders {
-	onBeforeCapture?: OnBeforeCaptureResponder;
-	onBeforeDragStart?: OnBeforeDragStartResponder;
-	onDragStart?: OnDragStartResponder;
-	onDragUpdate?: OnDragUpdateResponder;
-	onDragEnd?: OnDragEndResponder;
-}
-
 export interface ResponsiveCellProps {
 	heading: string;
 	value: string;
 }
 
-export interface ResponsiveTableProps extends Responders, CommonProps {
+export interface ResponsiveTableProps {
 	bodyRows: BodyRow[];
 	className?: TableClassName;
 	footerRows?: FooterRow[];
@@ -93,7 +74,7 @@ export interface TableProps {
 	tableId?: string;
 }
 
-export interface TableBodyProps extends Responders, CommonProps {
+export interface TableBodyProps {
 	bodyRows: BodyRow[];
 	className: TableClassName;
 	headerRowCount: number;
@@ -127,14 +108,14 @@ export interface TableDataCellProps {
 	tableDataCellClassName?: string;
 }
 
-export interface TableFooterProps extends CommonProps {
+export interface TableFooterProps {
 	className: TableClassName;
 	footerRows: FooterRow[];
 	tableId: string;
 	rowCount: number;
 }
 
-export interface TableHeaderProps extends CommonProps {
+export interface TableHeaderProps {
 	className: TableClassName;
 	headerRows: HeaderRow[];
 	tableId: TableId;
@@ -152,7 +133,7 @@ export interface TableHeaderCellProps {
 	tableHeaderCellClassName?: string;
 }
 
-export interface BodyRow extends CommonProps {
+export interface BodyRow {
 	cells?: CellData[];
 	children?: React.ReactNode;
 	className?: TableClassName | string;
