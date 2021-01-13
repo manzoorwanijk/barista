@@ -6,34 +6,49 @@ import { Decorator } from '@eventespresso/form';
 
 export const startAndEndDateFixer: Decorator<any, any> = (form) => {
 	let previousValues: any = {};
+
 	const unsubscribe = form.subscribe(
 		({ values }) => {
 			form.batch(() => {
-				const startDateChanged = values.startDate !== previousValues.startDate;
+				const { endDate, startDate } = values;
+				const startDateChanged = startDate !== previousValues.startDate;
+				const endDateChanged = endDate !== previousValues.endDate;
+
+				const isStartDateAfterEndDate = startDate > endDate;
+				const isEndDateBeforeStartDate = endDate < startDate;
+
+				const isEndDateNotPristine = !form.getFieldState('endDate')?.pristine;
+				const changedFromStartDate = form.getFieldState('endDate')?.data?.changedFromStartDate;
+
 				if (startDateChanged) {
 					// there should be no notice unless things are not in order
 					let endDateFieldNotice: string;
-					const isStartDateAfterEndDate = values.startDate > values.endDate;
 
 					if (isStartDateAfterEndDate) {
 						// set end date 1 hour after start date
-						const endDate = add('hours', values.startDate, 1);
+						const endDate = add('hours', startDate, 1);
 						form.change('endDate', endDate);
+						form.mutators.setFieldData('endDate', { changedFromStartDate: true });
 						endDateFieldNotice = __('End date has been set one hour after start date');
 					}
+
 					form.mutators.setFieldData('endDate', { fieldNotice: endDateFieldNotice });
 				}
 
-				const endDateChanged = values.endDate !== previousValues.endDate;
 				if (endDateChanged) {
 					let startDateFieldNotice: string;
-					const isEndDateBeforeStartDate = values.endDate < values.startDate;
 
 					if (isEndDateBeforeStartDate) {
-						const startDate = sub('hours', values.endDate, 1);
+						const startDate = sub('hours', endDate, 1);
 						form.change('startDate', startDate);
 						startDateFieldNotice = __('Start date has been set one hour before end date');
 					}
+
+					if (isEndDateNotPristine && !changedFromStartDate) {
+						form.mutators.setFieldData('endDate', { fieldNotice: null });
+					}
+
+					form.mutators.setFieldData('endDate', { changedFromStartDate: false });
 					form.mutators.setFieldData('startDate', { fieldNotice: startDateFieldNotice });
 				}
 			});
