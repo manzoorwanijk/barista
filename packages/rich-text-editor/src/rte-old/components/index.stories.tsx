@@ -6,11 +6,11 @@ import type { RichTextEditorProps } from './RichTextEditor';
 export default {
 	argTypes: {},
 	component: RichTextEditor,
-	title: 'Components/RichTextEditor_Exp',
+	title: 'Components/RichTextEditor',
 } as Meta;
 
 type RTEStory = Story<RichTextEditorProps>;
 
 export const Simple: RTEStory = () => <SimpleTextEditor onChange={console.log} />;
 
-export const Advanced: RTEStory = () => <AdvancedTextEditor onChange={console.log} toolbar={null} />;
+export const Advanced: RTEStory = () => <AdvancedTextEditor onChange={console.log} />;
