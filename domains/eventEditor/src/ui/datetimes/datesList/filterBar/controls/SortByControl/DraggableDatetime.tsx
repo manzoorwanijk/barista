@@ -1,16 +1,13 @@
-import { format } from 'date-fns';
+import { RangeFormat } from '@eventespresso/dates';
+import type { Datetime } from '@eventespresso/edtr-services';
 
-import { Datetime } from '@eventespresso/edtr-services';
+const formatTokens = { month: 'LLL' };
 
 const DraggableDatetime: React.FC<Datetime> = ({ dbId, endDate, name, startDate }) => (
 	<>
 		<span>{dbId})</span>
 		<span>{name}: </span>
-		<span>{format(new Date(startDate), 'LLL')}</span>
-		<span>
-			{format(new Date(startDate), 'd')} - {format(new Date(endDate), 'd')}
-		</span>
-		<span>{format(new Date(endDate), 'yyyy')}</span>
+		<RangeFormat endDate={endDate} formatTokens={formatTokens} showTime startDate={startDate} />
 	</>
 );
 

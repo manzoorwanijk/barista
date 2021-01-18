@@ -1,4 +1,4 @@
-import { IntervalType } from './addSub';
+import type { IntervalType } from './addSub';
 
 export type TzDateFn = (date: Date | string | number, timezone: string) => Date;
 
@@ -31,7 +31,7 @@ interface UseDatePickerValidationReturn {
 	endDateAfterStartDate: boolean;
 }
 
-export type UseDatePickerValidation = DateComparison<UseDatePickerValidationReturn>;
-
 // for comparing a date against NOW
 export type SingleDateComparisonFunc = (firstDate: Date | number, considerTime?: boolean) => boolean;
+
+export type UseDatePickerValidation = DateComparison<UseDatePickerValidationReturn>;

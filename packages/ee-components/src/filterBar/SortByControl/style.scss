@@ -11,12 +11,22 @@
 }
 
 .ee-filter-bar-modal__reorder-entitites {
+	@include min667px {
+		min-width: 40rem;
+	}
+
 	.ee-droppable {
 		.ee-draggable {
+			padding: var(--ee-padding-tiny) 0;
+
 			> span {
 				font-size: var(--ee-font-size-default);
 				margin-right: var(--ee-margin-tiny);
-				padding: var(--ee-padding-tiny) 0;
+
+				[dir='rtl'] & {
+					margin-left: var(--ee-margin-tiny);
+					margin-right: 0;
+				}
 			}
 		}
 	}
