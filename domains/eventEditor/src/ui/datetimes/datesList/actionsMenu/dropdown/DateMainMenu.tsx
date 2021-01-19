@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 
 import { __ } from '@eventespresso/i18n';
-
 import {
 	DropdownMenu,
 	DropdownToggleProps,
@@ -12,11 +11,12 @@ import {
 } from '@eventespresso/ui-components';
 import { EdtrGlobalModals, useDatesListFilterState } from '@eventespresso/edtr-services';
 import { useGlobalModal } from '@eventespresso/registry';
-import { useMemoStringify } from '@eventespresso/hooks';
 import type { EntityEditModalData } from '@edtrUI/types';
 
 import useActions from './useActions';
 import type { DateMainMenuProps } from './types';
+
+const toggleProps: DropdownToggleProps = { tooltip: __('event date main menu') };
 
 const DateMainMenu: React.FC<DateMainMenuProps> = ({ datetime }) => {
 	const { copyDate, trashDate, isTrashed } = useActions(datetime.id);
@@ -36,11 +36,6 @@ const DateMainMenu: React.FC<DateMainMenuProps> = ({ datetime }) => {
 		message,
 		title,
 		onConfirm: trashDate,
-	});
-
-	const toggleProps: DropdownToggleProps = useMemoStringify({
-		tooltip: __('event date main menu'),
-		tooltipProps: { placement: 'right' },
 	});
 
 	const trashDateTitle = isTrashed ? __('delete permanently') : __('trash datetime');
