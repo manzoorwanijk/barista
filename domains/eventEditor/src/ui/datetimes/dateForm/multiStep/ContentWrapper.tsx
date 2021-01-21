@@ -1,22 +1,24 @@
-import { useWithEntityFormDetails } from '@eventespresso/ee-components';
+import { useMemoStringify } from '@eventespresso/hooks';
+import type { AnyObject } from '@eventespresso/utils';
+
 import { withContext as withTAMContext } from '@edtrUI/ticketAssignmentsManager/context';
-import ContentBody from './ContentBody';
 
-import type { Datetime, Ticket } from '@eventespresso/edtr-services';
 import type { ContentWrapperProps } from './types';
+import Modal from './Modal';
 
-/**
- * This component is inside RFF context, so we can use all of RFF features.
- */
 const ContentWrapper: React.FC<ContentWrapperProps> = (props) => {
+	const { values } = props.form.getState();
+
 	// provide entity details to TAM from edit form
-	return useWithEntityFormDetails(({ entity }: { entity: Datetime | Ticket }) => {
-		const Component = withTAMContext(ContentBody, {
+	const Component = withTAMContext<AnyObject>(
+		Modal,
+		useMemoStringify({
 			assignmentType: 'forDate',
-			entity,
-		});
-		return <Component {...props} />;
-	}, 'NEW_DATE');
+			entity: { id: 'NEW_DATE', dbId: 0, ...values } as any,
+		})
+	);
+
+	return <Component {...props} />;
 };
 
 export default ContentWrapper;

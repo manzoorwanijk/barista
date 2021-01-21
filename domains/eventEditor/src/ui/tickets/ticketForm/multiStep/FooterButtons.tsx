@@ -1,0 +1,71 @@
+import { useCallback } from 'react';
+
+import { __ } from '@eventespresso/i18n';
+import { ButtonRow, ButtonType, Next, Previous, Submit } from '@eventespresso/ui-components';
+import { withFormSubscription, FormSubscriptionProps } from '@eventespresso/ee-components';
+import { useLazyTicket } from '@eventespresso/edtr-services';
+import { hasEmptyPrices } from '@eventespresso/predicates';
+import { SOLD_TICKET_ERROR_MESSAGE } from '@eventespresso/tpc';
+import type { PrevNext } from '@eventespresso/hooks';
+
+import { useDataState as useTAMDataState } from '@edtrUI/ticketAssignmentsManager/data';
+import { ASSIGN_DATES_STEP, TICKET_DETAILS_STEP, TICKET_PRICES_STEP } from './constants';
+
+interface FooterButtonsProps extends FormSubscriptionProps {
+	steps: PrevNext;
+}
+
+const FooterButtons: React.FC<FooterButtonsProps> = ({ form, isSaveDisabled, steps }) => {
+	const { current, goto, prev, next } = steps;
+	const { hasOrphanEntities } = useTAMDataState();
+	const isSubmitDisabled = hasOrphanEntities();
+	const getTicket = useLazyTicket();
+
+	const gotoDetails = useCallback(() => goto(TICKET_DETAILS_STEP), [goto]);
+	const gotoTAM = useCallback(() => goto(ASSIGN_DATES_STEP), [goto]);
+
+	const { values } = form.getState();
+
+	const isTPCSubmitDisabled = hasEmptyPrices(values?.prices || []);
+	const ticket = values?.id && getTicket(values?.id);
+	const isTicketSold = Boolean(ticket?.sold);
+
+	return (
+		<ButtonRow>
+			{current === TICKET_DETAILS_STEP && (
+				<>
+					<Next
+						buttonText={__('Set ticket prices')}
+						buttonType={ButtonType.SECONDARY}
+						isDisabled={isSaveDisabled}
+						onClick={isTicketSold ? null : next}
+						tooltip={isTicketSold && SOLD_TICKET_ERROR_MESSAGE}
+					/>
+					<Next
+						buttonText={__('Skip prices - assign dates')}
+						isDisabled={isSaveDisabled}
+						onClick={gotoTAM}
+						skipsSteps
+					/>
+				</>
+			)}
+
+			{current === TICKET_PRICES_STEP && (
+				<>
+					<Previous onClick={prev} />
+					<Next buttonText={__('Save and assign dates')} onClick={next} isDisabled={isTPCSubmitDisabled} />
+				</>
+			)}
+
+			{current === ASSIGN_DATES_STEP && (
+				<>
+					<Previous buttonText={__('Ticket details')} onClick={gotoDetails} skipsSteps />
+					<Previous onClick={prev} />
+					<Submit onClick={form.submit} isDisabled={isSubmitDisabled} />
+				</>
+			)}
+		</ButtonRow>
+	);
+};
+
+export default withFormSubscription(FooterButtons);
