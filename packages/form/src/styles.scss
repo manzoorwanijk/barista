@@ -41,6 +41,12 @@
 
 				label {
 					color: var(--ee-default-text-color-high-contrast);
+					display: inline-flex !important;
+				}
+
+				label,
+				legend {
+					margin-bottom: 0;
 				}
 
 				&-switch {
