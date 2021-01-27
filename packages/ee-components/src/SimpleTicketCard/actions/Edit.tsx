@@ -1,5 +1,4 @@
 import { __ } from '@eventespresso/i18n';
-
 import { IconButton, IconButtonProps } from '@eventespresso/ui-components';
 import { Edit as EditIcon } from '@eventespresso/icons';
 

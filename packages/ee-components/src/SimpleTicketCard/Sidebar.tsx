@@ -1,19 +1,16 @@
 import { useCallback } from 'react';
 
-import { Edit, Trash } from '../actions';
-import { TicketCardProps } from './types';
-import { useFormState } from '../../../data';
+import { Edit, Trash } from './actions';
+import { SimpleTicketCardProps } from './types';
 
-const Sidebar: React.FC<TicketCardProps> = ({ ticket, onEdit }) => {
-	const { deleteTicket } = useFormState();
-
+const Sidebar: React.FC<SimpleTicketCardProps> = ({ entity: ticket, onEdit, onDelete }) => {
 	const onClickEdit = useCallback(() => {
 		onEdit(ticket);
 	}, [onEdit, ticket]);
 
 	const onClickTrash = useCallback(() => {
-		deleteTicket(ticket?.id);
-	}, [deleteTicket, ticket]);
+		onDelete(ticket);
+	}, [onDelete, ticket]);
 
 	return (
 		<div className='ee-ticket-sidebar'>
