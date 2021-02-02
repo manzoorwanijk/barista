@@ -5,9 +5,9 @@ import type { EntityId } from '@eventespresso/data';
 import useDefaultTickets from './useDefaultTickets';
 
 const useDefaultTicketIds = (): EntityId[] => {
-	const defaulttickets = useDefaultTickets();
+	const tickets = useDefaultTickets();
 
-	return useMemoStringify(getGuids(defaulttickets));
+	return useMemoStringify(getGuids(tickets));
 };
 
 export default useDefaultTicketIds;
