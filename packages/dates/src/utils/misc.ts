@@ -7,6 +7,7 @@ import type { OptionsType } from '@eventespresso/adapters';
 import { NOW } from '@eventespresso/constants';
 
 import { add, sub } from './addSub';
+import diff from './diff';
 import type { Intervals, ShiftDateArgs } from './types';
 import type { PrepDatesComparisonFunc } from './types';
 
@@ -54,6 +55,12 @@ export const setDefaultTime = (date: Date, type: 'start' | 'end' = 'start'): Dat
 export const setTimeToZeroHour = (date: Date): Date => pipe(setHours(0), setMinutes(0), setSeconds(0))(date);
 
 /**
+ * Sets the time of the date object to 23:59:59
+ */
+export const setTimeToJustBeforeZeroHour = (date: Date): Date =>
+	pipe(setHours(23), setMinutes(59), setSeconds(59))(date);
+
+/**
  * Sets the time of the date object to noon
  */
 export const setTimeToNoon = (date: Date): Date => pipe(setHours(12), setMinutes(0), setSeconds(0))(date);
@@ -93,4 +100,32 @@ export const prepDatesForComparison: PrepDatesComparisonFunc = (firstDate, secon
 	}
 
 	return [parsedFirstDate, parsedSecondDate];
+};
+
+type AdjustEndDateArgs = {
+	newEndDate: Date;
+	newStartDate: Date;
+	prevEndDate: Date;
+	prevStartDate: Date;
+};
+
+/**
+ * utility function to see if end date needs to be adjusted
+ * based upon the new start date
+ */
+export const mayBeAdjustEndDate = ({
+	newEndDate,
+	newStartDate,
+	prevEndDate,
+	prevStartDate,
+}: AdjustEndDateArgs): Date => {
+	const isStartDateAfterEndDate = newStartDate > newEndDate;
+
+	if (isStartDateAfterEndDate) {
+		// calculate the difference between previous start and end date in minutes.
+		const difference = diff('minutes', prevEndDate, prevStartDate);
+		// add the difference to end date
+		return add('minutes', newStartDate, difference);
+	}
+	return newEndDate;
 };
