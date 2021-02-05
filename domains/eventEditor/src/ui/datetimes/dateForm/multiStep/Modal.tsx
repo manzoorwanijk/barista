@@ -1,13 +1,11 @@
-import { useEffect, useState } from 'react';
-
 import { EntityEditModal } from '@eventespresso/ui-components';
 import { EdtrGlobalModals, useEvent, useDatetimeItem } from '@eventespresso/edtr-services';
 import { useGlobalModal } from '@eventespresso/registry';
 import { __, sprintf } from '@eventespresso/i18n';
 import { usePrevNext } from '@eventespresso/hooks';
+import { useIsPristine } from '@eventespresso/form';
 
-import ContentBody from './ContentBody';
-
+import ModalBody from './ModalBody';
 import type { ContentWrapperProps } from './types';
 import type { EntityEditModalData } from '@edtrUI/types';
 import FooterButtons from './FooterButtons';
@@ -16,16 +14,11 @@ const Modal: React.FC<ContentWrapperProps> = ({ onClose, ...props }) => {
 	const { isOpen } = useGlobalModal<EntityEditModalData>(EdtrGlobalModals.EDIT_DATE);
 	const event = useEvent();
 	const steps = usePrevNext();
-	const [isPristine, setIsPristine] = useState(true);
+	const isPristine = useIsPristine();
 
 	const { values } = props.form.getState();
 
 	const datetime = useDatetimeItem({ id: values?.id });
-
-	useEffect(() => {
-		return props.form.subscribe(({ pristine }) => setIsPristine(pristine), { pristine: true });
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
 	let title = datetime?.dbId
 		? sprintf(
@@ -48,7 +41,7 @@ const Modal: React.FC<ContentWrapperProps> = ({ onClose, ...props }) => {
 			showAlertOnClose={!isPristine}
 			title={title}
 		>
-			<ContentBody {...props} steps={steps} />
+			<ModalBody {...props} steps={steps} />
 		</EntityEditModal>
 	);
 };
