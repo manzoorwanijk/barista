@@ -10,9 +10,12 @@ import { visitAdminPage } from './visit-admin-page';
  *
  * @param {string} slug Plugin slug.
  */
-export async function activatePlugin(slug, page) {
-	// await switchUserToAdmin();
-	await visitAdminPage('plugins.php', null, page);
+export async function activatePlugin(slug) {
+	await switchUserToAdmin();
+	await visitAdminPage('plugins.php', null);
+
+	await page.screenshot({ path: `artifacts/activatePlugin-before.png` });
+
 	const disableLink = await page.$(`tr[data-slug="${slug}"] .deactivate a`);
 
 	if (disableLink) {
@@ -22,7 +25,9 @@ export async function activatePlugin(slug, page) {
 
 	await page.click(`tr[data-slug="${slug}"] .activate a`);
 
-	await page.isVisible(`tr[data-slug="${slug}"] .deactivate a`);
+	// await page.isVisible(`tr[data-slug="${slug}"] .deactivate a`);
 
-	// await switchUserToTest();
+	await page.screenshot({ path: `artifacts/activatePlugin-after.png` });
+
+	await switchUserToTest();
 }

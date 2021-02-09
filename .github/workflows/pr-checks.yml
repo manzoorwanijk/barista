@@ -15,6 +15,7 @@ jobs:
               with:
                   # To make sure all history is fetched for jest --changedSince to work as expected
                   fetch-depth: ${{ ( matrix.task != 'test' && 1 ) || 0 }} # 0 for test, 1 otherwise
+                  token: ${{ secrets.GH_ACTIONS_ACCESS_TOKEN }}
 
             # TODO replace this when setup-node action supports LTS alias
             - name: Set up Node
@@ -65,6 +66,18 @@ jobs:
 
             - name: Make sure PlayWright doesn't play it wrong
               run: yarn add -WD playwright
+
+            - name: Check out event-espresso-core
+              uses: actions/checkout@v2
+              with:
+                  repository: eventespresso/event-espresso-core
+                  path: event-espresso-core
+                  persist-credentials: true
+                  ref: dev
+                  token: ${{ secrets.GH_ACTIONS_ACCESS_TOKEN }}
+
+            - name: Build event-espresso-core
+              run: cd event-espresso-core && yarn && yarn build
 
             - name: Install WordPress
               run: yarn wp-env start
