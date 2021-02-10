@@ -1,34 +1,35 @@
-import { filter, reduce } from 'ramda';
+import { reduceRight } from 'ramda';
 
-import { isNotBasePrice, sortByPriceOrderIdDesc, updateBasePriceAmount } from '@eventespresso/predicates';
-import { parsedAmount } from '@eventespresso/utils';
-import basePriceCalculator from './basePriceCalculator';
-import { TpcPriceModifier } from '../types';
+import { getPriceModifiers } from '@eventespresso/predicates';
+import { parsedAmount, groupByProp } from '@eventespresso/utils';
 import { DataState } from '../data';
+import undoParallelModifiers from './undoParallelModifiers';
+import { TPC_PRICE_DECIMAL_PLACES } from './constants';
 
-const calculateBasePrice = (state: DataState): DataState['prices'] => {
-	const ticket = state?.ticket;
-	if (!ticket) {
-		return state.prices;
+const calculateBasePrice = (ticketTotal: number, prices: DataState['prices']): number => {
+	const parsedTicketTotal = parsedAmount(ticketTotal);
+
+	if (!parsedTicketTotal || !prices?.length) {
+		return 0;
 	}
 
-	const allPrices = state?.prices;
-	if (!allPrices?.length) {
-		return state.prices;
-	}
-	// we're calculating the base price so we don't want to include it in the calculations
-	const withoutBasePrice = filter<TpcPriceModifier>(isNotBasePrice, allPrices);
-	const sortedModifiers = sortByPriceOrderIdDesc(withoutBasePrice);
-	// now extract the value for "total" or set to 0
-	const ticketTotal = ticket?.price || 0;
-	const newBasePrice = reduce<TpcPriceModifier, number>(basePriceCalculator, ticketTotal, sortedModifiers);
+	const priceModifiers = getPriceModifiers(prices);
+
+	// Since the keys are numeric, it should be sorted in ASC by default
+	const orderToPriceMap = groupByProp('order', priceModifiers);
+
+	const newBasePriceAmount = reduceRight(
+		(pricesWithSameOrder, currentTotal) => {
+			return undoParallelModifiers(currentTotal, pricesWithSameOrder);
+		},
+		ticketTotal,
+		Object.values(orderToPriceMap)
+	);
+
 	// Save the price upto 6 decimals places
-	const amount = parsedAmount(newBasePrice).toFixed(6);
-	const newPrices = updateBasePriceAmount<TpcPriceModifier>({
-		prices: state.prices,
-		amount: parsedAmount(amount),
-	});
-	return newPrices;
+	const amount = parsedAmount(newBasePriceAmount).toFixed(TPC_PRICE_DECIMAL_PLACES);
+
+	return parsedAmount(amount);
 };
 
 export default calculateBasePrice;

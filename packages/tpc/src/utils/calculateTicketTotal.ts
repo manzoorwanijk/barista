@@ -1,27 +1,41 @@
 import { reduce } from 'ramda';
 
-import ticketTotalCalculator from './ticketTotalCalculator';
+import { getBasePrice, getPriceModifiers } from '@eventespresso/predicates';
+import { parsedAmount, groupByProp } from '@eventespresso/utils';
+
 import { DataState } from '../data';
-import { sortByPriceOrderIdAsc } from '@eventespresso/predicates';
+import applyParallelModifiers from './applyParallelModifiers';
 
-const calculateTicketTotal = (state: DataState): DataState['ticket']['price'] => {
-	const ticket = state?.ticket;
-	if (!ticket) {
-		return null;
-	}
-	const allPrices = state?.prices;
-	if (!allPrices?.length) {
-		return ticket.price;
+const calculateTicketTotal = (prices: DataState['prices']): number => {
+	// if there is no wealth or a king, you know what happens
+	if (!prices?.length || !getBasePrice(prices)) {
+		return 0;
 	}
 
-	/**
-	 * @todo Make sure the base price (or non percent price) is at the beginning of the list,
-	 * otherwise if a percent price ends up at the beginning, it will have
-	 * no effect on total because of multiply by intial total which is 0.
-	 * May be same applies to the sorting in `calculateBasePrice`
-	 */
-	const sortedModifiers = sortByPriceOrderIdAsc(allPrices);
-	const newTicketTotal = reduce(ticketTotalCalculator, 0, sortedModifiers);
+	// lets honour the king of prices
+	const basePrice = getBasePrice(prices);
+	const basePriceAmount = parsedAmount(basePrice.amount);
+
+	// if the king has no value, it's not good for the "story"
+	if (!basePriceAmount) {
+		return 0;
+	}
+
+	// if the battle lasts this far, pawns also matter
+	const priceModifiers = getPriceModifiers(prices);
+
+	// lets divide them into teams based on ther `order`
+	// Since the keys are numberic, it should be sorted by default
+	const orderToPriceMap = groupByProp('order', priceModifiers);
+
+	// final nail in the coffin
+	const newTicketTotal = reduce(
+		(currentTotal, pricesWithSameOrder) => {
+			return applyParallelModifiers(currentTotal, pricesWithSameOrder);
+		},
+		basePriceAmount,
+		Object.values(orderToPriceMap)
+	);
 
 	return newTicketTotal;
 };
