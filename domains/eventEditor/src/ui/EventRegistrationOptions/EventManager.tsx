@@ -17,6 +17,7 @@ const EventManager: React.FC<Props> = ({ eventManagers, managerId, onManagerChan
 			<div className='ee-reg-option__value'>
 				<Select
 					flow='inline'
+					id={`${id}-select`}
 					noBorderColor
 					onChangeValue={onManagerChange}
 					options={options}

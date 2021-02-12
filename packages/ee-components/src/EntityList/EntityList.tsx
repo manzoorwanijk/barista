@@ -1,5 +1,4 @@
 import { __ } from '@eventespresso/i18n';
-
 import { useFeature, useStatus } from '@eventespresso/services';
 import { CollapsibleLegend, EmptyState, Pagination, EntityList as EntityListUI } from '@eventespresso/ui-components';
 import type { EntityListFilterStateManager } from '@eventespresso/services';
@@ -67,6 +66,7 @@ const EntityList = <ELFS extends EntityListFilterStateManager<any>>({
 			filterBar={filterBar}
 			footer={footer}
 			headerText={headerText}
+			id={`ee-entity-list-${entityType}`}
 			legend={legend}
 			loading={loading}
 			pagination={pagination}

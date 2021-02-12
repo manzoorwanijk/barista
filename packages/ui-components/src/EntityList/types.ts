@@ -31,6 +31,7 @@ export interface EntityListProps {
 	filterBar?: React.ReactNode;
 	footer?: React.ReactNode;
 	headerText: string;
+	id?: string;
 	legend?: React.ReactNode;
 	loading?: boolean;
 	pagination?: React.ReactNode;

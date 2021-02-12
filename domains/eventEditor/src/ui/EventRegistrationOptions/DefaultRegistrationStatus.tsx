@@ -16,6 +16,7 @@ const DefaultRegistrationStatus: React.FC<Props> = ({ defaultRegStatus, onDefaul
 			<div className='ee-reg-option__value'>
 				<Select
 					flow='inline'
+					id={`${id}-select`}
 					noBorderColor
 					onChangeValue={onDefaultRegStatusChange}
 					options={regStatusOptions}

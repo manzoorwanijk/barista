@@ -71,9 +71,9 @@ const useDateFormConfig = (id: EntityId, config?: EspressoFormProps): DateFormCo
 					title: __('Basics'),
 					fields: [
 						{
-							name: 'name',
-							label: __('Name'),
 							fieldType: 'text',
+							label: __('Name'),
+							name: 'name',
 						},
 						{
 							name: 'description',
