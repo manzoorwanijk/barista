@@ -1,20 +1,25 @@
 import { Size } from '@eventespresso/ui-components';
 
 export interface UpsellProps extends Size {
-	altCTAText?: string;
 	altCTALink?: string;
 	altCTAStyle?: 'test';
-	dismissable?: boolean;
-	theme?: 'theme';
-	orientation?: 'vertical' | 'horizontal';
-	mainTitle?: string;
-	subtitle?: string;
-	mainText?: string;
-	image?: string;
-	CTA?: string;
+	altCTAText?: string;
+	bgColor: 'green';
+	className?: string;
+	CTAText?: string;
 	CTAlink?: string;
 	CTAstyle?: 'style';
-	template: 'basic';
+	dismissable?: boolean;
+	icon?: React.ReactNode;
+	image?: string;
+	imagePosition?: 'bottom' | 'left' | 'right' | 'top';
+	mainText?: string;
+	mainTitle?: string;
+	onClick?: VoidFunction;
+	orientation?: 'vertical' | 'horizontal';
+	subtitle?: string;
+	template?: 'base' | 'with-bg-image';
+	theme?: 'theme';
 }
 
 export interface UpsellFormProps {

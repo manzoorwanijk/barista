@@ -1,2 +1,67 @@
 .ee-upsell {
+	&--template {
+		&-base {
+			display: flex;
+
+			> div {
+				padding: 0 var(--ee-padding-small);
+
+				> * {
+					padding-bottom: var(--ee-padding-tiny);
+				}
+			}
+
+			&__subtitle {
+				font-size: var(--ee-font-size-smaller);
+			}
+		}
+
+		&-with-bg-image {
+			align-items: flex-end;
+			display: flex;
+			max-width: 400px;
+			padding: var(--ee-padding-small);
+			text-align: left;
+
+			&__main-title {
+				font-size: var(--ee-font-size-big) !important;
+				margin-top: 0 !important;
+				padding-bottom: var(--ee-padding-small);
+			}
+
+			&__img-wrapper {
+				display: flex;
+			}
+		}
+	}
+
+	&--image-position {
+		&-right {
+			flex-direction: row-reverse;
+		}
+
+		&-bottom {
+			flex-flow: column-reverse;
+		}
+
+		&-top {
+			display: block;
+		}
+	}
+
+	&--bg-color {
+		* {
+			color: var(--ee-color-white) !important;
+		}
+
+		img,
+		svg {
+			height: auto;
+			max-width: 100px;
+		}
+
+		&-green {
+			background-color: #02aec6;
+		}
+	}
 }
