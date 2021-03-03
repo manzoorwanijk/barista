@@ -68,3 +68,22 @@ export const containerClassOptions = [
 		value: 'white black-bg',
 	},
 ];
+
+export const templates = [
+	{
+		label: 'Base',
+		value: 'base',
+	},
+	{
+		label: 'Compact',
+		value: 'compact',
+	},
+	{
+		label: 'With background images',
+		value: 'with-bg-image',
+	},
+	{
+		label: 'With options',
+		value: 'with-options',
+	},
+];

@@ -101,6 +101,27 @@
 				padding-bottom: var(--ee-padding-small);
 			}
 		}
+
+		&-compact {
+			flex-direction: row !important;
+
+			.ee-heading {
+				display: inline-flex !important;
+				font-size: var(--ee-font-size-default) !important;
+				margin: 0 !important;
+			}
+
+			.ee-upsell--template-compact__cta {
+				display: inline-flex !important;
+				white-space: nowrap;
+
+				.ee-link {
+					height: auto;
+					min-height: auto;
+					width: auto;
+				}
+			}
+		}
 	}
 
 	&--image-position {
