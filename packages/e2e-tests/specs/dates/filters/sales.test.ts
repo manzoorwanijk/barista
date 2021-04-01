@@ -3,8 +3,14 @@
 
 import { saveVideo } from 'playwright-video';
 
-import { addNewRegistration, addNewTicket, clickButton, createNewEvent, removeLastTicket } from '../../../utils';
-import { getDatesLength } from '../../../assertions';
+import {
+	// addNewRegistration,
+	addNewTicket,
+	clickButton,
+	createNewEvent,
+	removeLastTicket,
+} from '../../../utils';
+import { getEntitiesLength } from '../../../assertions';
 
 const namespace = 'eventDates.filters.sales';
 
@@ -28,24 +34,24 @@ describe(namespace, () => {
 			value: 'above90Capacity',
 		});
 
-		expect(await getDatesLength()).toBe(0);
+		expect(await getEntitiesLength('datetime')).toBe(0);
 
 		await page.selectOption('#ee-dates-list-sales-control', {
 			value: 'above75Capacity',
 		});
 
-		expect(await getDatesLength()).toBe(0);
+		expect(await getEntitiesLength('datetime')).toBe(0);
 
 		await page.selectOption('#ee-dates-list-sales-control', {
 			value: 'above50Capacity',
 		});
 
-		expect(await getDatesLength()).toBe(0);
+		expect(await getEntitiesLength('datetime')).toBe(0);
 
 		await page.selectOption('#ee-dates-list-sales-control', {
 			value: 'below50Capacity',
 		});
 
-		expect(await getDatesLength()).toBe(1);
+		expect(await getEntitiesLength('datetime')).toBe(1);
 	});
 });
