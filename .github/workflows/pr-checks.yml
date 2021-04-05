@@ -4,6 +4,7 @@ on: [pull_request]
 
 env:
     PLAYWRIGHT_BROWSERS_PATH: 0 # See https://playwright.dev/docs/ci/#caching-browsers
+
 jobs:
     # JOB to check if the files in a path have changed
     what-is-hit:
@@ -70,6 +71,9 @@ jobs:
                   path: build/
 
     e2e:
+        env:
+            # If you want to run e2e in parallel to build, just set this to false and comment out needs: and if:
+            run_after_build: 'true'
         name: E2E Tests
         needs: [build, what-is-hit]
         runs-on: ubuntu-latest
@@ -95,14 +99,18 @@ jobs:
               run: yarn install --frozen-lockfile
 
             - name: Download build artifact
+              # Download artifact only if running after build job
+              if: ${{ fromJson(env.run_after_build) }}
               uses: actions/download-artifact@v2
               with:
                   name: build
                   path: build/
 
             # Leave this here just in case "needs" field is removed, then it can be enabled
-            # - name: Build barista assets
-            #   run: yarn && yarn build
+            - name: Build barista assets
+              # Build assets only if running in parallel to build/test
+              if: ${{ ! fromJson(env.run_after_build) }}
+              run: yarn && yarn build
 
             - name: Install WordPress
               run: yarn wp-env start
@@ -110,7 +118,7 @@ jobs:
             - name: Setup Playwright
               uses: microsoft/playwright-github-action@v1
 
-            - name: Running the tests
+            - name: Run E2E tests
               run: yarn test:e2e
 
             - name: Archive debug artifacts (screenshots, HTML snapshots)
