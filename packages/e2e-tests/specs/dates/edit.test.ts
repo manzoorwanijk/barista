@@ -1,11 +1,8 @@
-/// <reference types="jest-playwright-preset" />
-/// <reference types="expect-playwright" />
-
 import { saveVideo } from 'playwright-video';
 
 import { clickButton, clickLastDateFromPicker, createNewEvent, setListDisplayControl } from '../../utils';
 import { expectCardToContain } from '../../assertions';
-import { modalRTESel } from '../../constants';
+import { datesList, modalRTESel } from '../../constants';
 
 const namespace = 'event.dates.edit';
 
@@ -55,5 +52,8 @@ describe(namespace, () => {
 		} catch (e) {
 			await capture.stop();
 		}
+
+		expect(await page.$eval(datesList, (elements) => elements.innerHTML)).toContain(newDateName);
+		expect(await page.$eval(datesList, (elements) => elements.innerHTML)).toContain(newDateDesc);
 	});
 });

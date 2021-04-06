@@ -1,16 +1,7 @@
-/// <reference types="jest-playwright-preset" />
-/// <reference types="expect-playwright" />
-
-import { saveVideo } from 'playwright-video';
-
 import { createNewEvent, clickLastDateFromPicker, setListDisplayControl, EntityListParser } from '../../../utils';
 import { entities } from '../../../constants';
 
 const namespace = 'event.entities.edit.calendar.date.range';
-
-beforeAll(async () => {
-	await saveVideo(page, `artifacts/${namespace}.mp4`);
-});
 
 describe(namespace, () => {
 	for (const entity of entities) {
@@ -27,7 +18,6 @@ describe(namespace, () => {
 
 			await page.focus('.date-range-picker__end .react-datepicker__input-container input');
 			const [endDate, endDateMonth] = await clickLastDateFromPicker();
-			await page.click('.ee-timezone-info__button');
 
 			await page.click('.chakra-popover__content [aria-label="save"]');
 
