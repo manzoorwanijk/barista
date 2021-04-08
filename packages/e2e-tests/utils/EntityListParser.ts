@@ -10,7 +10,7 @@ export class EntityListParser {
 
 	view: View;
 
-	constructor(entityType: EntityType, view: View = 'card') {
+	constructor(entityType?: EntityType, view: View = 'card') {
 		this.entityType = entityType;
 		this.view = view;
 	}
@@ -18,15 +18,19 @@ export class EntityListParser {
 	/**
 	 * Change the current entity type in the instance.
 	 */
-	setEntityType = (entityType: EntityType): void => {
+	setEntityType = (entityType: EntityType): EntityListParser => {
 		this.entityType = entityType;
+
+		return this;
 	};
 
 	/**
 	 * Change the current view in the instance.
 	 */
-	setView = (view: View): void => {
+	setView = (view: View): EntityListParser => {
 		this.view = view;
+
+		return this;
 	};
 
 	/**
@@ -78,7 +82,7 @@ export class EntityListParser {
 	};
 
 	/**
-	 * Retrieve  an array of items in the list.
+	 * Retrieve an array of items in the list.
 	 */
 	getListItems = async (): ReturnType<ElementHandle['$$']> => {
 		const list = await this.getItemsListWrapper();
@@ -89,7 +93,7 @@ export class EntityListParser {
 	};
 
 	/**
-	 * Retrieve  an item/element from the entity list.
+	 * Retrieve an item/element from the entity list.
 	 * If no dbId is provided, first item will be returned.
 	 */
 	getItem = async (dbId?: number): ReturnType<ElementHandle['$']> => {
@@ -104,12 +108,12 @@ export class EntityListParser {
 	};
 
 	/**
-	 * Retrieve  an item/element from the entity list by the given field value.
+	 * Retrieve an item/element from the entity list by the given field value.
 	 */
 	getItemBy = async (field: Field, value: string | number): ReturnType<ElementHandle['$']> => {
 		const items = await this.getListItems();
 
-		if (items && field && value) {
+		if (items.length && field && value) {
 			// We can't use items.find(), because it doesn't accept promises
 			for (const item of items) {
 				const fieldValue = await this.getItemField(item, field);
