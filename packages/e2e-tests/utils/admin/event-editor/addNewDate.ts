@@ -15,6 +15,8 @@ export const addNewDate = async (fields: DateTicketFormArgs) => {
 		// Ensure that trashed tickets are visible
 		await page.click('[aria-label="show trashed tickets"]');
 
+		await page.waitForSelector('[aria-label="assign ticket"]');
+
 		await page.click('[aria-label="assign ticket"]');
 
 		const waitForListUpdate = await parser.createWaitForListUpdate();
