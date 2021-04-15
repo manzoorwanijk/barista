@@ -1,6 +1,6 @@
 {
 	"name": "@eventespresso/rich-text-editor",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "Wrapper around draft.js",
 	"author": "EventEspresso",
 	"license": "GPL-2.0-or-later",

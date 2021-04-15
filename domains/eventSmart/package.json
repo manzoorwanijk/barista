@@ -1,7 +1,7 @@
 {
 	"author": "Event Espresso",
 	"name": "@eventespresso/event-smart",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"private": true,
 	"main": "src/index.tsx",
 	"main:src": "src/index.tsx",

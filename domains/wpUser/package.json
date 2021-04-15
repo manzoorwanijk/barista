@@ -1,7 +1,7 @@
 {
 	"author": "Event Espresso",
 	"name": "@eventespresso/wp-user",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"private": true,
 	"main": "src/index.ts",
 	"main:src": "src/index.ts",
