@@ -1,0 +1,21 @@
+{
+	"author": "Event Espresso",
+	"name": "@eventespresso/wp-plugins-page",
+	"version": "1.0.6",
+	"private": true,
+	"main": "src/index.ts",
+	"license": "GPL-3.0",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/eventespresso/barista.git"
+	},
+	"dependencies": {
+		"@typeform/embed": "^0.34.0",
+		"@wordpress/components": "^13.0.1",
+		"@wordpress/url": "^2.22.1"
+	},
+	"scripts": {
+		"lint": "eslint ./src/**/*.{ts,tsx} --format=codeframe",
+		"update-deps": "npx ncu -p yarn -u"
+	}
+}
