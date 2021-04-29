@@ -2,6 +2,7 @@ import type { Page, ElementHandle } from 'playwright';
 import { assocPath } from 'ramda';
 
 import { clickButton, respondToAlert } from '@e2eUtils/common';
+import { EE_DEBUG } from '@e2eUtils/misc';
 import { EntityListParser, Field, Item } from './EntityListParser';
 import { EntityType } from '../../../types';
 
@@ -64,7 +65,7 @@ export class TAMRover {
 
 		// set parser if TAM is for a single date or ticket
 		if (this.forType && this.forType !== 'all') {
-			this.parser = new EntityListParser(this.forType);
+			this.setParser(this.forType);
 		}
 
 		return this;
@@ -75,6 +76,15 @@ export class TAMRover {
 	 */
 	setDbId = (dbId?: number): TAMRover => {
 		this.dbId = dbId;
+
+		return this;
+	};
+
+	/**
+	 * Change the "for entity type".
+	 */
+	setParser = (forType: Exclude<ForType, 'all'>): TAMRover => {
+		this.parser = new EntityListParser(forType);
 
 		return this;
 	};
@@ -119,6 +129,8 @@ export class TAMRover {
 
 		if (closeButton) {
 			await closeButton.click();
+		} else {
+			EE_DEBUG && console.error('Could not find the close button for TAM.');
 		}
 
 		// If TAM is dirty, there may be an alert.
@@ -143,7 +155,16 @@ export class TAMRover {
 		const submitButton = await page.$(`${this.getRootSelector()} button[type=submit]`);
 
 		if (submitButton) {
+			const oldEntityType = this.parser?.entityType;
+			// Ensure that parser is set
+			this.setParser('ticket');
+
+			const waitForListUpdate = await this.parser.createWaitForListUpdate();
 			await submitButton.click();
+			await waitForListUpdate();
+
+			// restore the entity type
+			this.setParser(oldEntityType);
 		}
 
 		this.reset();

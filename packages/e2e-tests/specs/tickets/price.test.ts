@@ -43,10 +43,8 @@ describe(namespace, () => {
 		// Since there are no modifiers, totol is equal to base price
 		expect(Number(ticketTotal)).toBe(13);
 
-		const waitForListUpdate = await editor.createWaitForListUpdate();
 		// Now lets submit.
 		await tpcSafari.submit();
-		await waitForListUpdate();
 
 		// first/only item
 		let item = await editor.getItem();
@@ -72,15 +70,6 @@ describe(namespace, () => {
 		await editor.updatePriceInline(item, 47);
 		let price = await getTicketPrice(item);
 		expect(Number(price)).toBe(47);
-
-		// for the only ticket we have
-		await tpcSafari.launch();
-
-		const ticketTotal = await tpcSafari.getTicketTotal();
-		// Ticket total should reflect in TPC
-		expect(Number(ticketTotal)).toBe(47);
-
-		await tpcSafari.close();
 
 		// Lets change the list view
 		await editor.switchView('table');
