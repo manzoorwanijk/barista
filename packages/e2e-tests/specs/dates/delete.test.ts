@@ -1,26 +1,43 @@
-import { addNewDate, createNewEvent, deleteDateByName, EntityListParser } from '@e2eUtils/admin/event-editor';
+import { saveVideo } from 'playwright-video';
+
+import { addNewDate, createNewEvent, EntityListParser, DateEditor } from '@e2eUtils/admin/event-editor';
 
 const namespace = 'event.dates.delete';
 
-const datesParser = new EntityListParser('datetime');
+const dateEditor = new DateEditor();
 const ticketsParser = new EntityListParser('ticket');
+
+beforeAll(async () => {
+	await createNewEvent({ title: namespace });
+});
 
 describe(namespace, () => {
 	it('should delete dates by name:', async () => {
-		await createNewEvent({ title: namespace });
+		const capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
+		try {
+			await addNewDate({ name: namespace + '.date' });
+			let dateCount = await dateEditor.getItemCount();
 
-		await addNewDate({ name: namespace + '.date' });
+			expect(dateCount).toBe(2);
 
-		expect(await datesParser.getItemCount()).toBe(2);
+			await dateEditor.deleteItemBy('name', namespace + '.date');
 
-		await deleteDateByName('edit title…');
+			dateCount = await dateEditor.getItemCount();
+			let ticketCount = await ticketsParser.getItemCount();
 
-		expect(await datesParser.getItemCount()).toBe(1);
-		expect(await ticketsParser.getItemCount()).toBe(1);
+			expect(dateCount).toBe(1);
+			expect(ticketCount).toBe(1);
 
-		await deleteDateByName('event.dates.delete.date');
+			const date = await dateEditor.getItem();
 
-		expect(await datesParser.getItemCount()).toBe(0);
-		expect(await ticketsParser.getItemCount()).toBe(0);
+			await dateEditor.deleteItem(date);
+
+			dateCount = await dateEditor.getItemCount();
+			ticketCount = await ticketsParser.getItemCount();
+			expect(dateCount).toBe(0);
+			expect(ticketCount).toBe(0);
+		} catch (error) {
+			await capture.stop();
+		}
 	});
 });
