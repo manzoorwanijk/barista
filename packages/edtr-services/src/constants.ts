@@ -13,4 +13,5 @@ export const TICKET_FIELDS_FOR_TPC: Array<keyof Ticket> = [
 	'price',
 	'quantity',
 	'reverseCalculate',
+	'visibility',
 ];

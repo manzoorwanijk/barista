@@ -2,7 +2,7 @@ import { useMemo, useCallback } from 'react';
 import { pick } from 'ramda';
 
 import { CalendarOutlined, ControlOutlined, ProfileOutlined } from '@eventespresso/icons';
-import { useUtcISOToSiteDate, useSiteDateToUtcISO } from '@eventespresso/services';
+import { useUtcISOToSiteDate, useSiteDateToUtcISO, getEEDomData } from '@eventespresso/services';
 import { startAndEndDateFixer, useTicketItem, hooks } from '@eventespresso/edtr-services';
 import { PLUS_ONE_MONTH } from '@eventespresso/constants';
 import { useMemoStringify } from '@eventespresso/hooks';
@@ -28,9 +28,11 @@ export const FIELD_NAMES: Array<keyof Ticket> = [
 	'price',
 	'quantity',
 	'uses',
+	'visibility',
 ];
 
 const decorators = [startAndEndDateFixer];
+const VISIBILITY_OPTIONS = getEEDomData('eventEditor').ticketMeta.visibilityOptions;
 
 export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): TicketFormConfig => {
 	const ticket = useTicketItem({ id });
@@ -62,6 +64,7 @@ export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): T
 		return hooks.applyFilters(
 			'eventEditor.ticketForm.initalValues',
 			{
+				visibility: 'PUBLIC',
 				...pick<Omit<Partial<Ticket>, 'prices'>, keyof Ticket>(FIELD_NAMES, ticket || {}),
 				startDate,
 				endDate,
@@ -174,6 +177,13 @@ export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): T
 								'\n' +
 								__('Leave blank for no maximum.'),
 							width: 'small',
+						},
+						{
+							name: 'visibility',
+							label: __('Visibility'),
+							fieldType: 'select',
+							info: __('Where the ticket can be viewed throughout the UI.'),
+							options: VISIBILITY_OPTIONS,
 						},
 						{
 							name: 'isRequired',
