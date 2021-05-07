@@ -1,13 +1,7 @@
 import { saveVideo } from 'playwright-video';
 
-import {
-	addNewTicket,
-	answerRegFormTextInput,
-	clickEventPostPermaLink,
-	createNewEvent,
-	EntityListParser,
-} from '@e2eUtils/admin/event-editor';
-import { submitRegistration, submitTicketSelector, chooseFromTicketSelector } from '@e2eUtils/public/reg-checkout';
+import { addNewTicket, createNewEvent, EDTRGlider, TicketEditor } from '@e2eUtils/admin/event-editor';
+import { EventRegistrar } from '@e2eUtils/public/reg-checkout';
 
 const namespace = 'event.free-event.registration';
 
@@ -15,41 +9,32 @@ beforeAll(async () => {
 	await saveVideo(page, `artifacts/${namespace}.mp4`);
 });
 
-const dateParser = new EntityListParser('datetime');
-const ticketParser = new EntityListParser('ticket');
+const ticketEditor = new TicketEditor();
+const registrar = new EventRegistrar();
+const edtrGlider = new EDTRGlider();
 
-describe('Create free event and register to it', () => {
+describe(namespace, () => {
 	it('should show thank you message if everything went well', async () => {
-		const dateRootSelector = dateParser.getRootSelector();
-		const ticketRootSelector = ticketParser.getRootSelector();
-		const capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
+		await createNewEvent({ title: 'Free event' });
 
-		try {
-			await createNewEvent({ title: 'Free event' });
-			await page.click(`${dateRootSelector} [data-testid="ee-datetime-inline-cap-preview"]`);
-			await page.type(`${dateRootSelector} [data-testid="ee-datetime-inline-cap"]`, '75');
-			await page.click(`${ticketRootSelector} [data-testid="ee-ticket-inline-qty-preview"]`);
-			await page.type(`${ticketRootSelector} [data-testid="ee-ticket-inline-qty"]`, '75');
+		await ticketEditor.updateQuantityInline(null, 75);
 
-			await addNewTicket({ amount: 100, name: 'Paid Ticket' });
+		await addNewTicket({ amount: 100, name: 'Paid Ticket' });
 
-			await clickEventPostPermaLink();
+		await registrar.setPermalink(await edtrGlider.getEventPermalink()).registerForEvent({
+			ticketName: 'Free Ticket',
+			quantity: 1,
+			attendeeInfo: {
+				fname: 'Joe',
+				lname: 'Doe',
+				email: 'test@example.com',
+			},
+		});
 
-			await chooseFromTicketSelector('Free Ticket', 1);
-			await submitTicketSelector();
-			await answerRegFormTextInput('fname', 'Joe');
-			await answerRegFormTextInput('lname', 'Doe');
-			await answerRegFormTextInput('email', 'test@example.com');
+		const title = await page.$eval('h1.entry-title', (el) => el.textContent);
+		expect(title).toContain('Thank You');
 
-			await submitRegistration();
-		} catch (e) {
-			await capture.stop();
-		}
-
-		const statusTitle = await page
-			.$eval('.status-publish .entry-title', (elements) => elements?.textContent)
-			.catch(console.log);
-
-		expect(statusTitle).toContain('Thank You');
+		const content = await page.$eval('.entry-content', (el) => el.textContent);
+		expect(content).toContain('Congratulations');
 	});
 });
