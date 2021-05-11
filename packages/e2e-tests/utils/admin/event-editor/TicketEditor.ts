@@ -28,20 +28,31 @@ export class TicketEditor extends EntityEditor {
 	/**
 	 * Filters the list by the given field and value.
 	 */
-	async filterListBy(filter: CommonFilters, values: Parameters<Item['selectOption']>[0]): Promise<void> {
+	async filterListBy(filter: CommonFilters | 'chained', values?: Parameters<Item['selectOption']>[0]): Promise<void> {
 		const selector =
 			filter === 'status'
 				? '#ee-tickets-list-status-control'
 				: filter === 'sales'
 				? '#ee-tickets-list-sales-control'
 				: filter === 'search'
-				? '#ee-ee-search-input-tickets-list-label'
+				? '#ee-ee-search-input-tickets-list'
+				: filter === 'chained'
+				? '#ee-ee-ticket-list-filter-bar-is-chained'
 				: '';
 
 		if (!selector) {
 			console.log('Unknown filter supplied: ' + filter);
 			return;
 		}
+		await this.setFilter(selector, values);
+	}
+
+	/**
+	 * sorts the list by the given field and value.
+	 */
+	async sortBy(values: Parameters<Item['selectOption']>[0]): Promise<void> {
+		const selector = '#ee-tickets-list-sort-by-control';
+
 		await this.setFilter(selector, values);
 	}
 

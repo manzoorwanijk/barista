@@ -14,7 +14,27 @@ export class EDTRGlider {
 	 * Returns the permalink of the event, inside EDTR
 	 */
 	getEventPermalink = async () => {
-		return await page.$eval('#edit-slug-box #sample-permalink', (el) => el.textContent);
+		// It is assumed to have plain permalink structure for the site
+		// For pretty permalinks, the selector will become "#edit-slug-box #sample-permalink a"
+		return await page.$eval('#edit-slug-box #sample-permalink', (el) => el.getAttribute('href'));
+	};
+
+	/**
+	 * Sets the maximum registrations value.
+	 */
+	setMaxRegistrations = async (value: number, updateEvent = true) => {
+		await page.fill('#max-registrants', String(value));
+
+		await this.updateEvent(updateEvent);
+	};
+
+	/**
+	 * Updates the event by clicking the Publish/update button
+	 */
+	updateEvent = async (update = true) => {
+		if (update) {
+			await Promise.all([page.waitForNavigation(), page.click('#publish')]);
+		}
 	};
 
 	/**
@@ -36,8 +56,6 @@ export class EDTRGlider {
 			await metabox.$eval('text=Address Information', (e) => e.closest('p').querySelector('input').click());
 		}
 
-		if (updateEvent) {
-			await Promise.all([page.waitForNavigation(), page.click('#publish')]);
-		}
+		await this.updateEvent(updateEvent);
 	};
 }
