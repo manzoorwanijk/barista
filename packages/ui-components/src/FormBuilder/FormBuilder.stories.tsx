@@ -1,8 +1,17 @@
-import { __ } from '@eventespresso/i18n';
-import { FormBuilder, Heading, FormBuilderProps } from '@eventespresso/ui-components';
-import { withFeature } from '@eventespresso/services';
+import type { Story, Meta } from '@storybook/react/types-6-0';
 
-// this is based off of the data schema I started for the PHP models, but can be changed to whatever
+import type { FormBuilderProps } from './types';
+import FormBuilder from './FormBuilder';
+import { Heading } from '../';
+
+export default {
+	argTypes: {},
+	component: FormBuilder,
+	title: 'Components/FormBuilder',
+} as Meta;
+
+type FormBuilderStory = Story<FormBuilderProps>;
+
 const formSections: FormBuilderProps['formSections'] = [
 	{
 		UUID: 'abc123',
@@ -24,8 +33,6 @@ const formSections: FormBuilderProps['formSections'] = [
 				helpClass: '',
 				helpText: '',
 				htmlClass: '',
-				max: -1,
-				min: null,
 				order: 1,
 				placeholder: 'Pee Wee',
 				publicLabel: 'first name',
@@ -44,8 +51,6 @@ const formSections: FormBuilderProps['formSections'] = [
 				helpClass: '',
 				helpText: '',
 				htmlClass: '',
-				max: -1,
-				min: null,
 				order: 2,
 				placeholder: 'Herman',
 				publicLabel: 'last name',
@@ -53,6 +58,25 @@ const formSections: FormBuilderProps['formSections'] = [
 				requiredText: 'Please enter your last name!',
 				status: 'active',
 				type: 'text',
+				wpUser: 1,
+			},
+			{
+				UUID: 'xyz852',
+				relation: '',
+				adminLabel: 'registrant age',
+				adminOnly: false,
+				belongsTo: 'abc123',
+				helpClass: '',
+				helpText: '',
+				htmlClass: '',
+				min: 10,
+				order: 2,
+				placeholder: '30',
+				publicLabel: 'age',
+				required: true,
+				requiredText: 'Please enter your age!',
+				status: 'active',
+				type: 'integer',
 				wpUser: 1,
 			},
 			{
@@ -64,8 +88,6 @@ const formSections: FormBuilderProps['formSections'] = [
 				helpClass: '',
 				helpText: '',
 				htmlClass: '',
-				max: -1,
-				min: null,
 				order: 3,
 				placeholder: 'peewee@playhouse.com',
 				publicLabel: 'email address',
@@ -75,20 +97,46 @@ const formSections: FormBuilderProps['formSections'] = [
 				type: 'email',
 				wpUser: 1,
 			},
+			{
+				UUID: 'pqr',
+				relation: '',
+				adminLabel: 'Where to live in 2021',
+				adminOnly: false,
+				belongsTo: 'earth',
+				helpClass: '',
+				helpText: '',
+				htmlClass: '',
+				order: 3,
+				publicLabel: 'Where do you want to live',
+				status: 'active',
+				type: 'select',
+				options: [
+					{
+						value: 'earth',
+						label: 'Earth',
+					},
+					{
+						value: 'mars',
+						label: 'Mars',
+					},
+				],
+				wpUser: 1,
+			},
 		],
 	},
 ];
 
-export const RegistrationForm: React.FC = () => (
+const Template: FormBuilderStory = (args) => (
 	<FormBuilder
+		{...args}
 		containerClassName='ee-edtr-section'
 		formSections={formSections}
 		header={
 			<Heading as='h3' className='ee-edtr-section-heading'>
-				{__('Registration Form Builder')}
+				{'Registration Form Builder'}
 			</Heading>
 		}
 	/>
 );
 
-export default withFeature('use_reg_form_builder')(RegistrationForm);
+export const Default: FormBuilderStory = Template.bind({});
