@@ -1,12 +1,14 @@
+import { useCallback } from 'react';
 import classNames from 'classnames';
-import { DragHandle, Trash } from '@eventespresso/icons';
+
+import { __ } from '@eventespresso/i18n';
+import { Copy, DragHandle, Save, Trash } from '@eventespresso/icons';
 
 import { IconButton } from '../../Button';
 import { ELEMENT_BLOCKS_INDEXED } from '../constants';
 import { useFormState } from '../state';
 
 import type { FormElementProps } from '../types';
-import { useCallback } from 'react';
 
 export const FormElementToolbar: React.FC<FormElementProps> = ({ element, sectionId }) => {
 	const { isElementOpen, deleteElement } = useFormState();
@@ -25,8 +27,38 @@ export const FormElementToolbar: React.FC<FormElementProps> = ({ element, sectio
 		<>
 			<div className='ee-form-element__type'>{elementTypeLabel}</div>
 			<div className='ee-form-element__actions'>
-				<IconButton icon={Trash} borderless size='smaller' onClick={onDelete} transparentBg />
-				<IconButton icon={DragHandle} borderless className='ee-drag-handle' size='smaller' transparentBg />
+				<IconButton
+					icon={Copy}
+					borderless
+					size='smaller'
+					// onClick={onCopy}
+					tooltip={__('click to copy this form element')}
+					transparentBg
+				/>
+				<IconButton
+					icon={Save}
+					borderless
+					size='smaller'
+					// onClick={onDelete}
+					tooltip={__('click to save this form element for use in other forms')}
+					transparentBg
+				/>
+				<IconButton
+					icon={Trash}
+					borderless
+					size='smaller'
+					onClick={onDelete}
+					tooltip={__('click to delete this form element')}
+					transparentBg
+				/>
+				<IconButton
+					icon={DragHandle}
+					borderless
+					className='ee-drag-handle'
+					size='smaller'
+					tooltip={__('click, hold, and drag to reorder this form element')}
+					transparentBg
+				/>
 			</div>
 		</>
 	);
