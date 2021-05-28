@@ -19,6 +19,10 @@ const FIELD_NAMES: Array<keyof Datetime> = ['id', 'name', 'description', 'capaci
 
 const decorators = [startAndEndDateFixer];
 
+const adjacentFormItemProps = {
+	className: 'ee-form-item-pair',
+};
+
 const useDateFormConfig = (id: EntityId, config?: EspressoFormProps): DateFormConfig => {
 	const datetime = useDatetimeItem({ id });
 
@@ -88,6 +92,7 @@ const useDateFormConfig = (id: EntityId, config?: EspressoFormProps): DateFormCo
 							label: __('Start Date'),
 							fieldType: 'datetimepicker',
 							required: true,
+							formControlProps: adjacentFormItemProps,
 						},
 						{
 							name: 'endDate',
@@ -95,6 +100,7 @@ const useDateFormConfig = (id: EntityId, config?: EspressoFormProps): DateFormCo
 							fieldType: 'datetimepicker',
 							required: true,
 							wrapper: EndDateFieldWrapper,
+							formControlProps: adjacentFormItemProps,
 						},
 					],
 				},
@@ -116,11 +122,13 @@ const useDateFormConfig = (id: EntityId, config?: EspressoFormProps): DateFormCo
 								'\n' +
 								__('Set to 0 to close registration or leave blank for no limit.'),
 							width: 'small',
+							formControlProps: adjacentFormItemProps,
 						},
 						{
 							name: 'isTrashed',
 							label: __('Trash'),
 							fieldType: 'switch',
+							formControlProps: adjacentFormItemProps,
 						},
 					],
 				},

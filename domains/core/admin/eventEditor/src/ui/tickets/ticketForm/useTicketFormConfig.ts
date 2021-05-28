@@ -34,6 +34,10 @@ export const FIELD_NAMES: Array<keyof Ticket> = [
 const decorators = [startAndEndDateFixer];
 const VISIBILITY_OPTIONS = getEEDomData('eventEditor').ticketMeta.visibilityOptions;
 
+const adjacentFormItemProps = {
+	className: 'ee-form-item-pair',
+};
+
 export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): TicketFormConfig => {
 	const ticket = useTicketItem({ id });
 
@@ -104,6 +108,7 @@ export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): T
 							label: __('Start Date'),
 							fieldType: 'datetimepicker',
 							required: true,
+							formControlProps: adjacentFormItemProps,
 						},
 						{
 							name: 'endDate',
@@ -111,6 +116,7 @@ export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): T
 							fieldType: 'datetimepicker',
 							required: true,
 							wrapper: EndDateFieldWrapper,
+							formControlProps: adjacentFormItemProps,
 						},
 					],
 				},
@@ -131,6 +137,7 @@ export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): T
 								'\n' +
 								__('Set to 0 to stop sales, or leave blank for no limit.'),
 							width: 'small',
+							formControlProps: adjacentFormItemProps,
 						},
 						{
 							name: 'uses',
@@ -148,6 +155,7 @@ export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): T
 									'Example: A ticket might have access to 4 different dates, but setting this field to 2 would mean that the ticket could only be used twice. Leave blank for no limit.'
 								),
 							width: 'small',
+							formControlProps: adjacentFormItemProps,
 						},
 						{
 							name: 'min',
@@ -162,6 +170,7 @@ export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): T
 								'\n' +
 								__('Leave blank for no minimum.'),
 							width: 'small',
+							formControlProps: adjacentFormItemProps,
 						},
 						{
 							name: 'max',
@@ -177,13 +186,7 @@ export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): T
 								'\n' +
 								__('Leave blank for no maximum.'),
 							width: 'small',
-						},
-						{
-							name: 'visibility',
-							label: __('Visibility'),
-							fieldType: 'select',
-							info: __('Where the ticket can be viewed throughout the UI.'),
-							options: VISIBILITY_OPTIONS,
+							formControlProps: adjacentFormItemProps,
 						},
 						{
 							name: 'isRequired',
@@ -193,11 +196,20 @@ export const useTicketFormConfig = (id: EntityId, config?: EspressoFormProps): T
 								'If enabled, the ticket must be selected and will appear first in frontend ticket lists.'
 							),
 							width: 'small',
+							formControlProps: adjacentFormItemProps,
 						},
 						{
 							name: 'isTrashed',
 							label: __('Trash'),
 							fieldType: 'switch',
+							formControlProps: adjacentFormItemProps,
+						},
+						{
+							name: 'visibility',
+							label: __('Visibility'),
+							fieldType: 'select',
+							info: __('Where the ticket can be viewed throughout the UI.'),
+							options: VISIBILITY_OPTIONS,
 						},
 					],
 				},
