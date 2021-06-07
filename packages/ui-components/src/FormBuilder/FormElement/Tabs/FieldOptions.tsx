@@ -1,17 +1,19 @@
-import { useCallback, CSSProperties } from 'react';
+import { useCallback } from 'react';
+import classNames from 'classnames';
 import { adjust, assoc, remove } from 'ramda';
 
 import { __ } from '@eventespresso/i18n';
-import { Trash, Plus } from '@eventespresso/icons';
+import { Plus } from '@eventespresso/icons';
+import { DragDropContext, Droppable } from '@eventespresso/adapters';
 
+import { FieldOption } from './FieldOption';
 import { FormElementProps } from '../../types';
-import { TextInput } from '../../../text-input';
 import { withLabel } from '../../../withLabel';
-import { IconButton } from '../../../Button';
+import { Button } from '../../../Button';
 import { useUpdateElement } from '../useUpdateElement';
 
-const inputRowStyles: CSSProperties = {
-	display: 'flex',
+const handleDnD = (args) => {
+	console.log('%c args', 'color: LimeGreen;', args);
 };
 
 const FieldOptions: React.FC<FormElementProps> = ({ element }) => {
@@ -42,33 +44,50 @@ const FieldOptions: React.FC<FormElementProps> = ({ element }) => {
 	}, [element.options, updateElement]);
 
 	return (
-		<>
-			<div>
-				{(element.options || []).map(({ value, label }, index) => {
-					return (
-						<div key={`${index}`} style={inputRowStyles}>
-							<TextInput
-								onChangeValue={onChangeOptionInput('value', index)}
-								value={value}
-								placeholder={__('value')}
-							/>
-							<TextInput
-								onChangeValue={onChangeOptionInput('label', index)}
-								value={label as string}
-								placeholder={__('label')}
-							/>
-							<IconButton aria-label={__('remove option')} icon={Trash} onClick={onRemoveOption(index)} />
-						</div>
-					);
-				})}
-				<IconButton aria-label={__('add option')} icon={Plus} onClick={onAddOption} />
-			</div>
+		<div className='ee-field-options'>
 			<p className='ee-field-options__desc'>
+				{__('Options are the choices you give people to select from.')}
+				<br />
 				{__(
-					'Options are the choices you give people to select from. The value is a simple key that will be saved to the database and the label is what is shown to the user.'
+					'The value is a simple key that will be saved to the database and the label is what is shown to the user.'
 				)}
 			</p>
-		</>
+			<DragDropContext onDragEnd={handleDnD}>
+				<Droppable droppableId={`ee-field-option-${element.UUID}`} type='option'>
+					{({ innerRef, droppableProps, placeholder }, { isDraggingOver }) => {
+						const className = classNames(
+							'ee-droppable',
+							isDraggingOver && 'ee-droppable--is-dragging-over'
+						);
+						return (
+							<div {...droppableProps} className={className} ref={innerRef}>
+								{(element.options || []).map(({ value, label }, index) => {
+									return (
+										<FieldOption
+											key={`${index}`}
+											index={index}
+											label={label}
+											onChange={onChangeOptionInput}
+											onRemove={onRemoveOption}
+											UUID={element.UUID}
+											value={value}
+										/>
+									);
+								})}
+								{placeholder}
+							</div>
+						);
+					}}
+				</Droppable>
+			</DragDropContext>
+			<Button
+				buttonText={__('add new option')}
+				className='ee-field-options__add-option'
+				icon={Plus}
+				onClick={onAddOption}
+				size='smaller'
+			/>
+		</div>
 	);
 };
 
