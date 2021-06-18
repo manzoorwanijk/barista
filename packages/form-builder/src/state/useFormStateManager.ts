@@ -15,7 +15,8 @@ export const useFormStateManager: FormStateManagerHook = ({ onChange, ...props }
 
 	useEffect(() => {
 		onChange?.(state);
-	}, [onChange, state]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state]);
 
 	const getData = useCallback<FSM['getData']>(() => state, [state]);
 
@@ -43,11 +44,10 @@ export const useFormStateManager: FormStateManagerHook = ({ onChange, ...props }
 		});
 	}, []);
 
-	const copySection = useCallback<FSM['copySection']>(({ id, section }) => {
+	const copySection = useCallback<FSM['copySection']>(({ id }) => {
 		dispatch({
 			type: 'COPY_SECTION',
 			id,
-			section,
 		});
 	}, []);
 
@@ -70,6 +70,21 @@ export const useFormStateManager: FormStateManagerHook = ({ onChange, ...props }
 	const deleteSection = useCallback<FSM['deleteSection']>(({ id }) => {
 		dispatch({
 			type: 'DELETE_SECTION',
+			id,
+		});
+	}, []);
+
+	const markSectionAsSaved = useCallback<FSM['markSectionAsSaved']>(({ id, section }) => {
+		dispatch({
+			type: 'MARK_SECTION_AS_SAVED',
+			id,
+			section,
+		});
+	}, []);
+
+	const markSectionAsDeleted = useCallback<FSM['markSectionAsDeleted']>(({ id }) => {
+		dispatch({
+			type: 'MARK_SECTION_AS_DELETED',
 			id,
 		});
 	}, []);
@@ -112,6 +127,21 @@ export const useFormStateManager: FormStateManagerHook = ({ onChange, ...props }
 		});
 	}, []);
 
+	const markElementAsSaved = useCallback<FSM['markElementAsSaved']>(({ id, element }) => {
+		dispatch({
+			type: 'MARK_ELEMENT_AS_SAVED',
+			id,
+			element,
+		});
+	}, []);
+
+	const markElementAsDeleted = useCallback<FSM['markElementAsDeleted']>(({ id }) => {
+		dispatch({
+			type: 'MARK_ELEMENT_AS_DELETED',
+			id,
+		});
+	}, []);
+
 	const isElementOpen = useCallback<FSM['isElementOpen']>(({ id }) => id === state.openElement, [state.openElement]);
 
 	const toggleOpenElement = useCallback<FSM['toggleOpenElement']>(({ openElement }) => {
@@ -138,6 +168,10 @@ export const useFormStateManager: FormStateManagerHook = ({ onChange, ...props }
 			getElements,
 			getSections,
 			isElementOpen,
+			markElementAsDeleted,
+			markElementAsSaved,
+			markSectionAsDeleted,
+			markSectionAsSaved,
 			moveElement,
 			moveSection,
 			reset,
