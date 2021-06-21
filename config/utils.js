@@ -1,8 +1,12 @@
 const R = require('ramda');
+const {
+	camelCaseDash,
+	defaultRequestToExternal,
+	defaultRequestToHandle,
+} = require('@wordpress/dependency-extraction-webpack-plugin/lib/util');
+
 const EVENTESPRESSO_NAMESPACE = '@eventespresso/';
 const BUNDLED_PACKAGES = ['@eventespresso/icons'];
-
-const WORDPRESS_NAMESPACE = '@wordpress/';
 
 /**
  * Request to global transformation
@@ -14,31 +18,18 @@ const WORDPRESS_NAMESPACE = '@wordpress/';
  * @type {import('.').RequestToExternal}
  */
 function requestToExternal(request) {
-	// eslint-disable-next-line default-case
-	switch (request) {
-		case 'jquery':
-			return 'jQuery';
+	switch (true) {
+		case BUNDLED_PACKAGES.includes(request):
+			return undefined;
 
-		case 'react':
-			return 'React';
+		case request.startsWith(EVENTESPRESSO_NAMESPACE):
+			return ['eventespresso', camelCaseDash(request.substring(EVENTESPRESSO_NAMESPACE.length))];
 
-		case 'react-dom':
-			return 'ReactDOM';
-
-		case 'ramda':
+		case request === 'ramda':
 			return 'R';
-	}
 
-	if (BUNDLED_PACKAGES.includes(request)) {
-		return undefined;
-	}
-
-	if (request.startsWith(EVENTESPRESSO_NAMESPACE)) {
-		return ['eventespresso', camelCaseDash(request.substring(EVENTESPRESSO_NAMESPACE.length))];
-	}
-
-	if (request.startsWith(WORDPRESS_NAMESPACE)) {
-		return ['wp', camelCaseDash(request.substring(WORDPRESS_NAMESPACE.length))];
+		default:
+			return defaultRequestToExternal(request);
 	}
 }
 
@@ -56,21 +47,7 @@ function requestToHandle(request) {
 	if (request.startsWith(EVENTESPRESSO_NAMESPACE)) {
 		return 'eventespresso-' + camelCaseDash(request.substring(EVENTESPRESSO_NAMESPACE.length));
 	}
-	if (request.startsWith(WORDPRESS_NAMESPACE)) {
-		return 'wp-' + request.substring(WORDPRESS_NAMESPACE.length);
-	}
-}
-
-/**
- * Given a string, returns a new string with dash separators converted to
- * camelCase equivalent.
- *
- * @param {string} string Input dash-delimited string.
- *
- * @return {string} Camel-cased string.
- */
-function camelCaseDash(string) {
-	return string.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+	return defaultRequestToHandle(request);
 }
 
 /**
