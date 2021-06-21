@@ -3,7 +3,21 @@ module.exports = function (api) {
 
 	const presets = ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'];
 
-	const plugins = ['@babel/plugin-transform-runtime'];
+	const plugins = [
+		[
+			'@babel/plugin-transform-runtime',
+			{
+				/**
+				 * `absoluteRuntime` needs to be true for our monorepo set up
+				 * @see https://babeljs.io/docs/en/babel-plugin-transform-runtime#absoluteruntime
+				 */
+				absoluteRuntime: true,
+				corejs: false,
+				helpers: true,
+				regenerator: true,
+			},
+		],
+	];
 
 	const productionPlugins = [];
 	if (process.env.BUILD_POT !== 'false') {

@@ -47,6 +47,7 @@ function requestToHandle(request) {
 	if (request.startsWith(EVENTESPRESSO_NAMESPACE)) {
 		return 'eventespresso-' + camelCaseDash(request.substring(EVENTESPRESSO_NAMESPACE.length));
 	}
+
 	return defaultRequestToHandle(request);
 }
 
