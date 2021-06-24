@@ -13,6 +13,8 @@ export const FormElementInput = memo<FormElementProps>(({ element }) => {
 	const props = useMemo(() => {
 		let inputProps: AnyObject = {
 			placeholder: element.placeholder,
+			// ensure that the field is not required inside form builder 😄
+			required: false,
 		};
 		switch (element.type) {
 			case 'checkbox-multi':
@@ -77,8 +79,14 @@ export const FormElementInput = memo<FormElementProps>(({ element }) => {
 	}, [element, onChangeValue]);
 
 	return (
-		<FormControl className='ee-form-element__input' isRequired={element.required}>
-			<MappedElement type={element.type} id={element.id} label={element.publicLabel} {...props} />
+		<FormControl className='ee-form-element__input'>
+			<MappedElement
+				type={element.type}
+				id={element.id}
+				label={element.publicLabel}
+				isRequired={element.required}
+				{...props}
+			/>
 			{element.helpText && <FormHelperText>{element.helpText}</FormHelperText>}
 		</FormControl>
 	);
