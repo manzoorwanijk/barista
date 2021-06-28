@@ -1,9 +1,12 @@
 import { useCallback } from 'react';
+import * as R from 'ramda';
+
+import { strToPath, PropsPath } from '@eventespresso/utils';
 
 import type { FormElement } from '../types';
 import { useFormState } from '../state';
 
-type OnChangeValue = (field: keyof FormElement) => (value: any) => void;
+type OnChangeValue = (field: PropsPath<FormElement>) => (value: any) => void;
 
 /**
  * Returns an onChange handler for field inputs of an element settings
@@ -13,7 +16,9 @@ export const useUpdateElement = (element: FormElement): OnChangeValue => {
 
 	return useCallback<OnChangeValue>(
 		(field) => (value) => {
-			updateElement({ id: element.id, element: { [field]: value } });
+			// create a nested object from the dotted key and value
+			const newElement = R.assocPath(strToPath(field), value, {});
+			updateElement({ id: element.id, element: newElement });
 		},
 		[element.id, updateElement]
 	);
