@@ -10,6 +10,7 @@ export interface FormState {
 	elements: AnyObject<FormElement>;
 	deletedSections: Array<string>;
 	deletedElements: Array<string>;
+	topLevelSection: string;
 	isDirty: boolean;
 	openElement?: string;
 }
@@ -57,6 +58,7 @@ export interface FormStateManager extends FormState {
 	getElements: (args: Pick<ArgsData, 'sectionId'>) => Array<FormElement>;
 	getSections: () => Array<FormSection>;
 	isElementOpen: (args: Pick<ArgsData, 'id'>) => boolean;
+	isTopLevelSection: (args: Pick<ArgsData, 'id'>) => boolean;
 	markElementAsDeleted: (args: Pick<ArgsData, 'id'>) => void;
 	markElementAsSaved: (args: Pick<ArgsData, 'id' | 'element'>) => void;
 	markSectionAsDeleted: (args: Pick<ArgsData, 'id'>) => void;
