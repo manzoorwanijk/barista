@@ -1,13 +1,12 @@
 import { useMemo, forwardRef } from 'react';
-
 import classNames from 'classnames';
 
 import { Select as SelectAdapter } from '@eventespresso/adapters';
-
-import type { SelectProps } from './types';
 import { withDebounce } from '../withDebounce';
 
 import './style.scss';
+
+import type { SelectProps } from './types';
 
 const InlineSelect = forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
 	const className = classNames('ee-select--inline', props.className);

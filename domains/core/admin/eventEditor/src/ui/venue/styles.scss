@@ -1,0 +1,192 @@
+@import '~@eventespresso/styles/src/mixins/breakpoints';
+
+.ee-event-venue {
+	color: var(--ee-default-text-color);
+	font-size: var(--ee-font-size-default);
+	justify-content: space-between;
+	line-height: var(--ee-line-height-modifier);
+
+	.ee-container {
+		width: 100%;
+
+		&__section {
+			display: flex;
+			flex-direction: column;
+			@include min767px {
+				flex-direction: row;
+			}
+		}
+	}
+
+	&__card {
+		background: var(--ee-background-color);
+		border-radius: var(--ee-border-radius-big);
+		box-shadow: var(--ee-box-shadow-tiny-diffuse);
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: var(--ee-padding-smaller);
+		max-width: 100%;
+		min-width: 320px;
+
+		@include min767px {
+			flex-direction: row;
+			max-width: 728px;
+		}
+	}
+
+	&__properties {
+		align-items: flex-start;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		padding: var(--ee-padding-small) 0;
+		width: 100%;
+
+		@include min767px {
+			max-height: 640px;
+			min-width: 320px;
+			padding: 0 var(--ee-padding-small);
+		}
+	}
+
+	h4.ee-heading.ee-event-venue__venue-name {
+		color: var(--ee-default-text-color-low-contrast);
+		font-size: var(--ee-font-size-big);
+		line-height: var(--ee-font-size-bigger);
+		margin: 0;
+		margin-block-end: var(--ee-margin-smaller);
+		text-align: start;
+	}
+
+	/*
+		~ overlay parent venue name on photo after that is added ~
+		h4.ee-heading.ee-event-venue__venue-name {
+		// color: var(--ee-default-text-color-high-contrast);
+		color: white;
+		font-size: var(--ee-font-size-bigger);
+		line-height: var(--ee-font-size-bigger);
+		margin: 0;
+		margin-inline: var(--ee-margin-smaller);
+		position: absolute;
+		text-align: start;
+		text-shadow: rgba(0, 0, 0, .5) 0 0 1px,  rgba(0, 0, 0, .5) 0 0 1px,   rgba(0, 0, 0, .5) 0 0 1px,
+             rgba(0, 0, 0, .5) 0 0 1px,   rgba(0, 0, 0, .5) 0 0 1px,   rgba(0, 0, 0, .5) 0 0 1px,
+             rgba(0, 0, 0, .5) 0 0 1px,   rgba(0, 0, 0, .5) 0 0 1px,   rgba(0, 0, 0, .5) 0 0 1px,
+             rgba(0, 0, 0, .5) 1px 1px 1px,   rgba(0, 0, 0, .5) 1px 1px 1px,
+             rgba(0, 0, 0, .5) 1px -1px 1px,   rgba(0, 0, 0, .5) 1px -1px 1px,
+             rgba(0, 0, 0, .5) -1px 1px 1px,   rgba(0, 0, 0, .5) -1px 1px 1px,
+             rgba(0, 0, 0, .5) -1px -1px 1px,   rgba(0, 0, 0, .5) -1px -1px 1px;
+		top: var(--ee-margin-smaller);
+    	-webkit-font-smoothing: antialiased;
+	}
+	 */
+
+	&__desc {
+		margin: 0;
+		margin-block-end: var(--ee-margin-default);
+	}
+
+	&__details {
+		align-items: flex-start;
+		display: flex;
+		flex-flow: column nowrap;
+		font-size: var(--ee-font-size-small);
+		margin: 0;
+		margin-block-end: var(--ee-margin-tiny);
+		width: 100%;
+	}
+
+	&__detail {
+		display: flex;
+		flex-flow: row nowrap;
+		margin: 0;
+		margin-block-end: var(--ee-margin-smaller);
+		width: 100%;
+
+		&-label {
+			display: inline-block;
+			flex-shrink: 0;
+			margin: 0;
+			margin-inline-end: var(--ee-margin-tiny);
+			width: 2rem;
+
+			svg.ee-svg.ee-svg {
+				margin: 0;
+			}
+		}
+
+		&-value {
+			display: inline-block;
+			line-height: var(--ee-font-size-default);
+		}
+	}
+
+	&__edit-link {
+		font-size: var(--ee-font-size-small);
+	}
+
+	&__thumbnail {
+		border-radius: var(--ee-border-radius-default);
+		max-width: 100%;
+		margin-inline-end: var(--ee-margin-tiny);
+		max-height: 320px;
+		min-height: 180px;
+		min-width: 180px;
+		overflow: hidden;
+		position: relative;
+		width: 100%;
+
+		@include min767px {
+			max-width: 320px;
+		}
+
+		&--no-image {
+			align-items: center;
+			background: var(--ee-color-grey-15);
+			color: var(--ee-color-grey-12);
+			display: flex;
+			font-size: var(--ee-font-size-huge);
+			font-weight: 800;
+			justify-content: center;
+		}
+
+		img {
+			border-radius: var(--ee-border-radius-default);
+			height: 100%;
+			max-width: 100%;
+			max-height: 320px;
+			min-height: 180px;
+			min-width: 180px;
+			width: 100%;
+
+			@include min767px {
+				max-width: 320px;
+				object-fit: cover;
+			}
+		}
+	}
+
+	.ee-venue-selector {
+		max-width: 100%;
+		min-width: 320px;
+		width: 100%;
+
+		@include min767px {
+			margin: 0;
+			width: min-content;
+		}
+	}
+
+	svg.ee-svg.ee-svg {
+		color: var(--ee-default-text-color-low-contrast) ! important;
+		height: 1.5rem;
+		width: 1.5rem;
+	}
+}
+
+.ee-event-venue__card + .ee-venue-selector {
+	margin-inline-start: var(--ee-margin-small);
+}

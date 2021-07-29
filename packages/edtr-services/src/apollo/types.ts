@@ -1,4 +1,5 @@
 import type {
+	Address,
 	Entity,
 	EntityId,
 	EntityEdge,
@@ -69,6 +70,7 @@ export interface Datetime extends Entity, Trashable {
 	sold: number;
 	startDate: string;
 	status: DateStatus;
+	venue: string;
 }
 
 export interface DatetimeItem {
@@ -159,14 +161,15 @@ export interface PriceTypesList {
 	espressoPriceTypes: PriceTypeEdge;
 }
 
-export interface Venue extends Entity {
-	address: string;
-	address2: string;
-	city: string;
-	countryName: string;
+export interface Venue extends Entity, Address {
+	capacity: number;
+	description: string;
+	googleMapLink: string;
 	name: string;
-	stateName: string;
-	zip: string;
+	phone: string;
+	shortDescription: string;
+	thumbnail: string;
+	url: string;
 }
 
 export type VenueEdge = EntityEdge<Venue, 'RootQueryToEspressoVenueConnection'>;

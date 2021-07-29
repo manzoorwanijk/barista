@@ -1,15 +1,19 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { __ } from '@eventespresso/i18n';
-import { useVenues, useEventMutator, useEvent } from '@eventespresso/edtr-services';
-import { entityListToSelectOptions } from '@eventespresso/utils';
+import { __, sprintf } from '@eventespresso/i18n';
+import { Image } from '@eventespresso/adapters';
+import { useEvent, useEventMutator, useVenues } from '@eventespresso/edtr-services';
+import { isInfinite } from '@eventespresso/utils';
 import { findEntityByGuid } from '@eventespresso/predicates';
-import { AddressView, Container, Heading, SelectWithLabel, Link } from '@eventespresso/ui-components';
+import { Address, Container, Heading, Link, VenueSelector } from '@eventespresso/ui-components';
+import { MapMarker, Phone, VenueSeat } from '@eventespresso/icons';
 
 import { useVenueLink } from './useVenueLink';
 
+import './styles.scss';
+
 const classes = {
-	container: 'ee-edtr-section',
+	container: 'ee-edtr-section ee-event-venue',
 };
 
 const header = (
@@ -20,56 +24,91 @@ const header = (
 
 export const VenueDetails: React.FC = () => {
 	const event = useEvent();
-
+	const { updateEntity } = useEventMutator(event?.id);
 	const [selectedVenueId, setSelectedVenueId] = useState(event?.venue || '');
 
-	const { updateEntity: updateEvent } = useEventMutator(event?.id);
-
-	const onChangeInstantValue = useCallback((newValue: string) => {
-		setSelectedVenueId(newValue);
-	}, []);
-
-	const onChangeValue = useCallback(
-		(newVenue: string) => {
-			// lets avoid unnecessary mutation
-			if (event?.venue !== newVenue) {
-				updateEvent({ venue: newVenue });
-			}
-		},
-		[event?.venue, updateEvent]
-	);
-
 	const venues = useVenues();
-
-	const options = useMemo(() => entityListToSelectOptions(venues), [venues]);
-
 	const selectedVenue = useMemo(() => findEntityByGuid(venues)(selectedVenueId), [selectedVenueId, venues]);
 
 	const createVenueLink = useVenueLink('create_new');
 	const editVenueLink = useVenueLink('edit', selectedVenue?.dbId);
 
+	const capacity = selectedVenue?.capacity;
+	const venueCapacity = isInfinite(capacity)
+		? __('unlimited space')
+		: sprintf(
+				/* translators: %d venue capacity */
+				__('Space for up to %d people'),
+				selectedVenue?.capacity
+		  );
+
+	const onChangeInstantValue = useCallback((newValue) => setSelectedVenueId(newValue), []);
+
+	const onChangeValue = useCallback((venue) => updateEntity({ venue }), [updateEntity]);
+	const thumbnail = selectedVenue?.thumbnail;
+
 	return (
-		<Container id='ee-event-venue-details' classes={classes} header={header}>
-			<SelectWithLabel
-				id='ee-event-venue'
-				flow='inline'
-				label={__('Select from Venue Manager List')}
+		<Container classes={classes} header={header}>
+			{selectedVenue && (
+				<div className='ee-event-venue__card'>
+					{thumbnail ? (
+						<div className='ee-event-venue__thumbnail'>
+							<Image src={thumbnail} alt={selectedVenue?.name} />
+						</div>
+					) : (
+						<div className='ee-event-venue__thumbnail ee-event-venue__thumbnail--no-image'>
+							{__('no image')}
+						</div>
+					)}
+					<div className='ee-event-venue__properties'>
+						<Heading as='h4' className='ee-event-venue__venue-name'>
+							{selectedVenue?.name}
+						</Heading>
+						<div className='ee-event-venue__desc'>
+							<p>{selectedVenue?.shortDescription}</p>
+						</div>
+						<div className='ee-event-venue__details'>
+							<div className='ee-event-venue__detail'>
+								<span className='ee-event-venue__detail-label'>
+									<MapMarker />
+								</span>
+								<span className='ee-event-venue__detail-value'>
+									<Address className='ee-event-venue__address' inline {...selectedVenue} />
+								</span>
+							</div>
+							<div className='ee-event-venue__detail'>
+								<span className='ee-event-venue__detail-label'>
+									<VenueSeat />
+								</span>
+								<span className='ee-event-venue__detail-value'>{venueCapacity}</span>
+							</div>
+							<div className='ee-event-venue__detail'>
+								<span className='ee-event-venue__detail-label'>
+									<Phone />
+								</span>
+								<span className='ee-event-venue__detail-value'>
+									{selectedVenue?.phone || '(###) ###-####'}
+								</span>
+							</div>
+						</div>
+						<div className='ee-event-venue__actions'>
+							<Link className='ee-event-venue__edit-link' href={editVenueLink}>
+								{__('Edit this Venue')}
+							</Link>
+						</div>
+					</div>
+				</div>
+			)}
+			<VenueSelector
+				className='ee-event-venue'
+				createVenueLink={createVenueLink}
+				label={__('Select a Venue for the Event')}
 				onChangeValue={onChangeValue}
 				onChangeInstantValue={onChangeInstantValue}
-				options={options}
-				size='small'
-				value={selectedVenueId}
+				value={event?.venue}
+				venueName={selectedVenue?.name}
+				venues={venues}
 			/>
-			<div>
-				{selectedVenue && (
-					<>
-						<AddressView {...selectedVenue} />
-						<Link href={editVenueLink}>{__('Edit this Venue')}</Link>
-						<p>{__('or')}</p>
-					</>
-				)}
-				<Link href={createVenueLink}>{__('Add new Venue')}</Link>
-			</div>
 		</Container>
 	);
 };

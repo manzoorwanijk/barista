@@ -1,0 +1,63 @@
+@import '~@eventespresso/styles/src/mixins/breakpoints';
+
+.ee-venue-selector {
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+	width: 100%;
+
+	&--inline {
+		align-items: center;
+		flex-direction: row;
+	}
+
+	&--align-center {
+		text-align: center;
+	}
+
+	.ee-input__wrapper,
+	.ee-select-wrapper {
+		width: 100%;
+	}
+
+	&__edit-link,
+	&__add-new-link {
+		font-size: var(--ee-font-size-small);
+	}
+
+	&__add-new-link.ee-btn-base.ee-icon-button {
+		margin-inline-start: var(--ee-margin-tiny);
+	}
+	&__preview {
+		width: 100%;
+
+		&--no-venue {
+			align-items: center;
+			display: flex;
+		}
+
+		.ee-heading {
+			color: var(--ee-default-text-color-low-contrast) ! important;
+			display: flex;
+			font-weight: 700;
+			line-height: var(--ee-font-size-big);
+			margin: 0 !important;
+
+			span {
+				margin-block-start: var(--ee-margin-micro);
+				margin-inline-start: var(--ee-margin-tiny);
+			}
+
+			&--align-center {
+				text-align: center;
+			}
+
+			svg.ee-svg.ee-svg {
+				color: var(--ee-default-text-color-low-contrast) ! important;
+				height: 1.5rem;
+				margin: 0;
+				width: 1.5rem;
+			}
+		}
+	}
+}

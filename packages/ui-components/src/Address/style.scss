@@ -1,0 +1,40 @@
+.ee-address {
+	display: flex;
+	flex-direction: column;
+
+	&__header {
+		font-weight: bold;
+		margin-block-end: var(--ee-margin-tiny);
+	}
+
+	&__line {
+		display: flex;
+	}
+
+	&--inline {
+		flex-direction: row;
+		.ee-address__line {
+			svg.ee-svg.ee-svg--mapMarker {
+				margin: 0;
+				margin-block-start: var(--ee-margin-micro);
+				margin-inline-end: var(--ee-margin-tiny);
+			}
+		}
+	}
+
+	&__label,
+	&__value {
+		flex: 1;
+	}
+
+	&__label {
+		font-weight: bold;
+	}
+
+	&__value {
+		&--inline {
+			flex: unset;
+			margin-inline-end: var(--ee-margin-nano);
+		}
+	}
+}
