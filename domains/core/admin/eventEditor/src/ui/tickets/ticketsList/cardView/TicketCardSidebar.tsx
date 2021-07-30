@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { __ } from '@eventespresso/i18n';
 
@@ -25,10 +25,23 @@ const TicketCardSidebar: React.FC<Partial<TicketItemProps>> = ({ entity: ticket 
 	);
 	const statusText = getTicketStatusTextLabel(ticket);
 
+	const labels = useMemo(() => {
+		return {
+			headerFuture: displayStartOrEndDate === 'start' ? __('sales start') : __('sales end'),
+			headerPast:
+				displayStartOrEndDate === 'start'
+					? __('sales began')
+					: ticket.isExpired
+					? __('sales ended')
+					: __('sales end'), // if the ticket is not expired, then it's still on sale
+		};
+	}, [ticket.isExpired, displayStartOrEndDate]);
+
 	return ticket ? (
 		<>
 			<CalendarDateSwitcher
 				displayDate={displayStartOrEndDate}
+				labels={labels}
 				endDate={ticket.endDate}
 				startDate={ticket.startDate}
 			/>
