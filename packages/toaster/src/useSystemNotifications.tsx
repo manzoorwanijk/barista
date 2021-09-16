@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { toast } from 'react-toastify';
 
-import type { DissmissToast, SystemNotificationsToaster, ToastProps, UpdateToast } from './types';
-import { Toaster } from './Toaster';
+import type { DissmissToast, SystemNotificationsToaster, ToastProps } from './types';
+import toasterIcons from './toasterIcons';
 
 const position = toast.POSITION.BOTTOM_RIGHT as 'bottom-right';
 const className = 'ee-toaster-notice__toast';
@@ -15,45 +15,55 @@ const useSystemNotifications = (): SystemNotificationsToaster => {
 	}, []);
 
 	const error = useCallback(({ message }) => {
-		toast(<Toaster message={message} type='error' />, {
+		toast.success(message, {
 			className,
+			icon: toasterIcons['error'],
 			position,
 		});
 	}, []);
 
 	const info = useCallback(({ message }): void => {
-		toast(<Toaster message={message} type='info' />, {
+		toast.success(message, {
 			className,
+			icon: toasterIcons['info'],
 			position,
 		});
 	}, []);
 
 	const loading = useCallback(({ autoClose, key: toastId, message }: ToastProps): void => {
-		toast(<Toaster message={message} type='loading' />, {
+		toast.loading(message, {
 			autoClose,
 			className,
+			icon: toasterIcons['loading'],
 			position,
 			toastId,
 		});
 	}, []);
 
 	const success = useCallback(({ message, toastId }): void => {
-		toast(<Toaster message={message} type='success' />, {
+		toast.success(message, {
 			className,
+			icon: toasterIcons['success'],
 			position,
 			toastId,
 		});
 	}, []);
 
-	const update: UpdateToast = useCallback(({ key, message, type }) => {
-		const render = (): JSX.Element => <Toaster message={message} type={type} />;
-
-		toast.update(key, { autoClose: 5000, render, type });
+	const update = useCallback(({ key, message, type }): void => {
+		toast.update(key, {
+			autoClose: 4000,
+			isLoading: false,
+			closeButton: true,
+			render: message,
+			icon: toasterIcons[type],
+			type,
+		});
 	}, []);
 
 	const warning = useCallback(({ message }): void => {
-		toast(<Toaster message={message} type='warning' />, {
+		toast.warn(message, {
 			className,
+			icon: toasterIcons['warning'],
 			position,
 		});
 	}, []);

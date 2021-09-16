@@ -44,6 +44,15 @@
 		.Toastify__close-button {
 			color: var(--ee-default-text-color);
 		}
+
+		.Toastify__toast-icon {
+			width: fit-content;
+
+			.ee-loading-spinner {
+				animation: var(--ee-animation-spin);
+				@include reduce-motion('animation');
+			}
+		}
 	}
 
 	.ee-toaster-notice {
