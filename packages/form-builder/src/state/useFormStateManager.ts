@@ -9,7 +9,7 @@ import { useInitialState } from './useInitialState';
 
 type FSM = FormStateManager;
 
-export const useFormStateManager: FormStateManagerHook = ({ onChange, ...props }) => {
+export const useFormStateManager: FormStateManagerHook = ({ onChange, appliesToOptions, mapsToOptions, ...props }) => {
 	const initializer = useInitialState(props);
 	const reducer = useFormStateReducer(initializer);
 	const [state, dispatch] = useReducer(reducer, initialState, initializer);
@@ -49,11 +49,12 @@ export const useFormStateManager: FormStateManagerHook = ({ onChange, ...props }
 		});
 	}, []);
 
-	const copySection = useCallback<FSM['copySection']>(({ id, section }) => {
+	const copySection = useCallback<FSM['copySection']>(({ id, section, afterId }) => {
 		dispatch({
 			type: 'COPY_SECTION',
 			id,
 			section,
+			afterId,
 		});
 	}, []);
 
@@ -171,6 +172,7 @@ export const useFormStateManager: FormStateManagerHook = ({ onChange, ...props }
 			...state,
 			addElement,
 			addSection,
+			appliesToOptions,
 			copyElement,
 			copySection,
 			deleteElement,
@@ -181,6 +183,7 @@ export const useFormStateManager: FormStateManagerHook = ({ onChange, ...props }
 			getSharedSections,
 			isElementOpen,
 			isTopLevelSection,
+			mapsToOptions,
 			markElementAsDeleted,
 			markElementAsSaved,
 			markSectionAsDeleted,
