@@ -1,5 +1,6 @@
 import { useFormState } from '../../data';
 
+import { ErrorMessage } from '@eventespresso/ui-components';
 import { getLimitsWarning, useIsCountCapped } from '../../utils';
 
 const Warning: React.FC = () => {
@@ -12,7 +13,7 @@ const Warning: React.FC = () => {
 	}
 	const warning = getLimitsWarning(rRule);
 
-	return <p className={'rem-max-event-dates-warning'}>{warning}</p>;
+	return <ErrorMessage wrapperClassName='rrule-generator-wrapper' message={warning} />;
 };
 
 export default Warning;
