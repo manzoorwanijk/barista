@@ -3,6 +3,8 @@ name: E2E tests on master
 on:
     push:
         branches: [master]
+    # Allow to run E2E on demand
+    workflow_dispatch:
 env:
     PLAYWRIGHT_BROWSERS_PATH: 0 # See https://playwright.dev/docs/ci/#caching-browsers
 jobs:
