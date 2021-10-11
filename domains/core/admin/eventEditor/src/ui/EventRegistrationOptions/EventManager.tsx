@@ -2,29 +2,29 @@ import { useMemo } from 'react';
 
 import { __ } from '@eventespresso/i18n';
 import { entityListToSelectOptions } from '@eventespresso/utils';
-import { GridItem, Select } from '@eventespresso/ui-components';
+import { SelectWithLabel } from '@eventespresso/ui-components';
 import type { EventRegistrationOptionsProps } from './types';
 
 interface Props extends Pick<EventRegistrationOptionsProps, 'eventManagers' | 'managerId' | 'onManagerChange'> {}
 
 const EventManager: React.FC<Props> = ({ eventManagers, managerId, onManagerChange }) => {
-	const id = 'ee-event-registration-manager';
-
 	const options = useMemo(() => eventManagers && entityListToSelectOptions(eventManagers), [eventManagers]);
 
 	return (
-		<GridItem id={id} label={__('Event Manager')}>
-			<div className='ee-reg-option__value'>
-				<Select
-					flow='inline'
-					id={`${id}-select`}
-					noBorderColor
-					onChangeValue={onManagerChange}
-					options={options}
-					value={managerId}
-				/>
-			</div>
-		</GridItem>
+		<SelectWithLabel
+			className='ee-edtr-option ee-edtr-option__event-manager'
+			label={__('Event Manager')}
+			fitContainer
+			flow='inline'
+			id='ee-event-registration-manager'
+			noBorderColor
+			onChangeValue={onManagerChange}
+			options={options}
+			value={managerId}
+			labelClassName='ee-grid__item-label'
+			labelPosition='left-middle'
+			wrapperClassName='ee-edtr-option__wrapper ee-edtr-option__event-manager-wrapper'
+		/>
 	);
 };
 

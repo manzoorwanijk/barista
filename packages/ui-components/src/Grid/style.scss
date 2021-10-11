@@ -1,323 +1,226 @@
 @import '~@eventespresso/styles/src/mixins/breakpoints';
 
-.ee-grid.ee-grid {
-	display: grid;
-	grid-gap: var(--ee-padding-tiny);
-	grid-template-columns: repeat(24, minmax(0, 1fr)) !important;
-	margin: var(--ee-margin-tiny) 0;
 
-	@include min667px {
-		grid-gap: var(--ee-padding-smaller);
-	}
-	@include min960px {
-		grid-gap: var(--ee-padding-small);
-	}
+.columns-1 {
+	--ee-grid-column-modifier: 0;
+}
+.columns-2 {
+	--ee-grid-column-modifier: 1;
+}
 
-	.ee-grid__item {
-		&-label {
-			line-height: calc(var(--ee-line-height-modifier) * 0.875);
-		}
-	}
-
-	.ee-grid__item.ee-grid__item {
-		align-items: flex-start;
-		background: #fff;
+.ee-grid {
+	&-card {
 		background: var(--ee-background-color);
+		border-radius: var(--ee-border-radius-default);
 		box-shadow: var(--ee-box-shadow-tiny-diffuse);
 		box-sizing: border-box;
 		color: var(--ee-default-text-color);
 		display: flex;
-		height: unset;
-		justify-content: space-around;
+		flex-direction: column;
+		gap: var(--ee-padding-tiny);
+		height: 100%;
 		padding: var(--ee-padding-small);
-		grid-column-start: span 24;
 
-		@include min480px {
-			grid-column-start: span 12;
-		}
-		@include min1024px {
-			grid-column-start: span 8;
-		}
-		@include min1280px {
-			grid-column-start: span 6;
-		}
-		@include min1920px {
-			grid-column-start: span 5;
+		&__wrapper {
+			display: flex;
+			flex-direction: column;
 		}
 
-		&--size {
-			&-smaller {
-				grid-column-start: span 12;
+		&__heading.ee-heading.ee-heading {
+			margin: var(--ee-margin-small) 0 var(--ee-margin-micro);
+		}
 
-				@include min480px {
-					grid-column-start: span 9;
+		.ee-input {
+			&__wrapper {
+				body:not(.folded) .columns-1 & {
+					@include max1280px {
+						align-items: flex-start;
+						flex-direction: column;
+					}
 				}
-				@include min600px {
-					grid-column-start: span 8;
-				}
-				@include min667px {
-					grid-column-start: span 8;
-				}
-				@include min960px {
-					grid-column-start: span 8;
-				}
-				@include min1024px {
-					grid-column-start: span 5;
-				}
-				@include min1280px {
-					grid-column-start: span 4;
-				}
-				@include min1600px {
-					grid-column-start: span 3;
+				body:not(.folded) .columns-2 & {
+					@include max1366px {
+						align-items: flex-start;
+						flex-direction: column;
+					}
 				}
 			}
 
-			&-small {
-				@include min480px {
-					grid-column-start: span 12;
-				}
-				@include min960px {
-					grid-column-start: span 10;
-				}
-				@include min1024px {
-					grid-column-start: span 6;
-				}
-				@include min1600px {
-					grid-column-start: span 5;
-				}
-				@include min1920px {
-					grid-column-start: span 4;
-				}
-			}
+			&-label {
+				flex: 0 0 33%;
+				line-height: calc(var(--ee-line-height-modifier) * 0.75);
+				margin: 0;
+				padding: 0;
+				padding-inline-end: 1rem;
+				text-align: end;
+				white-space: normal;
 
-			&-big {
-				@include min480px {
-					grid-column-start: span 24;
-				}
-				@include min667px {
-					grid-column-start: span 18;
-				}
-				@include min960px {
-					grid-column-start: span 16;
-				}
-				@include min1024px {
-					grid-column-start: span 12;
-				}
-				@include min1280px {
-					grid-column-start: span 12;
-				}
-				@include min1600px {
-					grid-column-start: span 12;
-				}
-				@include min1920px {
-					grid-column-start: span 6;
-				}
-			}
-
-			&-bigger {
-				@include min480px {
-					grid-column-start: span 24;
-				}
-				@include min667px {
-					grid-column-start: span 24;
-				}
-				@include min960px {
-					grid-column-start: span 16;
-				}
-				@include min1024px {
-					grid-column-start: span 12;
-				}
-				@include min1280px {
-					grid-column-start: span 12;
-				}
-				@include min1600px {
-					grid-column-start: span 10;
-				}
-				@include min1920px {
-					grid-column-start: span 8;
-				}
-			}
-
-			&-huge {
-				@include min480px {
-					grid-column-start: span 24;
-				}
-				@include min1280px {
-					grid-column-start: span 12;
+				& + div {
+					flex: 0 0 66%;
 				}
 			}
 		}
 	}
-}
 
-/* 2 column admin columns don't kick in until around 850px */
-/* with sidebar menu collapsed (folded) */
-.columns-2 {
-	.ee-grid.ee-grid {
-		.ee-grid__item.ee-grid__item {
-			@include min960px {
-				grid-column-start: span 12;
+	/* MAIN GRID STYLES */
+
+	display: grid;
+	margin: var(--ee-margin-tiny) 0;
+
+	--ee-grid-size-column-modifier: -1;
+
+	@include min667px {
+		--ee-grid-size-column-modifier: 0;
+	}
+	@include min1280px {
+		--ee-grid-size-column-modifier: 1;
+	}
+	@include min1920px {
+		--ee-grid-size-column-modifier: 2;
+	}
+
+	--ee-grid-columns: calc( 4 + var(--ee-grid-size-column-modifier) - var(--ee-grid-column-modifier) );
+	--ee-grid-gap: var(--ee-padding-small);
+
+	&--size {
+		&-smaller {
+			--ee-grid-columns: calc( 6 + var(--ee-grid-size-column-modifier) - var(--ee-grid-column-modifier) );
+			--ee-grid-gap: var(--ee-padding-tiny);
+		}
+		&-small {
+			--ee-grid-columns: calc( 5 + var(--ee-grid-size-column-modifier) - var(--ee-grid-column-modifier) );
+			--ee-grid-gap: var(--ee-padding-smaller);
+		}
+		&-big {
+			--ee-grid-columns: calc( 3 + var(--ee-grid-size-column-modifier) - var(--ee-grid-column-modifier) );
+			--ee-grid-gap: var(--ee-padding-default);
+		}
+		&-bigger {
+			--ee-grid-columns: calc( 2 + var(--ee-grid-size-column-modifier) - var(--ee-grid-column-modifier) );
+			--ee-grid-gap: var(--ee-padding-default);
+		}
+	}
+
+	--ee-grid-max-cols: 2;
+
+	&--max-cols-1 {
+		--ee-grid-max-cols: 1;
+	}
+	&--max-cols-2 {
+		--ee-grid-max-cols: 2;
+	}
+	&--max-cols-3 {
+		--ee-grid-max-cols: 3;
+	}
+	&--max-cols-4 {
+		--ee-grid-max-cols: 4;
+		.ee-input__wrapper {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+	}
+	&--max-cols-5 {
+		--ee-grid-max-cols: 5;
+		.ee-input__wrapper {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+	}
+	&--max-cols-6 {
+		--ee-grid-max-cols: 6;
+		.ee-input__wrapper {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+	}
+	@include max360px {
+		--ee-grid-max-cols: 1;
+	}
+	@include max600px {
+		--ee-grid-max-cols: 2;
+		.ee-input__wrapper {
+			align-items: flex-start !important;
+			flex-direction: column !important;
+		}
+	}
+	@include max960px {
+		--ee-grid-max-cols: 3;
+	}
+	@include max1280px {
+		--ee-grid-max-cols: 4;
+	}
+	@include max1600px {
+		--ee-grid-max-cols: 5;
+	}
+
+	gap: var(--ee-grid-gap);
+	grid-template-columns: repeat(
+		min( var(--ee-grid-columns), var(--ee-grid-max-cols) ),
+		minmax(0, 1fr)
+	);
+
+	&__item {
+		&--col-span {
+			&-2 {
+				grid-column: span 2;
+				.ee-input__wrapper {
+					align-items: flex-start;
+					flex-direction: row;
+				}
 			}
-			@include min1366px {
-				grid-column-start: span 10;
+
+			&-3 {
+				grid-column: span 3;
+				.ee-input__wrapper {
+					align-items: flex-start;
+					flex-direction: row;
+				}
 			}
-			@include min1600px {
-				grid-column-start: span 6;
+
+			&-4 {
+				grid-column: span 4;
+				.ee-input__wrapper {
+					align-items: flex-start;
+					flex-direction: row;
+				}
 			}
 
-			&--size {
-				&-smaller {
-					@include min960px {
-						grid-column-start: span 8;
-					}
-					@include min1024px {
-						grid-column-start: span 6;
-					}
-					@include min1366px {
-						grid-column-start: span 4;
-					}
-					@include min1920px {
-						grid-column-start: span 3;
-					}
+			&-5 {
+				grid-column: span 5;
+				.ee-input__wrapper {
+					align-items: flex-start;
+					flex-direction: row;
 				}
+			}
 
-				&-small {
-					@include min960px {
-						grid-column-start: span 12;
-					}
-					@include min1024px {
-						grid-column-start: span 9;
-					}
-					@include min1366px {
-						grid-column-start: span 6;
-					}
-					@include min1600px {
-						grid-column-start: span 5;
-					}
-					@include min1920px {
-						grid-column-start: span 4;
-					}
-				}
-
-				&-big {
-					@include min960px {
-						grid-column-start: span 24;
-					}
-					@include min1600px {
-						grid-column-start: span 12;
-					}
-					@include min1920px {
-						grid-column-start: span 9;
-					}
-				}
-
-				&-bigger {
-					@include min960px {
-						grid-column-start: span 24;
-					}
-					@include min1600px {
-						grid-column-start: span 12;
-					}
-					@include min1920px {
-						grid-column-start: span 9;
-					}
-				}
-
-				&-huge {
-					@include min960px {
-						grid-column-start: span 24;
-					}
-					@include min1600px {
-						grid-column-start: span 12;
-					}
+			&-6 {
+				grid-column: span 6;
+				.ee-input__wrapper {
+					align-items: flex-start;
+					flex-direction: row;
 				}
 			}
 		}
-	}
-}
 
-/* 2 column admin with sidebar menu visible */
-body:not(.folded) {
-	.columns-2 {
-		.ee-grid.ee-grid {
-			.ee-grid__item.ee-grid__item {
-				@include min1024px {
-					grid-column-start: span 12;
-				}
-				@include min1366px {
-					grid-column-start: span 8;
-				}
-				@include min1600px {
-					grid-column-start: span 10;
-				}
-				@include min1920px {
-					grid-column-start: span 6;
-				}
+		&--row-span {
+			&-2 {
+				grid-row: span 2;
+			}
 
-				&--size {
-					&-smaller {
-						@include min1024px {
-							grid-column-start: span 8;
-						}
-						@include min1280px {
-							grid-column-start: span 6;
-						}
-						@include min1366px {
-							grid-column-start: span 5;
-						}
-						@include min1600px {
-							grid-column-start: span 4;
-						}
-						@include min1920px {
-							grid-column-start: span 3;
-						}
-					}
+			&-3 {
+				grid-row: span 3;
+			}
 
-					&-small {
-						@include min1024px {
-							grid-column-start: span 12;
-						}
-						@include min1280px {
-							grid-column-start: span 9;
-						}
-						@include min1366px {
-							grid-column-start: span 6;
-						}
-						@include min1920px {
-							grid-column-start: span 4;
-						}
-					}
+			&-4 {
+				grid-row: span 4;
+			}
 
-					&-big {
-						@include min1024px {
-							grid-column-start: span 24;
-						}
-						@include min1280px {
-							grid-column-start: span 24;
-						}
-						@include min1600px {
-							grid-column-start: span 12;
-						}
-					}
+			&-5 {
+				grid-row: span 5;
+			}
 
-					&-bigger {
-						@include min1024px {
-							grid-column-start: span 24;
-						}
-						@include min1600px {
-							grid-column-start: span 12;
-						}
-					}
-
-					&-huge {
-						@include min1024px {
-							grid-column-start: span 24;
-						}
-						@include min1920px {
-							grid-column-start: span 12;
-						}
-					}
-				}
+			&-6 {
+				grid-row: span 6;
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 import { __ } from '@eventespresso/i18n';
-import { Grid, Heading } from '@eventespresso/ui-components';
+import { Grid, GridCard } from '@eventespresso/ui-components';
 import { noop } from '@eventespresso/utils';
 import { withFeature } from '@eventespresso/services';
 
@@ -16,8 +16,6 @@ import withData from './withData';
 import type { EventRegistrationOptionsProps } from './types';
 
 import './style.scss';
-
-const columns = { base: 1, sm: 2, md: 4 };
 
 export const EventRegistrationOptions: React.FC<Partial<EventRegistrationOptionsProps>> = ({
 	allowDonations,
@@ -37,35 +35,29 @@ export const EventRegistrationOptions: React.FC<Partial<EventRegistrationOptions
 	onMaxRegChange = noop,
 	phoneNumber,
 	status,
-}) => (
-	<div className='ee-event-registration-options ee-edtr-section'>
-		<Heading as='h3' className='ee-edtr-section-heading'>
-			{__('Registration Options')}
-		</Heading>
-		<Grid columns={columns} spacing='1.25rem'>
-			<ActiveStatus status={status} onStatusChange={onStatusChange} />
-
-			<DefaultRegistrationStatus
-				defaultRegStatus={defaultRegStatus}
-				onDefaultRegStatusChange={onDefaultRegStatusChange}
-			/>
-
-			<MaxRegistrations maxReg={maxReg} onMaxRegChange={onMaxRegChange} />
-
-			<TicketSelector
-				displayTicketSelector={displayTicketSelector}
-				onTicketSelectorChange={onTicketSelectorChange}
-			/>
-
-			<Donations allowDonations={allowDonations} onDonationsChange={onDonationsChange} />
-
-			<EventPhoneNumber phoneNumber={phoneNumber} onPhoneNumberChange={onPhoneNumberChange} />
-
-			<EventManager eventManagers={eventManagers} managerId={managerId} onManagerChange={onManagerChange} />
-
-			<AltRegPage altRegPage={altRegPage} onAltRegPageChange={onAltRegPageChange} />
+}) => {
+	return (
+		<Grid className='ee-edtr-section ee-edtr-cards' maxColumns={2} size='bigger'>
+			<GridCard className='ee-event-details' header={__('Event Details')}>
+				<ActiveStatus status={status} onStatusChange={onStatusChange} />
+				<EventManager eventManagers={eventManagers} managerId={managerId} onManagerChange={onManagerChange} />
+				<EventPhoneNumber phoneNumber={phoneNumber} onPhoneNumberChange={onPhoneNumberChange} />
+				<Donations allowDonations={allowDonations} onDonationsChange={onDonationsChange} />
+			</GridCard>
+			<GridCard className='ee-reg-options' header={__('Registration Options')}>
+				<DefaultRegistrationStatus
+					defaultRegStatus={defaultRegStatus}
+					onDefaultRegStatusChange={onDefaultRegStatusChange}
+				/>
+				<TicketSelector
+					displayTicketSelector={displayTicketSelector}
+					onTicketSelectorChange={onTicketSelectorChange}
+				/>
+				<MaxRegistrations maxReg={maxReg} onMaxRegChange={onMaxRegChange} />
+				<AltRegPage altRegPage={altRegPage} onAltRegPageChange={onAltRegPageChange} />
+			</GridCard>
 		</Grid>
-	</div>
-);
+	);
+};
 
 export default withFeature('use_reg_options_meta_box')(withData(EventRegistrationOptions));
