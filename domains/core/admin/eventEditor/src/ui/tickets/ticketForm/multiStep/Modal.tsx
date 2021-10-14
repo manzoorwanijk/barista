@@ -22,8 +22,9 @@ const Modal: React.FC<ContentWrapperProps> = ({ onClose, ...props }) => {
 
 	let title = ticket?.dbId
 		? sprintf(
-				/* translators: %s ticket id */
-				__('Edit ticket %s'),
+				/* translators: 1 ticket name, 2 ticket id */
+				__('Edit ticket "%1$s" - %2$s'),
+				ticket.name,
 				`#${ticket.dbId}`
 		  )
 		: __('New Ticket Details');
