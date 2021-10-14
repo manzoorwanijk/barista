@@ -1,4 +1,5 @@
 import { __, sprintf } from '@eventespresso/i18n';
+import { Stack, ErrorIndicator } from '@eventespresso/ui-components';
 import Start from '../Start';
 import Repeat from '../Repeat';
 import End from '../End';
@@ -18,15 +19,15 @@ const RRuleGenerator: React.FC<RRuleGeneratorProps> = ({ showReadable = true, ..
 	const { error } = useRRuleState();
 
 	return (
-		<div className='rrule-generator'>
+		<Stack className='rrule-generator'>
 			{!hideError && error && (
-				<div className='rrule-generator__alert-danger'>
+				<ErrorIndicator>
 					{sprintf(
 						/* translators: %s rrule string */
 						__('You provided an invalid RRule value to component. %s is not a correct RRule string.'),
 						error.name
 					)}
-				</div>
+				</ErrorIndicator>
 			)}
 
 			{showReadable && <RRuleText rRuleString={props.value} />}
@@ -36,7 +37,7 @@ const RRuleGenerator: React.FC<RRuleGeneratorProps> = ({ showReadable = true, ..
 			<Repeat id={`${id}-repeat`} />
 
 			{!hideEnd && <End id={`${id}-end`} />}
-		</div>
+		</Stack>
 	);
 };
 

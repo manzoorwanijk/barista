@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { __ } from '@eventespresso/i18n';
 
-import { Divider, NumberInput } from '@eventespresso/ui-components';
+import { Row, NumberInput, Stack, Label } from '@eventespresso/ui-components';
 
 import { useRRuleState } from '../../../hooks';
 import { SHORT_DAYS } from '../../../constants';
@@ -31,10 +31,9 @@ const Weekly: React.FC<BaseProps> = ({ id }) => {
 	);
 
 	return (
-		<div className='rrule-generator__form-group-row rrule-generator__form-group-row--align-items-start rrule-generator__form-group-row--no-label rrule-generator__repeat-weekly'>
-			<label className='rrule-generator__labelled-input'>
-				<span>{__('every')}</span>
-				<Divider orientation='vertical' size='tiny' />
+		<Stack>
+			<Row>
+				<Label label={__('every')} />
 				<NumberInput
 					aria-label={__('Repeat weekly interval')}
 					id={`${id}-interval`}
@@ -44,30 +43,33 @@ const Weekly: React.FC<BaseProps> = ({ id }) => {
 					value={weekly?.interval}
 					visibleDigits={3}
 				/>
-				<span>{__('week(s)')}</span>
-			</label>
-
+				<Label label={__('week(s)')} />
+			</Row>
 			{/* TODO arrange days according to week start day */}
-			<div className='rrule-generator__week-day-checkbox-group'>
+			<Row className='rrule-generator__week-day-checkbox-group'>
 				{Object.entries(weekly?.days).map(([dayName, isDayActive]) => {
 					const dayId = `${id}-${dayName}`;
 
 					return (
-						<label htmlFor={dayId} key={dayName} className={isDayActive ? 'active' : ''}>
+						<label
+							htmlFor={dayId}
+							key={dayName}
+							className={`ee-weekly-label ${isDayActive ? 'active' : ''}`}
+						>
 							<input
+								className='ee-weekly-input'
 								checked={isDayActive}
-								className='rrule-generator__form-control rrule-generator__input'
 								id={dayId}
 								name={dayId}
 								onChange={onChangeDays}
 								type='checkbox'
 							/>
-							<span>{SHORT_DAYS?.[dayName]}</span>
+							<span className='ee-weekly-span'>{SHORT_DAYS?.[dayName]}</span>
 						</label>
 					);
 				})}
-			</div>
-		</div>
+			</Row>
+		</Stack>
 	);
 };
 

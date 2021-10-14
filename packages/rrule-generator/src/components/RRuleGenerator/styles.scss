@@ -1,23 +1,14 @@
 .rrule-generator {
-	&__alert-danger {
-		background-color: rgb(254, 215, 215);
-		margin-bottom: 0.75rem;
-		padding-left: 1rem;
-		padding-right: 1rem;
-		padding-bottom: 0.75rem;
-		padding-top: 0.75rem;
-	}
-
 	.rrule-text {
-		border-radius: var(--ee-border-width);
 		color: white;
-		font-family: var(--ee-admin-font-family);
 		font-size: 1rem;
-		line-height: 1.5rem;
 		margin-left: 20%;
-		min-height: var(--ee-icon-button-size);
 		outline: none;
-		padding: 0.5rem 1rem;
+		border-radius: var(--ee-border-width);
+		font-family: var(--ee-admin-font-family);
+		line-height: var(--ee-line-height-modifier);
+		min-height: var(--ee-icon-button-size-small);
+		padding: var(--ee-padding-tiny) var(--ee-padding-small);
 
 		&-label {
 			color: white;

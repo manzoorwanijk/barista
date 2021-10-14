@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { __ } from '@eventespresso/i18n';
-import { Divider, Radio, Select } from '@eventespresso/ui-components';
+import { Divider, Radio, Select, Stack } from '@eventespresso/ui-components';
 
 import PositionSelect from '../PositionSelect';
 import { MONTHS, DAYS } from '../../../constants';
@@ -46,7 +46,7 @@ const OnThe: React.FC<OnProps> = ({ id, isTheOnlyMode, onChangeMode }) => {
 	);
 
 	return (
-		<div className='rrule-generator__on-the'>
+		<Stack className='rrule-generator__on-the'>
 			{!isTheOnlyMode && (
 				<Radio
 					aria-label={__('Repeat yearly on the')}
@@ -74,7 +74,6 @@ const OnThe: React.FC<OnProps> = ({ id, isTheOnlyMode, onChangeMode }) => {
 				id={`${id}-day`}
 				name={`${id}-day`}
 				aria-label={__('Repeat yearly on the day')}
-				className='rrule-generator__select'
 				value={onThe.day}
 				isDisabled={!isActive}
 				onBlur={onChangeDay}
@@ -93,7 +92,6 @@ const OnThe: React.FC<OnProps> = ({ id, isTheOnlyMode, onChangeMode }) => {
 				id={`${id}-month`}
 				name={`${id}-month`}
 				aria-label={__('Repeat yearly on the month')}
-				className='rrule-generator__select rrule-generator__month'
 				value={onThe.month}
 				isDisabled={!isActive}
 				onBlur={onChangeMonth}
@@ -105,7 +103,7 @@ const OnThe: React.FC<OnProps> = ({ id, isTheOnlyMode, onChangeMode }) => {
 					</option>
 				))}
 			</Select>
-		</div>
+		</Stack>
 	);
 };
 

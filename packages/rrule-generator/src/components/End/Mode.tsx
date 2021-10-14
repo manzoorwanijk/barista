@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { __ } from '@eventespresso/i18n';
-import { Divider, Select } from '@eventespresso/ui-components';
+import { Select } from '@eventespresso/ui-components';
 
 import { ModeProps } from './types';
 import { EndMode } from '../../types';
@@ -24,18 +24,23 @@ const Mode: React.FC<ModeProps> = ({ id, mode, onChange }) => {
 	);
 
 	return (
-		<>
-			<Select id={id} value={mode} name={id} onBlur={onChangeMode} onChange={onChangeMode} width='auto'>
-				{endModes.map((endMode) => {
-					return (
-						<option key={endMode} value={endMode}>
-							{modeLabels?.[endMode]}
-						</option>
-					);
-				})}
-			</Select>
-			<Divider orientation='vertical' size='tiny' />
-		</>
+		<Select
+			className='rrule-generator__select-end'
+			id={id}
+			value={mode}
+			name={id}
+			onBlur={onChangeMode}
+			onChange={onChangeMode}
+			width='auto'
+		>
+			{endModes.map((endMode) => {
+				return (
+					<option key={endMode} value={endMode}>
+						{modeLabels?.[endMode]}
+					</option>
+				);
+			})}
+		</Select>
 	);
 };
 
