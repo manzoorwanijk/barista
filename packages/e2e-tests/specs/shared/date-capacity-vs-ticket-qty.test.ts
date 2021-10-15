@@ -95,8 +95,10 @@ describe(namespace, () => {
 		// This should not have changed, because it's already less than old date capacity
 		expect(oldTicketQuantity).toBe('100');
 
+		let waitForListUpdate = await ticketsParser.createWaitForListUpdate();
 		// Set the old date capacity to 90
 		await dateEditor.updateCapacityInline(oldDate, '90');
+		await waitForListUpdate(); // we must wait for tickets list to update
 
 		oldTicketQuantity = await getTicketQuantityByName(oldTicketName);
 		// This should now be set to 90
@@ -106,9 +108,11 @@ describe(namespace, () => {
 		let newTicketQuantity = await getTicketQuantityByName(newTicketName);
 		expect(newTicketQuantity).toBe('∞');
 
+		waitForListUpdate = await ticketsParser.createWaitForListUpdate();
 		const newDate = await dateEditor.getItemBy('name', newDateName);
 		// Set the new date capacity to 300
 		await dateEditor.updateCapacityInline(newDate, '300');
+		await waitForListUpdate(); // we must wait for tickets list to update
 
 		const newDateCapacity = await getDateCapacityByName(newDateName);
 		expect(newDateCapacity).toBe('300');
@@ -123,17 +127,21 @@ describe(namespace, () => {
 	});
 
 	it('tests the ticket quantity change when the related date capacity is changed in edit form', async () => {
+		const waitForListUpdate = await ticketsParser.createWaitForListUpdate();
 		// Lets change the capacity in edit form
 		await dateEditor.editDateBy('name', newDateName, { capacity: '200' });
+		await waitForListUpdate(); // we must wait for tickets list to update
 
 		const newTicketQuantity = await getTicketQuantityByName(newTicketName);
 		expect(newTicketQuantity).toBe('200');
 	});
 
 	it('tests the ticket quantity change when adding a new related date with lower capacity', async () => {
+		const waitForListUpdate = await ticketsParser.createWaitForListUpdate();
 		// Add a new date, which will be assigned to the new ticket,
 		// because we trashed the old ticket
 		await addNewDate({ name: 'One more new date', capacity: '60' });
+		await waitForListUpdate(); // we must wait for tickets list to update
 
 		const newTicketQuantity = await getTicketQuantityByName(newTicketName);
 		expect(newTicketQuantity).toBe('60');
@@ -144,6 +152,8 @@ describe(namespace, () => {
 	});
 
 	it('tests the ticket quantity change when the related date is changed via TAM', async () => {
+		const waitForListUpdate = await ticketsParser.createWaitForListUpdate();
+
 		const newDateId = await dateEditor.getDbIdByName('One more new date');
 		// Open TAM for it
 		await tamrover.setDbId(newDateId).launch();
@@ -153,6 +163,7 @@ describe(namespace, () => {
 
 		// Submit TAM
 		await tamrover.submit();
+		await waitForListUpdate(); // we must wait for tickets list to update
 
 		// Now the old ticket quantity should have changed from 90 to 60
 		const oldTicketQuantity = await getTicketQuantityByName(oldTicketName);
