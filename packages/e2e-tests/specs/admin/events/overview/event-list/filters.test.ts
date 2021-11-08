@@ -1,12 +1,14 @@
-import { assertFilteredItems, resetFilter, assertSelectedDefaultOption } from '@e2eUtils/admin/events';
-import { Goto } from '@e2eUtils/admin';
+import { assertFilteredItems, assertSelectedDefaultOption } from '@e2eUtils/admin/events';
+import { EventsListSurfer, Goto } from '@e2eUtils/admin';
+
+const eventsListSurfer = new EventsListSurfer();
 
 beforeAll(async () => {
 	await Goto.eventsListPage();
 });
 
 beforeEach(async () => {
-	await resetFilter();
+	await eventsListSurfer.resetFilters();
 });
 
 describe('Events list page filters', () => {
@@ -45,7 +47,7 @@ describe('Events list page filters', () => {
 			{ value: 'All Categories', selector: '#EVT_CAT' },
 		];
 		// trigger the reset filter first
-		await resetFilter();
+		await eventsListSurfer.resetFilters();
 		// loop all list of select element identity
 		for (const { value, selector } of selectorList) {
 			// check default value and asset every iteration
