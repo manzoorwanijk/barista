@@ -1,12 +1,18 @@
-import { saveVideo } from 'playwright-video';
+import { saveVideo, PageVideoCapture } from 'playwright-video';
 
 import { addNewTicket, createNewEvent, EDTRGlider, TicketEditor } from '@e2eUtils/admin/events';
-import { EventRegistrar } from '@e2eUtils/public/reg-checkout';
+import { assertRegSuccess, EventRegistrar } from '@e2eUtils/public/reg-checkout';
 
 const namespace = 'event.free-event.registration';
 
+let capture: PageVideoCapture;
+
 beforeAll(async () => {
-	await saveVideo(page, `artifacts/${namespace}.mp4`);
+	capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
+});
+
+afterAll(async () => {
+	await capture?.stop();
 });
 
 const ticketEditor = new TicketEditor();
@@ -30,10 +36,8 @@ describe(namespace, () => {
 			},
 		});
 
-		const title = await page.$eval('h1.entry-title', (el) => el.textContent);
-		expect(title).toContain('Thank You');
+		const content = await assertRegSuccess();
 
-		const content = await page.$eval('.entry-content', (el) => el.textContent);
-		expect(content).toContain('Congratulations');
+		expect(content).toContain('Approved');
 	});
 });
