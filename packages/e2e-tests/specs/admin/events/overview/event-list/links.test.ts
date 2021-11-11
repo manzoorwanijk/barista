@@ -3,6 +3,8 @@ import { saveVideo, PageVideoCapture } from 'playwright-video';
 import { createNewEvent, EDTRGlider } from '@e2eUtils/admin/events';
 import { EventsListSurfer, Goto } from '@e2eUtils/admin';
 import { eventList } from '../../../../shared/data';
+import { DateFormatter } from '@e2eUtils/admin';
+import { formatDateTime } from '@e2eUtils/common';
 
 const eventsListSurfer = new EventsListSurfer();
 const edtrGlider = new EDTRGlider();
@@ -15,7 +17,7 @@ beforeAll(async () => {
 	capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
 	// Loop and create event base on the eventList
 	for (const args of [...eventList, ...eventList]) {
-		await createNewEvent(args);
+		// await createNewEvent(args);
 	}
 	await Goto.eventsListPage();
 });
@@ -111,6 +113,27 @@ describe(namespace, () => {
 			// assert the before and after trash count
 			expect(countBeforeDeletePermanently).toBeGreaterThan(countAfterDeletePermanently);
 		}
+		const eventFirstItem = await eventsListSurfer.getFirstListItem();
+		const eventEditLink = await eventsListSurfer.getItemActionLinkByText(eventFirstItem, 'Edit');
+		await page.goto(eventEditLink);
+		// await Promise.all([page.waitForNavigation(), page.click('button#popover-trigger-7')]);
+		// await clickLabel('Edit Event Date');
+		await page.click('button#popover-trigger-7');
+		// const dateToday = new Date();
+		// const dateToday = formatDateTime(dateToday);
+		// const startDate = await fillDateTicketForm({ startDate: dateToday });
+		// console.log({ dateToday });
+
+		// await page.fill('.date-range-picker__start-input input', 'December 11, 2021 8:00 AM');
+		// const intlOptions: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' };
+		// const startDate = Intl.DateTimeFormat('en-US', intlOptions).format(new Date());
+		// console.log({ startDate });
+
+		// 1. trigger button for edit start and end dates inside event dates container
+		// 2. Update and set start date into todays date in edit event date form
+		// 3. Count Todays link list and assert before and after count
+		// 3. Count This month link list and assert before and after count
+		expect(0).toBe(0);
 	});
 
 	it('Draft link test', async () => {
