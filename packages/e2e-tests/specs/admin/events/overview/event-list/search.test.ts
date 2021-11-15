@@ -2,16 +2,16 @@ import { createNewEvent } from '@e2eUtils/admin/events';
 import { EventsListSurfer, Goto } from '@e2eUtils/admin';
 import { uuid } from '@eventespresso/utils';
 import { pluck } from 'ramda';
-import { eventList } from '../../../../shared/data';
+import { eventData } from '../../../../shared/data';
 
 const eventsListSurfer = new EventsListSurfer();
 
 describe('Search events', () => {
-	const eventTitles = pluck('title', eventList);
+	const eventTitles = pluck('title', eventData.upcomingNextMonth);
 
 	beforeAll(async () => {
-		// Loop and create event base on the eventList
-		for (const args of eventList) {
+		// Loop and create event base on the eventData
+		for (const args of eventData.upcomingNextMonth) {
 			await createNewEvent(args);
 		}
 		await Goto.eventsListPage();

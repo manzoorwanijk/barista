@@ -32,9 +32,32 @@ export const data = [
 	},
 ];
 
-export const eventList = [
-	{ title: 'Test One', description: 'Some description for test one event' },
-	{ title: 'Test Two', description: 'Some description for test two event' },
-	{ title: 'Test Three', description: 'Some description for test three event' },
-	{ title: 'Test Four', description: 'Some description for test four event' },
-];
+export const eventData = {
+	expired: {
+		// data for expired event
+		title: 'Test expired event',
+		description: 'Some description for expired event',
+	},
+	active: {
+		// data for event that is currently active (start date < now && end date > now)
+		title: 'Test active event',
+		description: 'Some description for active event',
+	},
+	todayOnly: {
+		// data for event starting and ending today
+		title: 'Test today event',
+		description: 'Some description for today event',
+	},
+	upcomingNextMonth: [
+		// data for event happening next month
+		{ title: 'Test One', description: 'Some description for test one event' },
+		{ title: 'Test Two', description: 'Some description for test two event' },
+		{ title: 'Test Three', description: 'Some description for test three event' },
+		{ title: 'Test Four', description: 'Some description for test four event' },
+	],
+	upcomingTwoMonths: {
+		// data for event happening in two months
+		title: 'Test upcoming two months',
+		description: 'Some description for upcoming two months',
+	},
+};
