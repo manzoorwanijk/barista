@@ -18,6 +18,23 @@ export class EventsListSurfer extends WPListTable {
 	 * Get the name of an event from <tr /> handle
 	 */
 	getEventName = async (item: ElementHandle): Promise<string> => {
-		return (await item.$('td.column-name a.row-title')).innerText();
+		return await (await item.$('td.column-name a.row-title')).innerText();
+	};
+
+	/**
+	 *  Get the list of event rows filtered by name
+	 */
+	getRowsByName = async (name: string): Promise<ElementHandle[]> => {
+		const tableRows = await this.getListItems();
+		const filteredRows = (
+			await Promise.all(
+				tableRows.map(async (row) => {
+					const title = await this.getEventName(row);
+					return title === name ? row : null;
+				})
+			)
+		).filter(Boolean);
+
+		return filteredRows;
 	};
 }

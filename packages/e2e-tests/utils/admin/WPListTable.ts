@@ -146,9 +146,22 @@ export class WPListTable {
 	};
 
 	/**
+	 * Get the item count in the given view e.g. "Trash", "Draft"
+	 */
+	getViewCount = async (view: string): Promise<number> => {
+		const wrapper = await this.getViewLinksWrapper();
+
+		const li = await wrapper.$(`li:has-text("${view}")`);
+
+		const count = await (await li.$('span.count')).innerText();
+		// replace open and close parenthesis into empty string
+		return Number(count.replace(/[()]/g, ''));
+	};
+
+	/**
 	 * Goto a specific view by text e.g. "Trash", "Draft"
 	 */
-	getToView = async (text: string): Promise<void> => {
+	goToView = async (text: string): Promise<void> => {
 		const href = await this.getViewLinkByText(text);
 
 		await Promise.all([page.waitForNavigation(), page.goto(href)]);
@@ -196,6 +209,17 @@ export class WPListTable {
 	};
 
 	/**
+	 * the number of items in list
+	 */
+	getItemCount = async (excludeNoItemsFound = true): Promise<number> => {
+		if ((await this.hasNoItems()) && excludeNoItemsFound) {
+			return 0;
+		}
+		const items = await this.getListItems();
+		return items.length;
+	};
+
+	/**
 	 * Select all the items in the list
 	 */
 	selectAll = async () => {
@@ -207,11 +231,42 @@ export class WPListTable {
 	};
 
 	/**
+	 * Trash the selected items in the list
+	 */
+	trashSelected = async () => {
+		await this.selectBulkAction({ label: 'Move to Trash' });
+		await this.applyBulkAction();
+	};
+
+	/**
 	 * Trash all the items in the list
 	 */
 	trashAll = async (): Promise<void> => {
-		await this.selectBulkAction({ label: 'Move to Trash' });
 		await this.selectAll();
-		await this.applyBulkAction();
+		await this.trashSelected();
+	};
+
+	/**
+	 * Check the selected items in the list
+	 */
+	selectItemCheckbox = async (item: ElementHandle): Promise<void> => {
+		const checkbox = await item.$('.check-column input[type="checkbox"]');
+		await checkbox.check();
+	};
+
+	/**
+	 * check all the event checkbox that is selected to delete permanently
+	 */
+	checkAllDeletePermanently = async () => {
+		await page.check(
+			'#eventespressoadmin-pageseventsform-sectionsconfirmeventdeletionform-events input[type="checkbox"]'
+		);
+	};
+
+	/**
+	 * check the confirmation checkbox for delete permanently
+	 */
+	checkConfirmDeletePermanently = async () => {
+		await page.check('#eventespressoadmin-pageseventsform-sectionsconfirmeventdeletionform-backup-yes');
 	};
 }
