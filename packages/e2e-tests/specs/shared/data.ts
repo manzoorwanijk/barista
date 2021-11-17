@@ -33,6 +33,13 @@ export const data = [
 ];
 
 export const eventData = {
+	bulkEvents: [
+		// data to use for nultiple insertion of events like paginations and others
+		{ title: 'Test One', description: 'Some description for test one event' },
+		{ title: 'Test Two', description: 'Some description for test two event' },
+		{ title: 'Test Three', description: 'Some description for test three event' },
+		{ title: 'Test Four', description: 'Some description for test four event' },
+	],
 	expired: {
 		// data for expired event
 		title: 'Test expired event',
@@ -48,16 +55,8 @@ export const eventData = {
 		title: 'Test today event',
 		description: 'Some description for today event',
 	},
-	upcomingNextMonth: [
-		// data for event happening next month
-		{ title: 'Test One', description: 'Some description for test one event' },
-		{ title: 'Test Two', description: 'Some description for test two event' },
-		{ title: 'Test Three', description: 'Some description for test three event' },
-		{ title: 'Test Four', description: 'Some description for test four event' },
-	],
-	upcomingTwoMonths: {
-		// data for event happening in two months
-		title: 'Test upcoming two months',
-		description: 'Some description for upcoming two months',
-	},
+	upcomingNextMonthOne: { title: 'Test One', description: 'Some description for test one event' },
+	upcomingNextMonthTwo: { title: 'Test Two', description: 'Some description for test two event' },
+	upcomingNextMonthThree: { title: 'Test Three', description: 'Some description for test three event' },
+	upcomingNextMonthFour: { title: 'Test Four', description: 'Some description for test four event' },
 };
