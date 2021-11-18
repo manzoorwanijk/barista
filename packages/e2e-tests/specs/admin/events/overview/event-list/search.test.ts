@@ -7,11 +7,11 @@ import { eventData } from '../../../../shared/data';
 const eventsListSurfer = new EventsListSurfer();
 
 describe('Search events', () => {
-	const eventTitles = pluck('title', eventData.upcomingNextMonth);
+	const eventTitles = pluck('title', eventData.bulkEvents);
 
 	beforeAll(async () => {
 		// Loop and create event base on the eventData
-		for (const args of eventData.upcomingNextMonth) {
+		for (const args of eventData.bulkEvents) {
 			await createNewEvent(args);
 		}
 		await Goto.eventsListPage();

@@ -6,4 +6,19 @@ export class DateFormatter {
 
 		return startDate;
 	};
+
+	// format the date into something like "November 12, 2021 8:56 PM"
+	static eventStartDateFormat = async (date: Date): Promise<string> => {
+		// set the options for format
+		const intlOptions: Intl.DateTimeFormatOptions = {
+			month: 'long',
+			day: 'numeric',
+			year: 'numeric',
+			hour: 'numeric',
+			minute: '2-digit',
+			hour12: true,
+		};
+		// format the date
+		return Intl.DateTimeFormat('en-US', intlOptions).format(date);
+	};
 }

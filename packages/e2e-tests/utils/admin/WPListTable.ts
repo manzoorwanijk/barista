@@ -221,6 +221,16 @@ export class WPListTable {
 	};
 
 	/**
+	 * go to event link and return total count events
+	 */
+	viewLinkAndCountEvents = async (linkName: string): Promise<number> => {
+		// go to this link first to count the event list
+		await this.goToView(linkName);
+		// count the event list inside the this link
+		return await this.getItemCount();
+	};
+
+	/**
 	 * Select all the items in the list
 	 */
 	selectAll = async () => {
