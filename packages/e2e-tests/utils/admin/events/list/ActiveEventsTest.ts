@@ -34,8 +34,8 @@ export class ActiveEventsTest extends EventsListSurfer {
 	 *
 	 * Update the starting date of the new created event to todays date to make the event active now
 	 */
-	updateStartingDateEvent = async (element: ElementHandle, startDate: string, link: string) => {
-		// go to view all events link first to count the available event for date start update
+	updateStartingDateEvent = async (startDate: string, link: string) => {
+		// view all event to get the first event row
 		await this.goToView('View All Events');
 		// get the first event in view all event link
 		const eventFirstItem = await this.getFirstListItem();

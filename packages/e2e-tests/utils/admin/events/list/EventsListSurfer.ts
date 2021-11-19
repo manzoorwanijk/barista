@@ -37,4 +37,19 @@ export class EventsListSurfer extends WPListTable {
 
 		return filteredRows;
 	};
+
+	/**
+	 *  Delete seleted rows in event list that contain example "Test One"
+	 */
+	selectEventToTrash = async (name: string): Promise<void> => {
+		// get only rows that is contain i.e "Test One" event name
+		const filteredRows = await this.getRowsByName(name);
+		// check all the checkbox that the name contain i.e. 'Test One' event
+		for (const item of filteredRows) {
+			await this.selectItemCheckbox(item);
+		}
+
+		// trash all selected events
+		await this.trashSelected();
+	};
 }

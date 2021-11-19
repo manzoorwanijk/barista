@@ -1,20 +1,27 @@
+import { saveVideo, PageVideoCapture } from 'playwright-video';
 import { Goto, ActiveEventsTest } from '@e2eUtils/admin';
 import { eventData } from '../../../../shared/data';
-import { ElementHandle } from 'packages/e2e-tests/types';
 
 const activeEventsTest = new ActiveEventsTest();
 
+const namespace = 'events-today-clickable-actions-links';
+let capture: PageVideoCapture;
+
 beforeAll(async () => {
+	capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
 	await Goto.eventsListPage();
 });
 
+afterAll(async () => {
+	await capture?.stop();
+});
+
 describe('Today link test', () => {
-	let eventFirstItem: ElementHandle;
 	let startDate: string;
 
 	it('Create new event for active now ', async () => {
 		// Create new event for active now
-		eventFirstItem = await activeEventsTest.createEventForActiveNow(eventData.todayOnly);
+		const eventFirstItem = await activeEventsTest.createEventForActiveNow(eventData.todayOnly);
 		// Assert return value if we already created event
 		expect(eventFirstItem).toBeTruthy();
 	});
@@ -30,7 +37,7 @@ describe('Today link test', () => {
 		// go to event link and return total count events
 		const countBeforeUpdate = await activeEventsTest.viewLinkAndCountEvents('Today');
 		// Create new event for active now
-		const countAfterUpdate = await activeEventsTest.updateStartingDateEvent(eventFirstItem, startDate, 'Today');
+		const countAfterUpdate = await activeEventsTest.updateStartingDateEvent(startDate, 'Today');
 		// Assert return value event update and it is already active today
 		expect(countBeforeUpdate).toBeLessThan(countAfterUpdate);
 	});

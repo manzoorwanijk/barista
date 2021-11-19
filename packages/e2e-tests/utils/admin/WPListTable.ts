@@ -227,7 +227,7 @@ export class WPListTable {
 		// go to this link first to count the event list
 		await this.goToView(linkName);
 		// count the event list inside the this link
-		return await this.getItemCount();
+		return await this.getViewCount(linkName);
 	};
 
 	/**
