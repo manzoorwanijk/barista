@@ -8,23 +8,24 @@ const namespace = 'events-trash-clickable-actions-links';
 let capture: PageVideoCapture;
 
 beforeAll(async () => {
-	capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
+	// capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
 	// Loop and create event base on the eventData
-	for (const args of [...eventData.bulkEvents, ...eventData.bulkEvents]) {
-		await createNewEvent(args);
-	}
+	// for (const args of [...eventData.bulkEvents, ...eventData.bulkEvents]) {
+	// 	await createNewEvent(args);
+	// }
 	await Goto.eventsListPage();
 });
 
-afterAll(async () => {
-	await capture?.stop();
-});
+// afterAll(async () => {
+// 	await capture?.stop();
+// });
 
 describe('Trash link test', () => {
 	let countBeforeRestore: number = 0;
 	let countBeforeDeletePermanently: number = 0;
 
 	it('Trash event that contain name "Test One"', async () => {
+		await eventsListSurfer.filterOutEventsWithStatus('Upcoming');
 		// delete rows that contain "Test One" name of event
 		await eventsListSurfer.selectEventToTrash('Test one');
 		// get the number and elements of rows availble

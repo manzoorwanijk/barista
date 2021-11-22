@@ -280,4 +280,11 @@ export class WPListTable {
 	checkConfirmDeletePermanently = async () => {
 		await page.check('#eventespressoadmin-pageseventsform-sectionsconfirmeventdeletionform-backup-yes');
 	};
+
+	/**
+	 * remove all event from clickable action link like "View all events", "Draft" etc.
+	 */
+	// removeAllEvents = async (link: string) => {
+
+	// };
 }

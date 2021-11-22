@@ -30,7 +30,7 @@ describe(namespace, () => {
 	let countForTrashBefore: number;
 
 	it('Go to view all events and select all event that contain name "Test One"', async () => {
-		// get the number and elements of rows availble
+		// go to view all event
 		await eventsListSurfer.goToView('View All Events');
 		// get only rows that is only contain "Test One" event name
 		filteredRows = await eventsListSurfer.getRowsByName('Test One');
