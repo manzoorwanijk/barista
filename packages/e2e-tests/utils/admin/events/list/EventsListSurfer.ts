@@ -1,5 +1,6 @@
 import { WPListTable, BulkActionsPosition } from '../../WPListTable';
 import { ElementHandle } from '../../../../types';
+import { Goto } from '@e2eUtils/admin';
 
 export class EventsListSurfer extends WPListTable {
 	/**
@@ -84,20 +85,6 @@ export class EventsListSurfer extends WPListTable {
 		await this.trashSelected();
 	};
 
-	getDefaultPerPage = async (): Promise<{
-		totalPages: number;
-		paginationEvents: number;
-	}> => {
-		// click screen option to get the pagination set
-		await page.click('#show-settings-link');
-		// get the default per page
-		const paginationEvents = await (await page.$('#espresso_events_default_per_page')).getAttribute('value');
-		// get how many set of page in pagination
-		const totalPages = await (await page.$('span.total-pages')).innerText();
-
-		return { totalPages: Number(totalPages), paginationEvents: Number(paginationEvents) };
-	};
-
 	/**
 	 * remove all events from test data that has status like "ACTIVE" or "EXPIRED" etc.
 	 */
@@ -113,5 +100,77 @@ export class EventsListSurfer extends WPListTable {
 		}
 
 		// await this.trashSelected();
+	};
+
+	getDefaultPerPage = async (): Promise<number> => {
+		// click screen option to get the pagination set
+		await page.click('#show-settings-link');
+		// get the default per page
+		const paginationEvents = await (await page.$('#espresso_events_default_per_page')).getAttribute('value');
+		// get how many set of page in pagination
+
+		return Number(paginationEvents);
+	};
+
+	getTotalPagePagination = async () => {
+		// get how many set of page in pagination
+		const totalPages = await (await page.$('span.total-pages')).innerText();
+
+		return Number(totalPages);
+	};
+
+	detleteAllEventsByPaginate = async (totalPages: number) => {
+		// loop the pagination per page
+		for (let pages = 1; pages < totalPages; pages++) {
+			// trash all selected events
+			await this.trashAll();
+		}
+	};
+
+	detleteAllEventsPermanently = async (totalPages: number) => {
+		// loop the pagination per page
+		for (let pages = 1; pages < totalPages; pages++) {
+			// trash all selected events
+			await this.selectAll();
+			await this.selectBulkAction({ label: 'Delete Permanently' });
+			await this.applyBulkAction();
+		}
+	};
+
+	deleteAllEventsByLink = async (linkname: string) => {
+		await Goto.eventsListPage();
+
+		// go to view all event
+		const countEvents = await this.viewLinkAndCountEvents(linkname);
+		// const defaultPage = await this.getDefaultPerPage();
+		const totalPage = await this.getTotalPagePagination();
+		await this.detleteAllEventsByPaginate(totalPage);
+		await this.trashAll();
+		const afterDelete = await this.viewLinkAndCountEvents(linkname);
+		// console.log({ countEvents, defaultPage, totalPage, afterDelete });
+	};
+
+	confirmAllDeletePermanently = async () => {
+		// select all the event checkbox that is selected to delete permanently
+		await this.checkAllDeletePermanently();
+		// check the confirmation checkbox for delete permanently
+		await this.checkConfirmDeletePermanently();
+		// click the confirm button to delete event/s permanently
+		await Promise.all([page.waitForLoadState(), page.click('text="Confirm"')]);
+		// go back to event page
+		await Goto.eventsListPage();
+	};
+
+	deleteAllPermanentlyFromTrash = async () => {
+		await Goto.eventsListPage();
+		const countEvents = await this.viewLinkAndCountEvents('Trash');
+		// const defaultPage = await this.getDefaultPerPage();
+		const totalPage = await this.getTotalPagePagination();
+		await this.selectAll();
+		await page.selectOption('select#bulk-action-selector-', { value: 'delete_events' });
+		await this.applyBulkAction();
+		// await this.selectBulkAction({ label: 'Delete Permanently' });
+		// await this.detleteAllEventsPermanently(totalPage);
+		await this.confirmAllDeletePermanently();
 	};
 }

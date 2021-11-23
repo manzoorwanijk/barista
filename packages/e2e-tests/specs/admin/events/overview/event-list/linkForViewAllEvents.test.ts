@@ -12,7 +12,9 @@ let capture: PageVideoCapture;
 const namespace = 'events-overview-clickable-actions-links';
 
 beforeAll(async () => {
-	capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
+	// capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
+	// await eventsListSurfer.deleteAllEventsByLink('View All Events');
+	await eventsListSurfer.deleteAllPermanentlyFromTrash();
 	// Loop and create event base on the eventData
 	for (const event of [...eventData.bulkEvents, ...eventData.bulkEvents]) {
 		await createNewEvent(event);
@@ -20,9 +22,9 @@ beforeAll(async () => {
 	await Goto.eventsListPage();
 });
 
-afterAll(async () => {
-	await capture?.stop();
-});
+// afterAll(async () => {
+// 	await capture?.stop();
+// });
 
 describe(namespace, () => {
 	let filteredRows: ElementHandle[];
@@ -34,7 +36,8 @@ describe(namespace, () => {
 		await eventsListSurfer.goToView('View All Events');
 		// get only rows that is only contain "Test One" event name
 		filteredRows = await eventsListSurfer.getRowsByName('Test One');
-		expect(filteredRows.length).toBeGreaterThan(0);
+
+		expect(filteredRows.length).toBe(2);
 	});
 
 	it('Trash all selected event that contain name "Test One', async () => {
