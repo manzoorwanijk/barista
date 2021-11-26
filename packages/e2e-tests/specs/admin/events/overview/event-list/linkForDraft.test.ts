@@ -10,6 +10,7 @@ let capture: PageVideoCapture;
 
 beforeAll(async () => {
 	capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
+	await eventsListSurfer.deleteAllEventsByLink('Draft');
 	await Goto.eventsListPage();
 });
 
@@ -18,12 +19,10 @@ afterAll(async () => {
 });
 
 describe('Draft link test', () => {
-	let countBeforeDraft: number = 0;
-	let countAfterDraft: number = 0;
 	it('Count row event inside draft link before create new draft event', async () => {
 		// Check first the total count in draft
-		countBeforeDraft = await eventsListSurfer.viewLinkAndCountEvents('Draft');
-		expect(countBeforeDraft).toBeGreaterThanOrEqual(0);
+		const countBeforeDraft = await eventsListSurfer.viewLinkAndCountEvents('Draft');
+		expect(countBeforeDraft).toBe(0);
 	});
 
 	it('Create new draft event', async () => {
@@ -35,9 +34,9 @@ describe('Draft link test', () => {
 		// go back to event list page
 		await Goto.eventsListPage();
 		// get total count in draft
-		countAfterDraft = await eventsListSurfer.viewLinkAndCountEvents('Draft');
+		const countAfterDraft = await eventsListSurfer.viewLinkAndCountEvents('Draft');
 		// assert draft if countAfterDraft is greater than countBeforeDraft
-		expect(countAfterDraft).toBeGreaterThan(countBeforeDraft);
+		expect(countAfterDraft).toBe(1);
 	});
 
 	it('Published the first row event inside draft link', async () => {
@@ -53,6 +52,6 @@ describe('Draft link test', () => {
 		// count again the draft list
 		const countAfterDraftEdit = await eventsListSurfer.viewLinkAndCountEvents('Draft');
 		// then assert the before and after edit or publish the draft item
-		expect(countAfterDraft).toBeGreaterThan(countAfterDraftEdit);
+		expect(countAfterDraftEdit).toBe(0);
 	});
 });
