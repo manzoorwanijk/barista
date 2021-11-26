@@ -8,14 +8,12 @@ export class ActiveEventsTest extends EventsListSurfer {
 	 *
 	 * Create new event for active now link
 	 */
-	createEventForActiveNow = async (event: { title: string; description: string }): Promise<ElementHandle> => {
+	createEventForActiveNow = async (event: { title: string; description: string }): Promise<number> => {
 		// create new event for today and month link test
 		await createNewEvent(event);
 		await Goto.eventsListPage();
 		// go to view all events link first to count the available event for date start update
-		await this.goToView('View All Events');
-		// get the first event in view all event link
-		return await this.getFirstListItem();
+		return await this.viewLinkAndCountEvents('View All Events');
 	};
 
 	/**

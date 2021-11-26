@@ -10,7 +10,10 @@ let capture: PageVideoCapture;
 
 beforeAll(async () => {
 	capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
-	await eventsListSurfer.deleteAllEventsByLink('Draft');
+	// delete all events from view all events link
+	await eventsListSurfer.deleteAllEventsByLink('View All Events');
+	// delete permanently all events at trash link
+	await eventsListSurfer.deleteAllPermanentlyFromTrash();
 	await Goto.eventsListPage();
 });
 
@@ -22,6 +25,7 @@ describe('Draft link test', () => {
 	it('Count row event inside draft link before create new draft event', async () => {
 		// Check first the total count in draft
 		const countBeforeDraft = await eventsListSurfer.viewLinkAndCountEvents('Draft');
+		// assert count before create new draft event, count should be equal to 0 for starting
 		expect(countBeforeDraft).toBe(0);
 	});
 
@@ -35,7 +39,7 @@ describe('Draft link test', () => {
 		await Goto.eventsListPage();
 		// get total count in draft
 		const countAfterDraft = await eventsListSurfer.viewLinkAndCountEvents('Draft');
-		// assert draft if countAfterDraft is greater than countBeforeDraft
+		// assert count after creating new draft event, count draft should be equal to one
 		expect(countAfterDraft).toBe(1);
 	});
 
