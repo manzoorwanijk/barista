@@ -13,7 +13,7 @@ export class ActiveEventsTest extends EventsListSurfer {
 		await createNewEvent(event);
 		await Goto.eventsListPage();
 		// go to view all events link first to count the available event for date start update
-		return await this.viewLinkAndCountEvents('View All Events');
+		return await this.goToViewAndCount('View All Events');
 	};
 
 	/**
@@ -51,6 +51,6 @@ export class ActiveEventsTest extends EventsListSurfer {
 		// go back to event list
 		await Goto.eventsListPage();
 		// count the event list inside the specific link after update the start date
-		return await this.viewLinkAndCountEvents(link);
+		return await this.goToViewAndCount(link);
 	};
 }

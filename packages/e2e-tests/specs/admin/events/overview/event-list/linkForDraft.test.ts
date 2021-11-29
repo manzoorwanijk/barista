@@ -24,7 +24,7 @@ afterAll(async () => {
 describe('Draft link test', () => {
 	it('Count row event inside draft link before create new draft event', async () => {
 		// Check first the total count in draft
-		const countBeforeDraft = await eventsListSurfer.viewLinkAndCountEvents('Draft');
+		const countBeforeDraft = await eventsListSurfer.goToViewAndCount('Draft');
 		// assert count before create new draft event, count should be equal to 0 for starting
 		expect(countBeforeDraft).toBe(0);
 	});
@@ -32,13 +32,13 @@ describe('Draft link test', () => {
 	it('Create new draft event', async () => {
 		//create a draft event
 		await createNewEvent({
-			...eventData.upcomingNextMonthOne,
+			...eventData.upcoming,
 			shouldPublish: false,
 		});
 		// go back to event list page
 		await Goto.eventsListPage();
 		// get total count in draft
-		const countAfterDraft = await eventsListSurfer.viewLinkAndCountEvents('Draft');
+		const countAfterDraft = await eventsListSurfer.goToViewAndCount('Draft');
 		// assert count after creating new draft event, count draft should be equal to one
 		expect(countAfterDraft).toBe(1);
 	});
@@ -54,7 +54,7 @@ describe('Draft link test', () => {
 		// go back to event list page
 		await Goto.eventsListPage();
 		// count again the draft list
-		const countAfterDraftEdit = await eventsListSurfer.viewLinkAndCountEvents('Draft');
+		const countAfterDraftEdit = await eventsListSurfer.goToViewAndCount('Draft');
 		// then assert the before and after edit or publish the draft item
 		expect(countAfterDraftEdit).toBe(0);
 	});

@@ -221,9 +221,9 @@ export class WPListTable {
 	};
 
 	/**
-	 * go to event link and return total count events
+	 * go to specific link i.e. "Draft" or "View all events" etc. and count events
 	 */
-	viewLinkAndCountEvents = async (linkName: string): Promise<number> => {
+	goToViewAndCount = async (linkName: string): Promise<number> => {
 		// go to this link first to count the event list
 		await this.goToView(linkName);
 		// count the event list inside the this link

@@ -1,3 +1,4 @@
+import { ucFirst } from '@eventespresso/utils';
 import { WPListTable, BulkActionsPosition } from '../../WPListTable';
 import { ElementHandle } from '../../../../types';
 import { Goto } from '@e2eUtils/admin';
@@ -20,13 +21,6 @@ export class EventsListSurfer extends WPListTable {
 	 */
 	getEventName = async (item: ElementHandle): Promise<string> => {
 		return await (await item.$('td.column-name a.row-title')).innerText();
-	};
-
-	/**
-	 * Capitalize first letter of words or sentence
-	 */
-	capitalizeFirstLetter = (text: string): string => {
-		return text.charAt(0).toUpperCase() + text.slice(1);
 	};
 
 	/**
@@ -90,10 +84,10 @@ export class EventsListSurfer extends WPListTable {
 	 */
 	filterOutEventsWithStatus = async (status: string) => {
 		// go to view all event
-		const countallEvents = await this.viewLinkAndCountEvents('View All Events');
+		const countallEvents = await this.goToViewAndCount('View All Events');
 
-		const filteredRows = await this.getRowsByStatus(this.capitalizeFirstLetter(status));
-		console.log({ filter: filteredRows.length, capital: this.capitalizeFirstLetter(status), countallEvents });
+		const filteredRows = await this.getRowsByStatus(ucFirst(status));
+		console.log({ filter: filteredRows.length, capital: ucFirst(status), countallEvents });
 
 		for (const item of filteredRows) {
 			await this.selectItemCheckbox(item);
@@ -141,7 +135,7 @@ export class EventsListSurfer extends WPListTable {
 		await Goto.eventsListPage();
 
 		// go to view all event
-		await this.viewLinkAndCountEvents(linkname);
+		await this.goToViewAndCount(linkname);
 		// const defaultPage = await this.getDefaultPerPage();
 		const totalPage = await this.getTotalPagePagination();
 		await this.detleteAllEventsByPaginate(totalPage);
@@ -161,7 +155,7 @@ export class EventsListSurfer extends WPListTable {
 
 	deleteAllPermanentlyFromTrash = async () => {
 		await Goto.eventsListPage();
-		const countEvents = await this.viewLinkAndCountEvents('Trash');
+		await this.goToView('Trash');
 		// const defaultPage = await this.getDefaultPerPage();
 		const totalPage = await this.getTotalPagePagination();
 
@@ -190,7 +184,7 @@ export class EventsListSurfer extends WPListTable {
 			// click the confirm button to delete event/s permanently
 			await Promise.all([page.waitForLoadState(), page.click('text="Confirm"')]);
 			await Goto.eventsListPage();
-			await this.viewLinkAndCountEvents('Trash');
+			await this.goToViewAndCount('Trash');
 		}
 	};
 }

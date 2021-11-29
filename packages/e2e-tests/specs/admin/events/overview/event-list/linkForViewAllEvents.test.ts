@@ -14,9 +14,10 @@ const namespace = 'events-overview-clickable-actions-links';
 beforeAll(async () => {
 	capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
 	await eventsListSurfer.deleteAllEventsByLink('View All Events');
+	// delete permanently all events at trash link
 	await eventsListSurfer.deleteAllPermanentlyFromTrash();
 	// Loop and create event base on the eventData
-	for (const event of [...eventData.bulkEvents, ...eventData.bulkEvents]) {
+	for (const event of Object.values(eventData)) {
 		await createNewEvent(event);
 	}
 	await Goto.eventsListPage();
@@ -50,18 +51,18 @@ describe('View all events link test', () => {
 		// after selecting all the rows that contain "Test One" trash all the selected rows
 		await eventsListSurfer.trashSelected();
 		// assert view all events before deletion happen, count before deletion should equal to 8
-		expect(countForViewAllBefore).toBe(8);
-		// assert trash before deletion happen, count before deletion should equal to 8
+		expect(countForViewAllBefore).toBe(9);
+		// assert trash after deletion happen, count after deletion should equal to 0
 		expect(countForTrashBefore).toBe(0);
 	});
 
 	it('Compare before and after deleted the event "Test One"', async () => {
 		// Check the total count in view all events after trashing
 		const countForViewAllAfter = await eventsListSurfer.getViewCount('View All Events');
-		// Check the total count in trash after trashing
+		// Check the total count in trash link after trashing
 		const countForTrashAfter = await eventsListSurfer.getViewCount('Trash');
-		// assert event count from view all events it should equal to 6
-		expect(countForViewAllAfter).toBe(6);
+		// assert event count from view all events it should equal to 7
+		expect(countForViewAllAfter).toBe(7);
 		// assert event count from trash it should equal to two
 		expect(countForTrashAfter).toBe(2);
 	});
