@@ -65,20 +65,19 @@ describe('Trash link test', () => {
 	it('Delete permanently the first event row in trash link', async () => {
 		// get the first event in trash
 		const firstItemForDeletePermanently = await eventsListSurfer.getFirstListItem();
+		// get IDs by its event
+		const filteredRows = await eventsListSurfer.getEventID([firstItemForDeletePermanently]);
 		// got to "Delete Permanently" action link for the selected first event
 		const deletePermanentlyLink = await eventsListSurfer.getItemActionLinkByText(
 			firstItemForDeletePermanently,
 			'Delete Permanently'
 		);
 		await page.goto(deletePermanentlyLink);
-		// select all the event checkbox that is selected to delete permanently
-		await eventsListSurfer.checkAllDeletePermanently();
-		// check the confirmation checkbox for delete permanently
-		await eventsListSurfer.checkConfirmDeletePermanently();
-		// click the confirm button to delete event/s permanently
-		await Promise.all([page.waitForLoadState(), page.click('text="Confirm"')]);
-		// go back to event page
-		await Goto.eventsListPage();
+
+		// select all the event checkbox to delete permanently
+		await eventsListSurfer.checkEventToDeletePermanently(filteredRows);
+		// confirmation for delete permanently
+		await eventsListSurfer.confirmAllDeletePermanently();
 		// check again the trash count if it is already less than before
 		const countAfterDeletePermanently = await eventsListSurfer.getViewCount('Trash');
 		// assert the before and after trash count

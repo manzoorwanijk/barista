@@ -34,7 +34,7 @@ describe('View all events link test', () => {
 		// go to view all event
 		await eventsListSurfer.goToView('View All Events');
 		// get only rows that is only contain "Test One" event name
-		filteredRows = await eventsListSurfer.getRowsByName('Test One');
+		filteredRows = await eventsListSurfer.getRowsByDetails({ eventDetails: 'Test One' });
 		// assert filtered events, filtered rows should equal to two
 		expect(filteredRows.length).toBe(2);
 	});

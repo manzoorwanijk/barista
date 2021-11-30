@@ -280,4 +280,12 @@ export class WPListTable {
 	checkConfirmDeletePermanently = async () => {
 		await page.check('#eventespressoadmin-pageseventsform-sectionsconfirmeventdeletionform-backup-yes');
 	};
+
+	/**
+	 * select delete permanently in bulk option
+	 */
+	selectDeletePermanently = async () => {
+		await page.selectOption('select#bulk-action-selector-', { value: 'delete_events' });
+		await this.applyBulkAction();
+	};
 }

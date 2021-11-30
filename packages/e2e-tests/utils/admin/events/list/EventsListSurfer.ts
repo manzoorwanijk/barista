@@ -31,32 +31,31 @@ export class EventsListSurfer extends WPListTable {
 	};
 
 	/**
-	 *  Get the list of event rows filtered by name
+	 *  Get the list of event rows filtered by event details
 	 */
-	getRowsByName = async (name: string): Promise<ElementHandle[]> => {
+	getRowsByDetails = async ({
+		eventDetails,
+		isStatus = false,
+	}: {
+		eventDetails: string;
+		isStatus?: boolean;
+	}): Promise<ElementHandle[]> => {
+		// get list item in link action
 		const tableRows = await this.getListItems();
+		// filter list items by event details
 		const filteredRows = (
 			await Promise.all(
 				tableRows.map(async (row) => {
-					const title = await this.getEventName(row);
-					return title === name ? row : null;
-				})
-			)
-		).filter(Boolean);
+					let eventData: string;
+					if (isStatus) {
+						// action to filter list item by event status
+						eventData = await this.getEventStatus(row);
+					} else {
+						// action to filter list item by event name
+						eventData = await this.getEventName(row);
+					}
 
-		return filteredRows;
-	};
-
-	/**
-	 *  Get the list of event rows filtered by status
-	 */
-	getRowsByStatus = async (status: string): Promise<ElementHandle[]> => {
-		const tableRows = await this.getListItems();
-		const filteredRows = (
-			await Promise.all(
-				tableRows.map(async (row) => {
-					const title = await this.getEventStatus(row);
-					return title === status ? row : null;
+					return eventData === eventDetails ? row : null;
 				})
 			)
 		).filter(Boolean);
@@ -69,7 +68,7 @@ export class EventsListSurfer extends WPListTable {
 	 */
 	selectEventToTrash = async (name: string): Promise<void> => {
 		// get only rows that is contain i.e "Test One" event name
-		const filteredRows = await this.getRowsByName(name);
+		const filteredRows = await this.getRowsByDetails({ eventDetails: name });
 		// check all the checkbox that the name contain i.e. 'Test One' event
 		for (const item of filteredRows) {
 			await this.selectItemCheckbox(item);
@@ -84,18 +83,18 @@ export class EventsListSurfer extends WPListTable {
 	 */
 	filterOutEventsWithStatus = async (status: string) => {
 		// go to view all event
-		const countallEvents = await this.goToViewAndCount('View All Events');
-
-		const filteredRows = await this.getRowsByStatus(ucFirst(status));
-		console.log({ filter: filteredRows.length, capital: ucFirst(status), countallEvents });
-
+		await this.goToView('View All Events');
+		// select all events base on status
+		const filteredRows = await this.getRowsByDetails({ eventDetails: ucFirst(status), isStatus: true });
+		// check all specific event base on status
 		for (const item of filteredRows) {
 			await this.selectItemCheckbox(item);
 		}
-
-		// await this.trashSelected();
 	};
 
+	/**
+	 * get default per page for pagination
+	 */
 	getDefaultPerPage = async (): Promise<number> => {
 		// click screen option to get the pagination set
 		await page.click('#show-settings-link');
@@ -106,6 +105,9 @@ export class EventsListSurfer extends WPListTable {
 		return Number(paginationEvents);
 	};
 
+	/**
+	 * get total page for pagination
+	 */
 	getTotalPagePagination = async () => {
 		// get how many set of page in pagination
 		const totalPages = await (await page.$('span.total-pages')).innerText();
@@ -113,7 +115,10 @@ export class EventsListSurfer extends WPListTable {
 		return Number(totalPages);
 	};
 
-	detleteAllEventsByPaginate = async (totalPages: number) => {
+	/**
+	 * delete all events by pagination
+	 */
+	detleteAllEvents = async (totalPages: number) => {
 		// loop the pagination per page
 		for (let pages = 1; pages < totalPages; pages++) {
 			// trash all selected events
@@ -121,30 +126,24 @@ export class EventsListSurfer extends WPListTable {
 		}
 	};
 
-	detleteAllEventsPermanently = async (totalPages: number) => {
-		// loop the pagination per page
-		for (let pages = 1; pages < totalPages; pages++) {
-			// trash all selected events
-			await this.selectAll();
-			await this.selectBulkAction({ label: 'Delete Permanently' });
-			await this.applyBulkAction();
-		}
-	};
-
+	/**
+	 * delete all events by link per paginate
+	 */
 	deleteAllEventsByLink = async (linkname: string) => {
 		await Goto.eventsListPage();
 
 		// go to view all event
 		await this.goToViewAndCount(linkname);
-		// const defaultPage = await this.getDefaultPerPage();
 		const totalPage = await this.getTotalPagePagination();
-		await this.detleteAllEventsByPaginate(totalPage);
+		// trash all event by link
+		await this.detleteAllEvents(totalPage);
 		await this.trashAll();
 	};
 
+	/**
+	 * trigger confirm delete permanently
+	 */
 	confirmAllDeletePermanently = async () => {
-		// select all the event checkbox that is selected to delete permanently
-		await this.checkAllDeletePermanently();
 		// check the confirmation checkbox for delete permanently
 		await this.checkConfirmDeletePermanently();
 		// click the confirm button to delete event/s permanently
@@ -153,38 +152,51 @@ export class EventsListSurfer extends WPListTable {
 		await Goto.eventsListPage();
 	};
 
+	/**
+	 * fetch events ID's
+	 */
+	getEventID = async (tableRows: ElementHandle[]): Promise<string[]> => {
+		return await Promise.all(
+			tableRows.map(async (row) => {
+				// get event id value
+				return await (await row.$('th.check-column .ee-event-list-bulk-select-event')).getAttribute('value');
+			})
+		);
+	};
+
+	/**
+	 * check all events to delete permanently
+	 */
+	checkEventToDeletePermanently = async (rows: string[]) => {
+		for (const eventId of rows) {
+			// check event to delete permanently
+			await page.check(
+				`#eventespressoadmin-pageseventsform-sectionsconfirmeventdeletionform-events-${eventId}-yes-lbl`
+			);
+		}
+	};
+
+	/**
+	 * remove all events from trash permanently
+	 */
 	deleteAllPermanentlyFromTrash = async () => {
 		await Goto.eventsListPage();
 		await this.goToView('Trash');
-		// const defaultPage = await this.getDefaultPerPage();
 		const totalPage = await this.getTotalPagePagination();
-
 		// loop the pagination per page
 		for (let pages = 0; pages < totalPage; pages++) {
+			// fetch all events from trash
 			const tableRows = await this.getListItems();
-			const filteredRows = await Promise.all(
-				tableRows.map(async (row) => {
-					return await (
-						await row.$('th.check-column .ee-event-list-bulk-select-event')
-					).getAttribute('value');
-				})
-			);
+			// get IDs by its event
+			const filteredRows = await this.getEventID(tableRows);
+			// checl all events from trash
 			await this.selectAll();
-			await page.selectOption('select#bulk-action-selector-', { value: 'delete_events' });
-			await this.applyBulkAction();
-
-			for (const iterator of filteredRows) {
-				await page.check(
-					`#eventespressoadmin-pageseventsform-sectionsconfirmeventdeletionform-events-${iterator}-yes-lbl`
-				);
-			}
-
-			// check the confirmation checkbox for delete permanently
-			await this.checkConfirmDeletePermanently();
-			// click the confirm button to delete event/s permanently
-			await Promise.all([page.waitForLoadState(), page.click('text="Confirm"')]);
-			await Goto.eventsListPage();
-			await this.goToViewAndCount('Trash');
+			// trigger delete permanently from bulk
+			await this.selectDeletePermanently();
+			// select all the event checkbox to delete permanently
+			await this.checkEventToDeletePermanently(filteredRows);
+			// confirmation for delete permanently
+			await this.confirmAllDeletePermanently();
 		}
 	};
 }
