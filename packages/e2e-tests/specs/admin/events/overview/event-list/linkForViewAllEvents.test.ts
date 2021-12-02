@@ -10,9 +10,11 @@ const eventsListSurfer = new EventsListSurfer();
 let capture: PageVideoCapture;
 
 const namespace = 'events-overview-clickable-actions-links';
+const eventDataArray = Object.values(eventData);
 
 beforeAll(async () => {
 	capture = await saveVideo(page, `artifacts/${namespace}.mp4`);
+	// delete all events from view all events link
 	await eventsListSurfer.deleteAllEventsByLink('View All Events');
 	// delete permanently all events at trash link
 	await eventsListSurfer.deleteAllPermanentlyFromTrash();
@@ -29,14 +31,15 @@ afterAll(async () => {
 
 describe('View all events link test', () => {
 	let filteredRows: ElementHandle[];
+	const filteredEventName = eventDataArray.filter((event) => event.title === 'Test One').length;
 
 	it('Go to view all events and select all event that contain name "Test One"', async () => {
 		// go to view all event
 		await eventsListSurfer.goToView('View All Events');
 		// get only rows that is only contain "Test One" event name
 		filteredRows = await eventsListSurfer.getRowsByDetails({ eventDetails: 'Test One' });
-		// assert filtered events, filtered rows should equal to two
-		expect(filteredRows.length).toBe(2);
+		// assert filtered events, filtered rows should equal
+		expect(filteredRows.length).toBe(filteredEventName);
 	});
 
 	it('Trash all selected event that contain name "Test One', async () => {
@@ -50,8 +53,8 @@ describe('View all events link test', () => {
 		const countForTrashBefore = await eventsListSurfer.getViewCount('Trash');
 		// after selecting all the rows that contain "Test One" trash all the selected rows
 		await eventsListSurfer.trashSelected();
-		// assert view all events before deletion happen, count before deletion should equal to 8
-		expect(countForViewAllBefore).toBe(9);
+		// assert view all events before deletion happen, count before deletion should equal
+		expect(countForViewAllBefore).toBe(eventDataArray.length);
 		// assert trash after deletion happen, count after deletion should equal to 0
 		expect(countForTrashBefore).toBe(0);
 	});
@@ -61,9 +64,9 @@ describe('View all events link test', () => {
 		const countForViewAllAfter = await eventsListSurfer.getViewCount('View All Events');
 		// Check the total count in trash link after trashing
 		const countForTrashAfter = await eventsListSurfer.getViewCount('Trash');
-		// assert event count from view all events it should equal to 7
-		expect(countForViewAllAfter).toBe(7);
-		// assert event count from trash it should equal to two
-		expect(countForTrashAfter).toBe(2);
+		// assert event count from view all events it should equal
+		expect(countForViewAllAfter).toBe(eventDataArray.length - filteredEventName);
+		// assert event count from trash it should equal
+		expect(countForTrashAfter).toBe(filteredRows.length);
 	});
 });

@@ -25,10 +25,14 @@ afterAll(async () => {
 });
 
 describe('Trash link test', () => {
+	let countBeforeRestore: number;
+	let countViewAllEventBeforRestore: number;
+	let countAfterTrash: number;
+
 	it('Count event at trash', async () => {
 		// count trash link
-		const countBeforeRestore = await eventsListSurfer.getViewCount('Trash');
-		// go to view all link
+		countBeforeRestore = await eventsListSurfer.getViewCount('Trash');
+		// // go to view all link and count event
 		await eventsListSurfer.goToView('View All Events');
 		// assert to confirm that trash is empty
 		expect(countBeforeRestore).toBe(0);
@@ -38,12 +42,16 @@ describe('Trash link test', () => {
 		// select all event that contain name Test One
 		await eventsListSurfer.selectEventToTrash('Test One');
 		// get the number and elements of rows availble
-		const countAfterTrash = await eventsListSurfer.goToViewAndCount('Trash');
+		countAfterTrash = await eventsListSurfer.goToViewAndCount('Trash');
+		//count event added
+		const countTrashedEvent = countAfterTrash - countBeforeRestore;
 		// assert to confirm that trash is not empty
-		expect(countAfterTrash).toBe(2);
+		expect(countAfterTrash).toBe(countBeforeRestore + countTrashedEvent);
 	});
 
 	it('Restore first event row in trash link', async () => {
+		// go to view all link and count event
+		countViewAllEventBeforRestore = await eventsListSurfer.getViewCount('View All Events');
 		// get the first event in trash
 		const firstItem = await eventsListSurfer.getFirstListItem();
 		// got to "restore from trash" action link for the selected first event
@@ -51,15 +59,19 @@ describe('Trash link test', () => {
 		await page.goto(restoreLink);
 		// check again the trash count if it is already less than before
 		const countAfterRestore = await eventsListSurfer.getViewCount('View All Events');
+		//count event added
+		const countAddedEvent = countAfterRestore - countViewAllEventBeforRestore;
 		// assert the before and after trash count
-		expect(countAfterRestore).toBe(8);
+		expect(countAfterRestore).toBe(countViewAllEventBeforRestore + countAddedEvent);
 	});
 
 	it('Count the remaing event inside trash', async () => {
 		// get the number and elements of rows available
 		const countBeforeDeletePermanently = await eventsListSurfer.goToViewAndCount('Trash');
+		//count event trashed
+		const countTrashedEvent = countAfterTrash - countBeforeDeletePermanently;
 		// assert the remaining event in trash
-		expect(countBeforeDeletePermanently).toBe(1);
+		expect(countBeforeDeletePermanently).toBe(countAfterTrash - countTrashedEvent);
 	});
 
 	it('Delete permanently the first event row in trash link', async () => {

@@ -22,19 +22,25 @@ afterAll(async () => {
 
 describe('Today link test', () => {
 	let startDate: string;
+	let countBeforeUpdate: number;
+	let countAfterCreateNewEvent: number;
 
 	it('Count event list for this today link before creating new', async () => {
 		// go to event link and return total count events
-		const countBeforeUpdate = await activeEventsTest.goToViewAndCount('Today');
+		countBeforeUpdate = await activeEventsTest.goToViewAndCount('Today');
 		// assert count this today link, before creating active event this today
 		expect(countBeforeUpdate).toBe(0);
 	});
 
 	it('Create new event for active now ', async () => {
+		// go to view all event link and return total count events
+		const countBeforeCreateNewEvent = await activeEventsTest.goToViewAndCount('View All Events');
 		// Create new event for active now
-		const eventFirstItem = await activeEventsTest.createEventForActiveNow(eventData.todayOnly);
+		countAfterCreateNewEvent = await activeEventsTest.createEventForActiveNow(eventData.todayOnly);
+		//count event added
+		const countAddedEvent = countAfterCreateNewEvent - countBeforeCreateNewEvent;
 		// Assert return value if we already created event
-		expect(eventFirstItem).toBe(1);
+		expect(countAfterCreateNewEvent).toBe(countBeforeCreateNewEvent + countAddedEvent);
 	});
 
 	it('Trigger the edit of event and create a date format for update start date event', async () => {
@@ -47,7 +53,9 @@ describe('Today link test', () => {
 	it('Update the starting date of the new created event to today date to make the event active now', async () => {
 		// Create new event for active now
 		const countAfterUpdate = await activeEventsTest.updateStartingDateEvent(startDate, 'Today');
+		//count event added
+		const countAddedEvent = countAfterUpdate - countAfterCreateNewEvent;
 		// Assert return value event update and it is already active today
-		expect(countAfterUpdate).toBe(1);
+		expect(countAfterUpdate).toBe(countAfterCreateNewEvent + countAddedEvent);
 	});
 });

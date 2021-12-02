@@ -7,11 +7,15 @@ import { eventData } from '../../../../shared/data';
 const eventsListSurfer = new EventsListSurfer();
 
 describe('Search events', () => {
-	const eventTitles = pluck('title', eventData.bulkEvents);
+	const eventTitles = pluck('title', Object.values(eventData));
 
 	beforeAll(async () => {
+		// delete all events from view all events link
+		await eventsListSurfer.deleteAllEventsByLink('View All Events');
+		// delete permanently all events at trash link
+		await eventsListSurfer.deleteAllPermanentlyFromTrash();
 		// Loop and create event base on the eventData
-		for (const args of eventData.bulkEvents) {
+		for (const args of Object.values(eventData)) {
 			await createNewEvent(args);
 		}
 		await Goto.eventsListPage();

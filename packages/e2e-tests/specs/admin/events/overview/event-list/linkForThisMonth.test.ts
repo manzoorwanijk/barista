@@ -22,19 +22,25 @@ afterAll(async () => {
 
 describe('This Month link test', () => {
 	let startDate: string;
+	let countBeforeUpdate: number;
+	let countAfterCreateNewEvent: number;
 
 	it('Count event list for this month link before creating new', async () => {
 		// go to event link and return total count events
-		const countBeforeUpdate = await activeEventsTest.goToViewAndCount('This Month');
+		countBeforeUpdate = await activeEventsTest.goToViewAndCount('This Month');
 		// assert count this month link, before creating active event this month
 		expect(countBeforeUpdate).toBe(0);
 	});
 
 	it('Create new event for active now ', async () => {
-		// Create new event for active now
-		const eventFirstItem = await activeEventsTest.createEventForActiveNow(eventData.todayOnly);
-		// Assert return value if we already created event, return value should be one
-		expect(eventFirstItem).toBe(1);
+		// go to view all event link and return total count events
+		const countBeforeCreateNewEvent = await activeEventsTest.goToViewAndCount('View All Events');
+		// Create new upcoming event in view all event
+		countAfterCreateNewEvent = await activeEventsTest.createEventForActiveNow(eventData.todayOnly);
+		//count event added
+		const countAddedEvent = countAfterCreateNewEvent - countBeforeCreateNewEvent;
+		// Assert return value if we already created evente
+		expect(countAfterCreateNewEvent).toBe(countBeforeCreateNewEvent + countAddedEvent);
 	});
 
 	it('Trigger the edit of event and create a date format for update start date event', async () => {
@@ -47,7 +53,9 @@ describe('This Month link test', () => {
 	it('Update the starting date of the new created event to this month date to make the event active now', async () => {
 		// Create new event for active now
 		const countAfterUpdate = await activeEventsTest.updateStartingDateEvent(startDate, 'This Month');
+		//count event added
+		const countAddedEvent = countAfterUpdate - countAfterCreateNewEvent;
 		// assert count this month link, after creating active event this month
-		expect(countAfterUpdate).toBe(1);
+		expect(countAfterUpdate).toBe(countAfterCreateNewEvent + countAddedEvent);
 	});
 });
