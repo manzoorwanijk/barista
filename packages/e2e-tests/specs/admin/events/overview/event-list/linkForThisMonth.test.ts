@@ -33,19 +33,16 @@ describe('This Month link test', () => {
 	});
 
 	it('Create new event for active now ', async () => {
-		// go to view all event link and return total count events
-		const countBeforeCreateNewEvent = await activeEventsTest.goToViewAndCount('View All Events');
-		// Create new upcoming event in view all event
-		countAfterCreateNewEvent = await activeEventsTest.createEventForActiveNow(eventData.todayOnly);
-		//count event added
-		const countAddedEvent = countAfterCreateNewEvent - countBeforeCreateNewEvent;
-		// Assert return value if we already created evente
-		expect(countAfterCreateNewEvent).toBe(countBeforeCreateNewEvent + countAddedEvent);
+		// create new event and return newly event counts and number of events added
+		const { createNewEvent, countAddedEvent } = await activeEventsTest.createActiveEvent(eventData.todayOnly);
+		countAfterCreateNewEvent = createNewEvent;
+		// assert before and after creating new event
+		expect(createNewEvent).toBe(countAddedEvent);
 	});
 
 	it('Trigger the edit of event and create a date format for update start date event', async () => {
 		// Create new event for active now
-		startDate = await activeEventsTest.createStartingDateFormat();
+		startDate = eventData.todayOnly.startDate;
 		// Assert return value if we already created formatted date
 		expect(startDate).toBeTruthy();
 	});

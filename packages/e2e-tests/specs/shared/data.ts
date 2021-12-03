@@ -1,5 +1,7 @@
+import { addDays, addHours, subDays, subHours } from 'date-fns';
 import { NOW } from '@eventespresso/constants';
 import { sub, add } from '@eventespresso/dates';
+import { DateFormatter } from '@e2eUtils/admin';
 
 export const data = [
 	{
@@ -38,12 +40,16 @@ export const eventData = {
 		title: 'Test active event',
 		description: 'Some description for active event',
 		status: 'ACTIVE',
+		startDate: DateFormatter.eventDateFormat(subDays(NOW, 1)),
+		endDate: DateFormatter.eventDateFormat(addDays(NOW, 1)),
 	},
 
 	todayOnly: {
 		title: 'Test today event',
 		description: 'Some description for today event',
 		status: 'ACTIVE',
+		startDate: DateFormatter.eventDateFormat(subHours(NOW, 2)),
+		endDate: DateFormatter.eventDateFormat(addHours(NOW, 2)),
 	},
 
 	// expired events
@@ -51,6 +57,8 @@ export const eventData = {
 		title: 'Test expired event',
 		description: 'Some description for expired event',
 		status: 'EXPIRED',
+		startDate: DateFormatter.eventDateFormat(subDays(NOW, 20)),
+		endDate: DateFormatter.eventDateFormat(subDays(NOW, 19)),
 	},
 
 	// upcoming events
@@ -58,6 +66,8 @@ export const eventData = {
 		title: 'Test upcoming event',
 		description: 'Some description for upcoming event',
 		status: 'PENDING',
+		startDate: DateFormatter.eventDateFormat(addDays(NOW, 20)),
+		endDate: DateFormatter.addDaysAndHours(NOW, 20, 2),
 	},
 
 	// data to use for multiple insertion of events like paginations and others

@@ -1,8 +1,14 @@
-import { Goto, DateFormatter } from '@e2eUtils/admin';
+import { Goto } from '@e2eUtils/admin';
 import { createNewEvent } from '@e2eUtils/admin/events';
-import { ElementHandle } from 'packages/e2e-tests/types';
 import { EventsListSurfer } from './EventsListSurfer';
 
+interface EventData {
+	title: string;
+	description: string;
+	status: string;
+	startDate: string;
+	endDate: string;
+}
 export class ActiveEventsTest extends EventsListSurfer {
 	/**
 	 *
@@ -14,18 +20,6 @@ export class ActiveEventsTest extends EventsListSurfer {
 		await Goto.eventsListPage();
 		// go to view all events link first to count the available event for date start update
 		return await this.goToViewAndCount('View All Events');
-	};
-
-	/**
-	 *
-	 * Trigger the edit of event and create a date format for event start update
-	 */
-
-	createStartingDateFormat = async (): Promise<string> => {
-		// initialize date for start date update
-		const dateToday = new Date();
-		// format the date into something like "November 12, 2021 8:56 PM"
-		return await DateFormatter.eventStartDateFormat(dateToday);
 	};
 
 	/**
@@ -52,5 +46,25 @@ export class ActiveEventsTest extends EventsListSurfer {
 		await Goto.eventsListPage();
 		// count the event list inside the specific link after update the start date
 		return await this.goToViewAndCount(link);
+	};
+
+	/**
+	 *
+	 * create new event for active today
+	 */
+	createActiveEvent = async (
+		eventData: EventData
+	): Promise<{
+		createNewEvent: number;
+		countAddedEvent: number;
+	}> => {
+		// go to view all event link and return total count events
+		const countBeforeCreateNewEvent = await this.goToViewAndCount('View All Events');
+		// Create new upcoming event in view all event
+		const createNewEvent = await this.createEventForActiveNow(eventData);
+		//count event added
+		const countAddedEvent = createNewEvent - countBeforeCreateNewEvent;
+
+		return { createNewEvent, countAddedEvent: countAddedEvent + countBeforeCreateNewEvent };
 	};
 }

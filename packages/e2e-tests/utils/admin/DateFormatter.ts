@@ -1,3 +1,4 @@
+import { addDays, addHours } from 'date-fns';
 export class DateFormatter {
 	// "November 24, 2021 8:00 am" becomes "November 2021"
 	static monthYearDateFromat = async (date: string) => {
@@ -8,7 +9,7 @@ export class DateFormatter {
 	};
 
 	// format the date into something like "November 12, 2021 8:56 PM"
-	static eventStartDateFormat = async (date: Date): Promise<string> => {
+	static eventDateFormat = (date: Date): string => {
 		// set the options for format
 		const intlOptions: Intl.DateTimeFormatOptions = {
 			month: 'long',
@@ -20,5 +21,11 @@ export class DateFormatter {
 		};
 		// format the date
 		return Intl.DateTimeFormat('en-US', intlOptions).format(date);
+	};
+
+	// adding days and hours in todays date
+	static addDaysAndHours = (date: Date, days: number, hours: number) => {
+		const addDay = addDays(date, days);
+		return this.eventDateFormat(addHours(addDay, hours));
 	};
 }
